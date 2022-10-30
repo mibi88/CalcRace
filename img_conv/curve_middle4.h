@@ -1,3 +1,5 @@
+#ifndef CURVE_MIDDLE4_H
+#define CURVE_MIDDLE4_H
 #include "../lib/image.h"
 
 /* Image curve_middle4.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char curve_middle4_data[4096] = {0x84, 0x7e, 0x87, 0xff, 0x84, 0x
 
 const int curve_middle4_width = 32;
 const int curve_middle4_height = 32;
+#endif

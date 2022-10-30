@@ -1,3 +1,5 @@
+#ifndef BORDER_CURVE4_H
+#define BORDER_CURVE4_H
 #include "../lib/image.h"
 
 /* Image border_curve4.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char border_curve4_data[4096] = {0x59, 0x56, 0x52, 0xff, 0x59, 0x
 
 const int border_curve4_width = 32;
 const int border_curve4_height = 32;
+#endif

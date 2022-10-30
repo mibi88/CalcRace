@@ -1,3 +1,5 @@
+#ifndef CAR5_H
+#define CAR5_H
 #include "../lib/image.h"
 
 /* Image car5.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char car5_data[4096] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0
 
 const int car5_width = 32;
 const int car5_height = 32;
+#endif

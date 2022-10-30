@@ -1,3 +1,5 @@
+#ifndef CUBE_H
+#define CUBE_H
 #include "../lib/image.h"
 
 /* Image cube.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char cube_data[4096] = {0x5b, 0x6e, 0xe1, 0xff, 0x30, 0x60, 0x82,
 
 const int cube_width = 32;
 const int cube_height = 32;
+#endif

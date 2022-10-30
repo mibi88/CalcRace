@@ -1,3 +1,5 @@
+#ifndef BUSH1_H
+#define BUSH1_H
 #include "../lib/image.h"
 
 /* Image bush1.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char bush1_data[4096] = {0x99, 0xe5, 0x50, 0xff, 0x99, 0xe5, 0x50
 
 const int bush1_width = 32;
 const int bush1_height = 32;
+#endif

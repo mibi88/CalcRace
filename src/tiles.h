@@ -16,37 +16,44 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include <emscripten.h>
+#ifndef TILES_H
+#define TILES_H
 
-#include "../lib/canvas.h"
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+/* 
+ * 1  - ask
+ * 2  - border_curve1
+ * 3  - border_curve2
+ * 4  - border_curve3
+ * 5  - border_curve4
+ * 6  - border_horizontal1
+ * 7  - border_horizontal2
+ * 8  - border_vertical1
+ * 9  - border_vertical2
+ * 10 - bush1
+ * 11 - coin
+ * 12 - coin1
+ * 13 - coin2
+ * 14 - coin3
+ * 15 - color_change1
+ * 16 - color_change2
+ * 17 - color_change3
+ * 18 - color_change4
+ * 19 - cube
+ * 20 - curve_middle1
+ * 21 - curve_middle2
+ * 22 - curve_middle3
+ * 23 - curve_middle4
+ * 24 - endline
+ * 25 - grass1
+ * 26 - grass2
+ * 27 - lake_border1
+ * 28 - lake_border2
+ * 29 - lake_border3
+ * 30 - lake_border4
+ * 31 - little_tree
+ * 32 - road_middle
+ */
 
-#include "map.h"
+void drawtile(int x, int y, int type);
 
-#define WIDTH 128
-#define HEIGHT 96
-
-void loop() {
-	int i, x, y, s;
-	float start, time;
-	start = clock();
-	srand(clock());
-	clear();
-	/* put_pixel(0, 0, 0, 0, 0, 255);
-	put_pixel(WIDTH-1, HEIGHT-1, 0, 0, 0, 255); */
-	/* draw_image(5, 3, bush1_data, bush1_width, bush1_height);
-	draw_image_del_color(0, 0, car1_data, car1_width, car1_height, 0, 0, 0, 0); */
-	update();
-	time = clock() - start;
-	printf("Time : %d\n", (int)(time / 1000));
-}
-
-int main(void) {
-	init_canvas(WIDTH, HEIGHT, "canvas");
-	init_getkey();
-	emscripten_set_main_loop(loop, 50, 1);
-	return 0;
-}
+#endif

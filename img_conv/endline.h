@@ -1,3 +1,5 @@
+#ifndef ENDLINE_H
+#define ENDLINE_H
 #include "../lib/image.h"
 
 /* Image endline.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char endline_data[4096] = {0x22, 0x20, 0x34, 0xff, 0x22, 0x20, 0x
 
 const int endline_width = 32;
 const int endline_height = 32;
+#endif

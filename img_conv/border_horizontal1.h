@@ -1,3 +1,5 @@
+#ifndef BORDER_HORIZONTAL1_H
+#define BORDER_HORIZONTAL1_H
 #include "../lib/image.h"
 
 /* Image border_horizontal1.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char border_horizontal1_data[4096] = {0xac, 0x32, 0x32, 0xff, 0xa
 
 const int border_horizontal1_width = 32;
 const int border_horizontal1_height = 32;
+#endif

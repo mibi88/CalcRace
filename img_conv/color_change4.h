@@ -1,3 +1,5 @@
+#ifndef COLOR_CHANGE4_H
+#define COLOR_CHANGE4_H
 #include "../lib/image.h"
 
 /* Image color_change4.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char color_change4_data[4096] = {0x99, 0xe5, 0x50, 0xff, 0x6a, 0x
 
 const int color_change4_width = 32;
 const int color_change4_height = 32;
+#endif

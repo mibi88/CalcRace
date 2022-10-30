@@ -1,3 +1,5 @@
+#ifndef LAKE_BORDER2_H
+#define LAKE_BORDER2_H
 #include "../lib/image.h"
 
 /* Image lake_border2.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char lake_border2_data[4096] = {0x5f, 0xcd, 0xe4, 0xff, 0x5f, 0xc
 
 const int lake_border2_width = 32;
 const int lake_border2_height = 32;
+#endif

@@ -1,3 +1,5 @@
+#ifndef ROAD_MIDDLE_H
+#define ROAD_MIDDLE_H
 #include "../lib/image.h"
 
 /* Image road_middle.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char road_middle_data[4096] = {0x59, 0x56, 0x52, 0xff, 0x59, 0x56
 
 const int road_middle_width = 32;
 const int road_middle_height = 32;
+#endif

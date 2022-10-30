@@ -1,3 +1,5 @@
+#ifndef GRASS2_H
+#define GRASS2_H
 #include "../lib/image.h"
 
 /* Image grass2.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char grass2_data[4096] = {0x99, 0xe5, 0x50, 0xff, 0x99, 0xe5, 0x5
 
 const int grass2_width = 32;
 const int grass2_height = 32;
+#endif

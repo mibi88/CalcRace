@@ -1,3 +1,5 @@
+#ifndef BORDER_VERTICAL1_H
+#define BORDER_VERTICAL1_H
 #include "../lib/image.h"
 
 /* Image border_vertical1.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char border_vertical1_data[4096] = {0xac, 0x32, 0x32, 0xff, 0xac,
 
 const int border_vertical1_width = 32;
 const int border_vertical1_height = 32;
+#endif

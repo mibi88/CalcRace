@@ -38,12 +38,12 @@ for image in os.listdir(path):
 
 	image_name = image[:-4]
 
-	out = "#include \"../lib/image.h\"\n\n/* Image " + image + " converted with tools/imgconv_dir.py */\n\nconst unsigned char " + image_name + "_data[" + str(w*h*4) + "] = {"
+	out = "#ifndef " + image_name.upper() + "_H\n#define " + image_name.upper() + "_H\n#include \"../lib/image.h\"\n\n/* Image " + image + " converted with tools/imgconv_dir.py */\n\nconst unsigned char " + image_name + "_data[" + str(w*h*4) + "] = {"
 
 	for i in pixels:
 		out += hex(i) + ", "
 	out = out[:-2]
-	out += "};\n\nconst int " + image_name + "_width = " + str(w) + ";\nconst int " + image_name + "_height = " + str(h) + ";\n"
+	out += "};\n\nconst int " + image_name + "_width = " + str(w) + ";\nconst int " + image_name + "_height = " + str(h) + ";\n#endif\n"
 	# print(out)
 
 	with open(path + image_name + ".h", "w") as file:

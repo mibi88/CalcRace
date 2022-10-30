@@ -1,3 +1,5 @@
+#ifndef ASK_H
+#define ASK_H
 #include "../lib/image.h"
 
 /* Image ask.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char ask_data[4096] = {0x84, 0x7e, 0x87, 0xff, 0x84, 0x7e, 0x87, 
 
 const int ask_width = 32;
 const int ask_height = 32;
+#endif

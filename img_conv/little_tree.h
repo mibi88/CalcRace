@@ -1,3 +1,5 @@
+#ifndef LITTLE_TREE_H
+#define LITTLE_TREE_H
 #include "../lib/image.h"
 
 /* Image little_tree.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char little_tree_data[4096] = {0x99, 0xe5, 0x50, 0xff, 0x99, 0xe5
 
 const int little_tree_width = 32;
 const int little_tree_height = 32;
+#endif

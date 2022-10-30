@@ -1,3 +1,5 @@
+#ifndef COIN3_H
+#define COIN3_H
 #include "../lib/image.h"
 
 /* Image coin3.png converted with tools/imgconv_dir.py */
@@ -6,3 +8,4 @@ const unsigned char coin3_data[4096] = {0x59, 0x56, 0x52, 0xff, 0x59, 0x56, 0x52
 
 const int coin3_width = 32;
 const int coin3_height = 32;
+#endif
