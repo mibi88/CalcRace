@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MapEdit</title>
+  </head>
+  <body>
+    <script>
+      tilenum = 1;
+      let mapdata = {};
+    </script>
+    <table border id = "choice" style = "top: 0; left: 0; height: 40; position: sticky;">
+      <tr>
+        <td><image src = "../../img/ask.png" onclick="tilenum = 1"></image></td>
+        <td><image src = "../../img/border_curve1.png" onclick="tilenum = 2"></image></td>
+        <td><image src = "../../img/border_curve2.png" onclick="tilenum = 3"></image></td>
+        <td><image src = "../../img/border_curve3.png" onclick="tilenum = 4"></image></td>
+        <td><image src = "../../img/border_curve4.png" onclick="tilenum = 5"></image></td>
+        <td><image src = "../../img/border_horizontal1.png" onclick="tilenum = 6"></image></td>
+        <td><image src = "../../img/border_horizontal2.png" onclick="tilenum = 7"></image></td>
+        <td><image src = "../../img/border_vertical1.png" onclick="tilenum = 8"></image></td>
+        <td><image src = "../../img/border_vertical2.png" onclick="tilenum = 9"></image></td>
+        <td><image src = "../../img/bush1.png" onclick="tilenum = 10"></image></td>
+        <td><image src = "../../img/coin.png" onclick="tilenum = 11"></image></td>
+        <td><image src = "../../img/coin1.png" onclick="tilenum = 12"></image></td>
+        <td><image src = "../../img/coin2.png" onclick="tilenum = 13"></image></td>
+        <td><image src = "../../img/coin3.png" onclick="tilenum = 14"></image></td>
+        <td><image src = "../../img/color_change1.png" onclick="tilenum = 15"></image></td>
+        <td><image src = "../../img/color_change2.png" onclick="tilenum = 16"></image></td>
+        <td><image src = "../../img/color_change3.png" onclick="tilenum = 17"></image></td>
+        <td><image src = "../../img/color_change4.png" onclick="tilenum = 18"></image></td>
+        <td><image src = "../../img/cube.png" onclick="tilenum = 19"></image></td>
+        <td><image src = "../../img/curve_middle1.png" onclick="tilenum = 20"></image></td>
+        <td><image src = "../../img/curve_middle2.png" onclick="tilenum = 21"></image></td>
+        <td><image src = "../../img/curve_middle3.png" onclick="tilenum = 22"></image></td>
+        <td><image src = "../../img/curve_middle4.png" onclick="tilenum = 23"></image></td>
+        <td><image src = "../../img/endline.png" onclick="tilenum = 34"></image></td>
+        <td><image src = "../../img/grass1.png" onclick="tilenum = 25"></image></td>
+        <td><image src = "../../img/grass2.png" onclick="tilenum = 26"></image></td>
+        <td><image src = "../../img/lake_border1.png" onclick="tilenum = 27"></image></td>
+        <td><image src = "../../img/lake_border2.png" onclick="tilenum = 28"></image></td>
+        <td><image src = "../../img/lake_border3.png" onclick="tilenum = 29"></image></td>
+        <td><image src = "../../img/lake_border4.png" onclick="tilenum = 30"></image></td>
+        <td><image src = "../../img/little_tree.png" onclick="tilenum = 31"></image></td>
+        <td><image src = "../../img/road_middle.png" onclick="tilenum = 32"></image></td>
+      </tr>
+    </table>
+    <table border id = "table" style = "top: 40;">
+      <!-- -->
+    </table>
+    <p>Output</p>
+    <code id = "out"></code>
+  <script>
+    function generatemap() {
+      var mapstr = "const unsigned char[3840] = {";
+      for(i=0;i<3840;i++){
+        cell = String(mapdata[i]);
+        mapstr += cell + ", ";
+      };
+      mapstr = mapstr.slice(0, -2);
+      mapstr += "};"
+      console.log(mapstr);
+      out = document.getElementById("out");
+      out.innerHTML = mapstr;
+    }
+  </script>
+  <script>
+    table = document.getElementById("table");
+    line = document.createElement("tr");
+    table.append(line);
+    for(x=0;x<65;x++){
+      header = document.createElement("th");
+      header.scope = "column";
+      header.style = "position: sticky; top: 0;";
+      header.innerHTML = String(x);
+      line.append(header);
+    };
+    for(y=0;y<60;y++){
+      line = document.createElement("tr");
+      table.append(line);
+      header = document.createElement("th");
+      header.scope = "row";
+      header.style = "position: sticky; left: 0;";
+      header.innerHTML = String(y+1);
+      line.append(header);
+      for(x=0;x<64;x++){
+        cell = document.createElement("td");
+        line.append(cell);
+        image = document.createElement("img");
+        image.src = "../../img/grass1.png"
+        image.id = String(y*64+x);
+        mapdata[y*64+x] = 25;
+        cell.append(image);
+        image.onclick = function(image) {
+          switch(tilenum){
+            case 1:
+              this.src = "../../img/ask.png"
+              break;
+            case 2:
+              this.src = "../../img/border_curve1.png"
+              break;
+            case 3:
+              this.src = "../../img/border_curve2.png"
+              break;
+            case 4:
+              this.src = "../../img/border_curve3.png"
+              break;
+            case 5:
+              this.src = "../../img/border_curve4.png"
+              break;
+            case 6:
+              this.src = "../../img/border_horizontal1.png"
+              break;
+            case 7:
+              this.src = "../../img/border_horizontal2.png"
+              break;
+            case 8:
+              this.src = "../../img/border_vertical1.png"
+              break;
+            case 9:
+              this.src = "../../img/border_vertical2.png"
+              break;
+            case 10:
+              this.src = "../../img/bush1.png"
+              break;
+            case 11:
+              this.src = "../../img/coin.png"
+              break;
+            case 12:
+              this.src = "../../img/coin1.png"
+              break;
+            case 13:
+              this.src = "../../img/coin2.png"
+              break;
+            case 14:
+              this.src = "../../img/coin3.png"
+              break;
+            case 15:
+              this.src = "../../img/color_change1.png"
+              break;
+            case 16:
+              this.src = "../../img/color_change2.png"
+              break;
+            case 17:
+              this.src = "../../img/color_change3.png"
+              break;
+            case 18:
+              this.src = "../../img/color_change4.png"
+              break;
+            case 19:
+              this.src = "../../img/cube.png"
+              break;
+            case 20:
+              this.src = "../../img/curve_middle1.png"
+              break;
+            case 21:
+              this.src = "../../img/curve_middle2.png"
+              break;
+            case 22:
+              this.src = "../../img/curve_middle3.png"
+              break;
+            case 23:
+              this.src = "../../img/curve_middle4.png"
+              break;
+            case 24:
+              this.src = "../../img/endline.png"
+              break;
+            case 25:
+              this.src = "../../img/grass1.png"
+              break;
+            case 26:
+              this.src = "../../img/grass2.png"
+              break;
+            case 27:
+              this.src = "../../img/lake_border1.png"
+              break;
+            case 28:
+              this.src = "../../img/lake_border2.png"
+              break;
+            case 29:
+              this.src = "../../img/lake_border3.png"
+              break;
+            case 30:
+              this.src = "../../img/lake_border4.png"
+              break;
+            case 31:
+              this.src = "../../img/little_tree.png"
+              break;
+            case 32:
+              this.src = "../../img/road_middle.png"
+              break;
+          };
+          mapdata[Number(this.id)] = tilenum;
+          generatemap();
+        }
+      };
+    };
+    generatemap()
+</script>
+</body>
+</html>
