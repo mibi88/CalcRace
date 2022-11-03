@@ -25,26 +25,40 @@
 #include <unistd.h>
 
 #include "map.h"
+#include "maps/map1.h"
 
 #define WIDTH 128
 #define HEIGHT 96
+#define MAP_WIDTH 64
+#define MAP_HEIGHT 60
+
+int x, y;
 
 void loop() {
-	int i, x, y, s;
 	float start, time;
 	start = clock();
-	srand(clock());
 	clear();
-	/* put_pixel(0, 0, 0, 0, 0, 255);
-	put_pixel(WIDTH-1, HEIGHT-1, 0, 0, 0, 255); */
-	/* draw_image(5, 3, bush1_data, bush1_width, bush1_height);
-	draw_image_del_color(0, 0, car1_data, car1_width, car1_height, 0, 0, 0, 0); */
+	drawmap(0, 0, x, y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, 0);
+	if(getkey(KEY_UP) && y > 0){
+		y--;
+	}
+	if(getkey(KEY_DOWN) && y < MAP_HEIGHT*32-HEIGHT){
+		y++;
+	}
+	if(getkey(KEY_LEFT) && x > 0){
+		x--;
+	}
+	if(getkey(KEY_RIGHT) && x < MAP_WIDTH*32-WIDTH){
+		x++;
+	}
 	update();
 	time = clock() - start;
 	printf("Time : %d\n", (int)(time / 1000));
 }
 
 int main(void) {
+	x = 0;
+	y = 0;
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);

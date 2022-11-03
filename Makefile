@@ -12,7 +12,9 @@ all:
 	cp img/favicon.ico bin/
 	cp src/MathRace.html bin/
 run:
-	emrun bin/MathRace.html
+	cd bin
+	python3 -m http.server 8000
+	cd ..
 clean:
 	rm --force --recursive bin
 	rm --force --recursive img_conv

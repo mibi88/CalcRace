@@ -19,6 +19,7 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <stdio.h>
 #include "tiles.h"
 
 void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_height, unsigned char *map, int car);

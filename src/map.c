@@ -19,7 +19,8 @@
 #include "map.h"
 
 void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_height, unsigned char *map, int car) {
-	int nx = (w>>5)+1, ny = (w>>5)+1, tx = x>>5, ty = y>>5, dx = x - (tx<<5), dy = y - (ty<<5), sdx = dx, lx, ly, type;
+	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x, dy = (ty<<5) - y, sdx = dx, lx, ly, type;
+	printf("%d, %d\n", dx, dy);
 	for(ly=0;ly<ny;ly++){
 		for(lx=0;lx<nx;lx++){
 			type = map[(ty+ly)*map_width+(tx+lx)];
