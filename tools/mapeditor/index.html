@@ -7,7 +7,7 @@
   <body>
     <script>
       tilenum = 1;
-      let mapdata = {};
+      let mapdata = Array();
     </script>
     <table border id = "choice" style = "top: 0; left: 0; height: 40; position: sticky;">
       <tr>
@@ -34,7 +34,7 @@
         <td><image src = "../../img/curve_middle2.png" onclick="tilenum = 21"></image></td>
         <td><image src = "../../img/curve_middle3.png" onclick="tilenum = 22"></image></td>
         <td><image src = "../../img/curve_middle4.png" onclick="tilenum = 23"></image></td>
-        <td><image src = "../../img/endline.png" onclick="tilenum = 34"></image></td>
+        <td><image src = "../../img/endline.png" onclick="tilenum = 24"></image></td>
         <td><image src = "../../img/grass1.png" onclick="tilenum = 25"></image></td>
         <td><image src = "../../img/grass2.png" onclick="tilenum = 26"></image></td>
         <td><image src = "../../img/lake_border1.png" onclick="tilenum = 27"></image></td>
@@ -50,6 +50,9 @@
     </table>
     <p>Output</p>
     <code id = "out"></code>
+    <p>Input</p>
+    <button onclick = "load();">Load</button>
+    <textarea id = "input"></textarea>
   <script>
     function generatemap() {
       var mapstr = "const unsigned char[3840] = {";
@@ -62,6 +65,128 @@
       console.log(mapstr);
       out = document.getElementById("out");
       out.innerHTML = mapstr;
+    }
+    function load() {
+      code_str = document.getElementById("input").value;
+      strdata = ""
+      var grab = 0
+      for(i=0;i<code_str.length;i++){
+        if(code_str[i] == "}"){
+          break
+        }
+        if(grab){
+          strdata += code_str[i]
+        }
+        if(code_str[i] == "{"){
+          grab = 1
+        }
+      }
+      let data = strdata.split(", ")
+      console.log(data)
+      mapdata = []
+      for(i=0;i<data.length;i++){
+        mapdata.push(Number(data[i]))
+        image = document.getElementById(String(i))
+        switch(mapdata[i]){
+          case 1:
+            image.src = "../../img/ask.png"
+            break;
+          case 2:
+            image.src = "../../img/border_curve1.png"
+            break;
+          case 3:
+            image.src = "../../img/border_curve2.png"
+            break;
+          case 4:
+            image.src = "../../img/border_curve3.png"
+            break;
+          case 5:
+            image.src = "../../img/border_curve4.png"
+            break;
+          case 6:
+            image.src = "../../img/border_horizontal1.png"
+            break;
+          case 7:
+            image.src = "../../img/border_horizontal2.png"
+            break;
+          case 8:
+            image.src = "../../img/border_vertical1.png"
+            break;
+          case 9:
+            image.src = "../../img/border_vertical2.png"
+            break;
+          case 10:
+            image.src = "../../img/bush1.png"
+            break;
+          case 11:
+            image.src = "../../img/coin.png"
+            break;
+          case 12:
+            image.src = "../../img/coin1.png"
+            break;
+          case 13:
+            image.src = "../../img/coin2.png"
+            break;
+          case 14:
+            image.src = "../../img/coin3.png"
+            break;
+          case 15:
+            image.src = "../../img/color_change1.png"
+            break;
+          case 16:
+            image.src = "../../img/color_change2.png"
+            break;
+          case 17:
+            image.src = "../../img/color_change3.png"
+            break;
+          case 18:
+            image.src = "../../img/color_change4.png"
+            break;
+          case 19:
+            image.src = "../../img/cube.png"
+            break;
+          case 20:
+            image.src = "../../img/curve_middle1.png"
+            break;
+          case 21:
+            image.src = "../../img/curve_middle2.png"
+            break;
+          case 22:
+            image.src = "../../img/curve_middle3.png"
+            break;
+          case 23:
+            image.src = "../../img/curve_middle4.png"
+            break;
+          case 24:
+            image.src = "../../img/endline.png"
+            break;
+          case 25:
+            image.src = "../../img/grass1.png"
+            break;
+          case 26:
+            image.src = "../../img/grass2.png"
+            break;
+          case 27:
+            image.src = "../../img/lake_border1.png"
+            break;
+          case 28:
+            image.src = "../../img/lake_border2.png"
+            break;
+          case 29:
+            image.src = "../../img/lake_border3.png"
+            break;
+          case 30:
+            image.src = "../../img/lake_border4.png"
+            break;
+          case 31:
+            image.src = "../../img/little_tree.png"
+            break;
+          case 32:
+            image.src = "../../img/road_middle.png"
+            break;
+        }
+      }
+      generatemap()
     }
   </script>
   <script>
