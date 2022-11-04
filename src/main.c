@@ -32,7 +32,7 @@
 #define MAP_WIDTH 64
 #define MAP_HEIGHT 60
 
-int x, y, direction, speed;
+int x, y, direction, speed, can_turn, delay;
 
 void move_xp() {
 	switch(direction){
@@ -90,21 +90,30 @@ void move_ym() {
 	};
 }
 
+int get_tile_at_point(int x, int y, unsigned char *map, int map_w, int map_h){
+	//
+}
+
 void loop() {
 	int i;
 	float start, time;
 	start = clock();
-	if(getkey(KEY_LEFT)){
+	if(getkey(KEY_LEFT) && can_turn){
 		direction--;
 		if(direction < 1){
 			direction = 8;
 		}
+		can_turn = 0;
 	}
-	if(getkey(KEY_RIGHT)){
+	if(getkey(KEY_RIGHT) && can_turn == delay){
 		direction++;
 		if(direction > 8){
 			direction = 1;
 		}
+		can_turn = 0;
+	}
+	if(!getkey(KEY_RIGHT) && !getkey(KEY_LEFT) && can_turn < delay){
+		can_turn++;
 	}
 	for(i=0;i<speed;i++){
 		if(x>0){
@@ -113,10 +122,10 @@ void loop() {
 		if(y>0){
 			move_ym();
 		}
-		if(x<MAP_WIDTH<<5){
+		if(x<(MAP_WIDTH<<5)-(WIDTH>>1)-32){
 			move_xp();
 		}
-		if(y<MAP_HEIGHT<<5){
+		if(y<(MAP_HEIGHT<<5)-(HEIGHT>>1)-32){
 			move_yp();
 		}
 	}
@@ -130,7 +139,9 @@ int main(void) {
 	x = 6;
 	y = 3;
 	direction = 1;
-	speed = 2;
+	can_turn = 1;
+	speed = 4;
+	delay = 5;
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);
