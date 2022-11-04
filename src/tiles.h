@@ -55,5 +55,6 @@
  */
 
 void drawtile(int x, int y, int type);
+void drawcar(int x, int y, int direction);
 
 #endif

@@ -19,15 +19,41 @@
 #include "map.h"
 
 void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_height, unsigned char *map, int car) {
-	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x, dy = (ty<<5) - y, sdx = dx, lx, ly, type;
-	printf("%d, %d\n", dx, dy);
+	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x, dy = (ty<<5) - y, sdx = dx, lx, ly, type, mw = map_width<<5, mh = map_height<<5, ox = x, oy = y, cx, cy;
+	x = x - (w>>1);
+	y = y - (h>>1);
+	if(ox < w>>1){
+		cx = ox;
+	}else if(ox < mw - (w>>1)){
+		cx = w>>1;
+	}else{
+		cx = ox - mw - w;
+	}
+	if(oy < h>>1){
+		cy = oy;
+	}else if(oy < mh - (h>>1)){
+		cy = w>>1;
+	}else{
+		cy = oy - mh - h;
+	}
+	if(x < 0){
+		x = 0;
+	}else if(x > mw - w){
+		x = mw - w;
+	}
+	if(y < 0){
+		y = 0;
+	}else if(y > mh - h){
+		y = mh - h;
+	}
 	for(ly=0;ly<ny;ly++){
 		for(lx=0;lx<nx;lx++){
 			type = map[(ty+ly)*map_width+(tx+lx)];
-			drawtile(dx, dy, type);
+			drawtile(sx+dx, sy+dy, type);
 			dx += 32;
 		}
 		dy += 32;
 		dx = sdx;
 	}
+	drawcar(cx, cy, car);
 }

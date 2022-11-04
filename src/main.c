@@ -32,33 +32,105 @@
 #define MAP_WIDTH 64
 #define MAP_HEIGHT 60
 
-int x, y;
+int x, y, direction, speed;
+
+void move_xp() {
+	switch(direction){
+		case 2:
+			x++;
+			break;
+		case 3:
+			x++;
+			break;
+		case 4:
+			x++;
+			break;
+	};
+}
+
+void move_yp() {
+	switch(direction){
+		case 4:
+			y++;
+			break;
+		case 5:
+			y++;
+			break;
+		case 6:
+			y++;
+			break;
+	};
+}
+
+void move_xm() {
+	switch(direction){
+		case 6:
+			x--;
+			break;
+		case 7:
+			x--;
+			break;
+		case 8:
+			x--;
+			break;
+	};
+}
+
+void move_ym() {
+	switch(direction){
+		case 1:
+			y--;
+			break;
+		case 2:
+			y--;
+			break;
+		case 8:
+			y--;
+			break;
+	};
+}
 
 void loop() {
+	int i;
 	float start, time;
 	start = clock();
-	clear();
-	drawmap(0, 0, x, y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, 0);
-	if(getkey(KEY_UP) && y > 0){
-		y--;
+	if(getkey(KEY_LEFT)){
+		direction--;
+		if(direction < 1){
+			direction = 8;
+		}
 	}
-	if(getkey(KEY_DOWN) && y < MAP_HEIGHT*32-HEIGHT){
-		y++;
+	if(getkey(KEY_RIGHT)){
+		direction++;
+		if(direction > 8){
+			direction = 1;
+		}
 	}
-	if(getkey(KEY_LEFT) && x > 0){
-		x--;
+	for(i=0;i<speed;i++){
+		if(x>0){
+			move_xm();
+		}
+		if(y>0){
+			move_ym();
+		}
+		if(x<MAP_WIDTH<<5){
+			move_xp();
+		}
+		if(y<MAP_HEIGHT<<5){
+			move_yp();
+		}
 	}
-	if(getkey(KEY_RIGHT) && x < MAP_WIDTH*32-WIDTH){
-		x++;
-	}
+	drawmap(0, 0, x, y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, direction);
 	update();
 	time = clock() - start;
 	printf("Time : %d\n", (int)(time / 1000));
 }
 
 int main(void) {
-	x = 0;
-	y = 0;
+	x = 6;
+	y = 3;
+	direction = 1;
+	speed = 2;
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);

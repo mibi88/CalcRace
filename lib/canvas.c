@@ -38,7 +38,7 @@ EM_JS(void, init_canvas, (int width, int height, char *canvasname), {
 	window.data = image.data;
 	window.w = canvas.width;
 	window.h = canvas.height;
-});
+})
 
 EM_JS(void, put_pixel, (int x, int y, int r, int g, int b, int a), {
 	if(x >= 0 && x < window.w && y >= 0 && y < window.h){
@@ -48,17 +48,17 @@ EM_JS(void, put_pixel, (int x, int y, int r, int g, int b, int a), {
 		data[index + 2] = b;
 		data[index + 3] = a;
 	}
-});
+})
 
 EM_JS(void, update, (void), {
 	window.ctx.putImageData(window.image, 0, 0);
-});
+})
 
 EM_JS(void, clear, (void), {
 	for(i=0;i!=window.w*window.h*4;i++){
 		data[i] = 255;
 	}
-});
+})
 
 EM_JS(void, init_getkey, (void), {
 	kmap = {};
@@ -68,19 +68,19 @@ EM_JS(void, init_getkey, (void), {
 	}; */
 	document.onkeyup = function(e) { kmap[e.keyCode] = false; /* console.log(kmap[e.keyCode]); */ };
 	document.onkeydown = function(e) { kmap[e.keyCode] = true; /* console.log(kmap[e.keyCode]); */ };
-});
+})
 
 EM_JS(bool, getkey, (int key), {
 	/* if(kmap[key] == true) {
 		console.log("GETKEY");
 	} */
 	return kmap[key];
-});
+})
 
 EM_JS(int, getwidth, (void), {
 	return window.w;
-});
+})
 
 EM_JS(int, getheight, (void), {
 	return window.h;
-});
+})

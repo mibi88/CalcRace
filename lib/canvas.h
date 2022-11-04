@@ -26,7 +26,7 @@
 #define KEY_RIGHT 39
 
 #include <emscripten.h>
-#include <stdbool.h>
+typedef enum {FALSE, TRUE} bool;
 
 void init_canvas(int width, int height, char *canvasname);
 void put_pixel(int x, int y, int r, int g, int b, int a);
