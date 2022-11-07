@@ -8,6 +8,7 @@ all:
 	mkdir -p img_conv
 	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
+	python3 tools/imgconv_dir_term.py "img/font/skin1/" "img_conv/"
 	$(CC) $(CFLAGS) $(FILES) -o bin/MathRace.js
 	cp img/favicon.ico bin/
 	cp src/MathRace.html bin/
