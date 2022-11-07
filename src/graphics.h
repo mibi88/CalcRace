@@ -58,6 +58,17 @@
 #include "../img_conv/lake_border3.h"
 #include "../img_conv/lake_border4.h"
 #include "../img_conv/little_tree.h"
+#include "../img_conv/multiply.h"
+#include "../img_conv/n0.h"
+#include "../img_conv/n1.h"
+#include "../img_conv/n2.h"
+#include "../img_conv/n3.h"
+#include "../img_conv/n4.h"
+#include "../img_conv/n5.h"
+#include "../img_conv/n6.h"
+#include "../img_conv/n7.h"
+#include "../img_conv/n8.h"
+#include "../img_conv/n9.h"
 #include "../img_conv/road_middle.h"
 
 #endif

@@ -25,6 +25,7 @@
 #include <unistd.h>
 
 #include "map.h"
+#include "text.h"
 #include "maps/map1.h"
 
 #define WIDTH 128
@@ -32,7 +33,11 @@
 #define MAP_WIDTH 64
 #define MAP_HEIGHT 60
 
-int x, y, direction, speed, can_turn, delay, iscalc, calcs, choice, rspeed, loopn, seed, n1, n2, intchoices[3], n, collision, collisiontest;
+/* Define DEV to test unstable or not working features */
+
+/* #define DEV */
+
+int x, y, direction, speed, can_turn_right, can_turn_left, oldctr , old_ctl, iscalc, calcs, choice, rspeed, loopn, seed, n1, n2, intchoices[3], n, collision, collisiontest, calc_x, choices_x, calcsz;
 unsigned char choices[3][20], *calc;
 
 void move_xp() {
@@ -169,8 +174,9 @@ int get_collision(unsigned char *map, int map_w, int map_h) {
 		tiles[1] = get_tile_at_point(nx+12, ny+4, map, map_w, map_h);
 	}
 	/* printf("%d, %d, %d, %d\n", tiles[0], tiles[1], tiles[2], tiles[3]); */
-	if(is_in(tiles, 2, 1)){
-		/* iscalc = 1;
+	#ifdef DEV
+	if(is_in(tiles, 2, 1) && !iscalc){
+		iscalc = 1;
 		choice = rand() % 3;
 		n1 = rand() % 10 + 1;
 		n2 = rand() % 10 + 1;
@@ -189,9 +195,13 @@ int get_collision(unsigned char *map, int map_w, int map_h) {
 			}
 		}
 		for(i=0;i<3;i++){
-			sprintf(choices[i], "%d : %d", i, intchoices[i]);
-		} */
-	}else if(is_in(tiles, 2, 10) || is_in(tiles, 2, 19) || is_in(tiles, 2, 31)){ /* Block */
+			sprintf((char*)choices[i], "%d : %d", i, intchoices[i]);
+		}
+		calcsz = sprintf((char*)calc, "%d*%d", n1, n2);
+		calc_x = WIDTH/2 - calcsz/2;
+	}
+	#endif
+	if(is_in(tiles, 2, 10) || is_in(tiles, 2, 19) || is_in(tiles, 2, 31)){ /* Block */
 		return 3;
 	}else if(is_in(tiles, 2, 27) == 1 || is_in(tiles, 2, 28) == 1 || is_in(tiles, 2, 29) == 1 || is_in(tiles, 2, 30) == 1){ /* Hard */
 		return 2;
@@ -205,23 +215,26 @@ void loop() {
 	int i;
 	float start, time;
 	start = clock();
-	if(getkey(KEY_LEFT) && can_turn){
+	if(getkey(KEY_LEFT) && can_turn_left){
 		direction--;
 		if(direction < 1){
 			direction = 8;
 		}
-		can_turn = 0;
+		can_turn_left = 0;
+	}else if(!old_ctl){
+		can_turn_left = 1;
 	}
-	if(getkey(KEY_RIGHT) && can_turn == delay){
+	old_ctl = getkey(KEY_LEFT);
+	if(getkey(KEY_RIGHT) && can_turn_right){
 		direction++;
 		if(direction > 8){
 			direction = 1;
 		}
-		can_turn = 0;
+		can_turn_right = 0;
+	}else if(!oldctr){
+		can_turn_right = 1;
 	}
-	if(!getkey(KEY_RIGHT) && !getkey(KEY_LEFT) && can_turn < delay){
-		can_turn++;
-	}
+	oldctr = getkey(KEY_RIGHT);
 	rspeed = speed;
 	for(i=0;i<speed;i++){
 		collision = 0;
@@ -260,6 +273,11 @@ void loop() {
 		}
 	}
 	drawmap(0, 0, x, y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, direction);
+	#ifdef DEV
+	if(iscalc){
+		dtext(calc, calc_x, 1, 20);
+	}
+	#endif
 	update();
 	time = clock() - start;
 	printf("Time : %d\n", (int)(time / 1000));
@@ -272,9 +290,12 @@ int main(void) {
 	x = 6;
 	y = 3;
 	direction = 1;
-	can_turn = 1;
+	can_turn_left = 1;
+	can_turn_right = 1;
+	oldctr = 0;
+	old_ctl = 0;
 	speed = 4;
-	delay = 5;
+	iscalc = 0;
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);
