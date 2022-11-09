@@ -61,3 +61,11 @@ void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_
 	}
 	drawcar(cx, cy, car);
 }
+
+int get_tile_at_point(int x, int y, unsigned char *map, int map_w, int map_h) {
+	int tx = x>>5, ty = y>>5;
+	if(tx >= 0 && ty >= 0 && tx < map_w && ty < map_h){
+		return map[ty*map_w+tx];
+	}
+	return 0;
+}

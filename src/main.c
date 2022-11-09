@@ -26,6 +26,8 @@
 
 #include "map.h"
 #include "text.h"
+#include "game.h"
+#include "player.h"
 #include "maps/map1.h"
 
 #define WIDTH 128
@@ -37,245 +39,74 @@
 
 /* #define DEV */
 
-int x, y, direction, speed, can_turn_right, can_turn_left, oldctr , old_ctl, iscalc, calcs, choice, rspeed, loopn, seed, n1, n2, intchoices[3], n, collision, collisiontest, calc_x, choices_x, calcsz;
-unsigned char choices[3][20], *calc;
-
-void move_xp() {
-	switch(direction){
-		case 2:
-			x++;
-			break;
-		case 3:
-			x++;
-			break;
-		case 4:
-			x++;
-			break;
-	};
-}
-
-void move_yp() {
-	switch(direction){
-		case 4:
-			y++;
-			break;
-		case 5:
-			y++;
-			break;
-		case 6:
-			y++;
-			break;
-	};
-}
-
-void move_xm() {
-	switch(direction){
-		case 6:
-			x--;
-			break;
-		case 7:
-			x--;
-			break;
-		case 8:
-			x--;
-			break;
-	};
-}
-
-void move_ym() {
-	switch(direction){
-		case 1:
-			y--;
-			break;
-		case 2:
-			y--;
-			break;
-		case 8:
-			y--;
-			break;
-	};
-}
-
-int get_tile_at_point(int x, int y, unsigned char *map, int map_w, int map_h) {
-	int tx = x>>5, ty = y>>5;
-	if(tx >= 0 && ty >= 0 && tx < map_w && ty < map_h){
-		return map[ty*map_w+tx];
-	}
-	return 0;
-}
-
-int is_in(int *array, int size, int item) {
-	int i;
-	for(i=0;i<size;i++){
-		if(array[i] == item){
-			return 1;
-		}
-	}
-	return 0;
-}
-
-int get_collision(unsigned char *map, int map_w, int map_h) {
-	int nx = x, ny = y, tiles[2], i;
-	switch(direction){
-		case 1:
-			ny--;
-			break;
-		case 2:
-			nx++;
-			ny--;
-			break;
-		case 3:
-			nx++;
-			break;
-		case 4:
-			nx++;
-			ny++;
-			break;
-		case 5:
-			ny++;
-			break;
-		case 6:
-			ny++;
-			nx--;
-			break;
-		case 7:
-			nx--;
-			break;
-		case 8:
-			nx--;
-			ny--;
-			break;
-	};
-	nx += 48;
-	ny += 48;
-	if(direction == 1){ /* Car up */
-		tiles[0] = get_tile_at_point(nx+9, ny+4, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+22, ny+4, map, map_w, map_h);
-	}else if(direction == 5){ /* Car down */
-		tiles[0] = get_tile_at_point(nx+9, ny+27, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+22, ny+27, map, map_w, map_h);
-	}else if(direction == 7){ /* Car left */
-		tiles[0] = get_tile_at_point(nx+4, ny+9, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+4, ny+22, map, map_w, map_h);
-	}else if(direction == 3){ /* Car right */
-		tiles[0] = get_tile_at_point(nx+27, ny+9, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+27, ny+22, map, map_w, map_h);
-	}else if(direction == 2){ /* Car right up */
-		tiles[0] = get_tile_at_point(nx+19, ny+4, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+26, ny+11, map, map_w, map_h);
-	}else if(direction == 6){ /* Car left down */
-		tiles[0] = get_tile_at_point(nx+11, ny+26, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+4, ny+19, map, map_w, map_h);
-	}else if(direction == 4){ /* Car left up */
-		tiles[0] = get_tile_at_point(nx+27, ny+19, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+20, ny+26, map, map_w, map_h);
-	}else if(direction == 8){ /* Car right down */
-		tiles[0] = get_tile_at_point(nx+5, ny+11, map, map_w, map_h);
-		tiles[1] = get_tile_at_point(nx+12, ny+4, map, map_w, map_h);
-	}
-	/* printf("%d, %d, %d, %d\n", tiles[0], tiles[1], tiles[2], tiles[3]); */
-	#ifdef DEV
-	if(is_in(tiles, 2, 1) && !iscalc){
-		iscalc = 1;
-		choice = rand() % 3;
-		n1 = rand() % 10 + 1;
-		n2 = rand() % 10 + 1;
-		intchoices[choice] = n1*n2;
-		for(i=0;i<3;i++){
-			if(!(i == choice)){
-				n = 0;
-				while(is_in(intchoices, 3, n)){
-					if(rand() % 2){
-						n = intchoices[choice] - (rand() % (n2) + 1);
-					}else{
-						n = intchoices[choice] + (rand() % (n2) + 1);
-					}
-				}
-				intchoices[i] = n;
-			}
-		}
-		for(i=0;i<3;i++){
-			sprintf((char*)choices[i], "%d : %d", i, intchoices[i]);
-		}
-		calcsz = sprintf((char*)calc, "%d*%d", n1, n2);
-		calc_x = WIDTH/2 - calcsz/2;
-	}
-	#endif
-	if(is_in(tiles, 2, 10) || is_in(tiles, 2, 19) || is_in(tiles, 2, 31)){ /* Block */
-		return 3;
-	}else if(is_in(tiles, 2, 27) == 1 || is_in(tiles, 2, 28) == 1 || is_in(tiles, 2, 29) == 1 || is_in(tiles, 2, 30) == 1){ /* Hard */
-		return 2;
-	}else if(is_in(tiles, 2, 15) == 1 || is_in(tiles, 2, 16) == 1 || is_in(tiles, 2, 17) == 1 || is_in(tiles, 2, 18) == 1 || is_in(tiles, 2, 25) == 1 || is_in(tiles, 2, 26) == 1){ /* Mid */
-		return 1;
-	}
-	return 0;
-}
+Player player;
+Game game;
 
 void loop() {
 	int i;
 	float start, time;
 	start = clock();
-	if(getkey(KEY_LEFT) && can_turn_left){
-		direction--;
-		if(direction < 1){
-			direction = 8;
+	if(getkey(KEY_LEFT) && player.can_turn_left){
+		player.direction--;
+		if(player.direction < 1){
+			player.direction = 8;
 		}
-		can_turn_left = 0;
-	}else if(!old_ctl){
-		can_turn_left = 1;
+		player.can_turn_left = 0;
+	}else if(!player.old_ctl){
+		player.can_turn_left = 1;
 	}
-	old_ctl = getkey(KEY_LEFT);
-	if(getkey(KEY_RIGHT) && can_turn_right){
-		direction++;
-		if(direction > 8){
-			direction = 1;
+	player.old_ctl = getkey(KEY_LEFT);
+	if(getkey(KEY_RIGHT) && player.can_turn_right){
+		player.direction++;
+		if(player.direction > 8){
+			player.direction = 1;
 		}
-		can_turn_right = 0;
-	}else if(!oldctr){
-		can_turn_right = 1;
+		player.can_turn_right = 0;
+	}else if(!player.oldctr){
+		player.can_turn_right = 1;
 	}
-	oldctr = getkey(KEY_RIGHT);
-	rspeed = speed;
-	for(i=0;i<speed;i++){
-		collision = 0;
-		collisiontest = get_collision((unsigned char*)&map1_1, MAP_WIDTH, MAP_HEIGHT);
-		if(collisiontest == 3){
-			collision = collisiontest;
+	player.oldctr = getkey(KEY_RIGHT);
+	player.rspeed = player.speed;
+	for(i=0;i<player.speed;i++){
+		player.collision = 0;
+		player.collisiontest = get_collision(&player, (unsigned char*)&map1_1, MAP_WIDTH, MAP_HEIGHT);
+		if(player.collisiontest == 3){
+			player.collision = player.collisiontest;
 			break;
 		}
-		if(collisiontest > collision){
-			collision = collisiontest;
+		if(player.collisiontest > player.collision){
+			player.collision = player.collisiontest;
 		}
 	}
-	switch(collision){
+	switch(player.collision){
 		case 1:
-			rspeed = speed/2;
+			player.rspeed = player.speed/2;
 			break;
 		case 2:
-			rspeed = speed/4;
+			player.rspeed = player.speed/4;
 			break;
 		case 3:
-			rspeed = 0;
+			player.rspeed = 0;
 			break;
 	}
-	for(i=0;i<rspeed;i++){
-		if(x>0){
-			move_xm();
+	for(i=0;i<player.rspeed;i++){
+		if(player.x>0){
+			move_xm(&player);
 		}
-		if(y>0){
-			move_ym();
+		if(player.y>0){
+			move_ym(&player);
 		}
-		if(x<(MAP_WIDTH<<5)-(WIDTH>>1)-32){
-			move_xp();
+		if(player.x<(MAP_WIDTH<<5)-(WIDTH>>1)-32){
+			move_xp(&player);
 		}
-		if(y<(MAP_HEIGHT<<5)-(HEIGHT>>1)-32){
-			move_yp();
+		if(player.y<(MAP_HEIGHT<<5)-(HEIGHT>>1)-32){
+			move_yp(&player);
 		}
 	}
-	drawmap(0, 0, x, y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, direction);
+	drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
 	#ifdef DEV
-	if(iscalc){
-		dtext(calc, calc_x, 1, 20);
+	if(player.iscalc){
+		dtext(player.calc, player.calc_x, 1, 20);
 	}
 	#endif
 	update();
@@ -284,18 +115,18 @@ void loop() {
 }
 
 int main(void) {
-	seed = clock();
-	printf("Seed : %d\n", seed);
-	srand(seed);
-	x = 6;
-	y = 3;
-	direction = 1;
-	can_turn_left = 1;
-	can_turn_right = 1;
-	oldctr = 0;
-	old_ctl = 0;
-	speed = 4;
-	iscalc = 0;
+	game.seed = clock();
+	printf("Seed : %d\n", game.seed);
+	srand(game.seed);
+	player.x = 6;
+	player.y = 3;
+	player.direction = 1;
+	player.can_turn_left = 1;
+	player.can_turn_right = 1;
+	player.oldctr = 0;
+	player.old_ctl = 0;
+	player.speed = 4;
+	player.iscalc = 0;
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);
