@@ -1,6 +1,6 @@
 CC = emcc
 LIBS = 
-CFLAGS = -std=c89 -Wall -Wextra -Wpedantic -ggdb -fsanitize=address -s WASM=1
+CFLAGS = -std=c89 -Wall -Wextra -Wpedantic -O3 -ggdb -fsanitize=address -s WASM=1
 FILES = src/main.c src/map.c src/tiles.c src/text.c src/player.c src/game.c src/memory.c lib/canvas.c lib/image.c
 
 all:

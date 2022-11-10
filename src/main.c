@@ -18,22 +18,13 @@
 
 #include <emscripten.h>
 
-#include "../lib/canvas.h"
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "map.h"
-#include "text.h"
 #include "game.h"
-#include "player.h"
 #include "maps/map1.h"
-
-#define WIDTH 128
-#define HEIGHT 96
-#define MAP_WIDTH 64
-#define MAP_HEIGHT 60
 
 /* Define DEV to test unstable or not working features */
 
@@ -46,63 +37,7 @@ void loop() {
 	int i;
 	float start, time;
 	start = clock();
-	if(getkey(KEY_LEFT) && player.can_turn_left){
-		player.direction--;
-		if(player.direction < 1){
-			player.direction = 8;
-		}
-		player.can_turn_left = 0;
-	}else if(!player.old_ctl){
-		player.can_turn_left = 1;
-	}
-	player.old_ctl = getkey(KEY_LEFT);
-	if(getkey(KEY_RIGHT) && player.can_turn_right){
-		player.direction++;
-		if(player.direction > 8){
-			player.direction = 1;
-		}
-		player.can_turn_right = 0;
-	}else if(!player.oldctr){
-		player.can_turn_right = 1;
-	}
-	player.oldctr = getkey(KEY_RIGHT);
-	player.rspeed = player.speed;
-	for(i=0;i<player.speed;i++){
-		player.collision = 0;
-		player.collisiontest = get_collision(&player, (unsigned char*)&map1_1, MAP_WIDTH, MAP_HEIGHT);
-		if(player.collisiontest == 3){
-			player.collision = player.collisiontest;
-			break;
-		}
-		if(player.collisiontest > player.collision){
-			player.collision = player.collisiontest;
-		}
-	}
-	switch(player.collision){
-		case 1:
-			player.rspeed = player.speed/2;
-			break;
-		case 2:
-			player.rspeed = player.speed/4;
-			break;
-		case 3:
-			player.rspeed = 0;
-			break;
-	}
-	for(i=0;i<player.rspeed;i++){
-		if(player.x>0){
-			move_xm(&player);
-		}
-		if(player.y>0){
-			move_ym(&player);
-		}
-		if(player.x<(MAP_WIDTH<<5)-(WIDTH>>1)-32){
-			move_xp(&player);
-		}
-		if(player.y<(MAP_HEIGHT<<5)-(HEIGHT>>1)-32){
-			move_yp(&player);
-		}
-	}
+	move(&player, &game, (unsigned char*)&map1_1);
 	drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
 	#ifdef DEV
 	if(player.iscalc){

@@ -8,14 +8,38 @@
             </img> <!-- Je suis vraiment nul en ASCII art ! -->
             <h1>MathRace</h1>
         </div>
+        <style>
+            canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                margin: 0;
+                padding: 0;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: pixelated;
+            }
+        </style>
     </head>
     <body style = "height: 100%; width: 100%;">
         <!-- <div id = "game" style = "height: 100%; width: 100%;"> -->
-        <canvas id = "canvas" width = "64" height = "48" style = "image-rendering: -moz-crisp-edges; image-rendering: pixelated; margin: 25%;">
+        <canvas id = "canvas" width = "64" height = "48">
             MathRace game
         </canvas>
         <!-- </div> -->
         <script>
+            /* Let the canvas fill the page */
+            function fill(){
+                if(window.innerWidth<window.innerHeight){
+                    document.getElementById("canvas").style.width = "132vw";
+                    document.getElementById("canvas").style.height = "99vw";
+                }else{
+                    document.getElementById("canvas").style.width = "132vh";
+                    document.getElementById("canvas").style.height = "99vh";
+                }
+            }
+            fill();
+            window.onresize = fill;
+            /* Configure the WASM module */
             var Module = {
                 preRun: [],
                 postRun: [],

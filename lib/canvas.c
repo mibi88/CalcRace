@@ -25,14 +25,6 @@ EM_JS(void, init_canvas, (int width, int height, char *canvasname), {
 	canvas.height = height;
 	window.ctx = canvas.getContext("2d", antialias = 0);
 	window.ctx.imageSmoothingEnabled = false;
-	/* var scaleX = window.innerWidth / canvas.width;
-	var scaleY = window.innerWidth / canvas.height;
-	var scaleToFit = Math.min(scaleX, scaleY);
-	var scaleToCover = Math.max(scaleX, scaleY);
-	canvas.style.transformOrigin = '0 0';
-	canvas.style.transform = 'scale(' + scaleToFit + ')'; */
-	/* TODO : Replace the following line */
-	canvas.style.transform = "scale(8)";
 	window.image = window.ctx.createImageData(width, height);
 	window.image.imageSmoothingEnabled = false;
 	window.data = image.data;
