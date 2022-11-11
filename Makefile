@@ -12,10 +12,10 @@ all:
 	$(CC) $(CFLAGS) $(FILES) -o bin/MathRace.js
 	cp img/favicon.ico bin/
 	cp src/MathRace.html bin/
+	cp src/run.sh bin/
+	chmod a+x bin/run.sh
 run:
-	cd bin
-	python3 -m http.server 8000
-	cd ..
+	bin/run.sh
 clean:
 	rm --force --recursive bin
 	rm --force --recursive img_conv

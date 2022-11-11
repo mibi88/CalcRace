@@ -63,8 +63,14 @@ void move(Player *player, Game *game, unsigned char *map) {
 	}else{
 		if(player->crashd){
 			player->direction++;
+			if(player->direction > 8){
+				player->direction = 1;
+			}
 		}else{
 			player->direction--;
+			if(player->direction < 1){
+				player->direction = 8;
+			}
 		}
 		player->crashc++;
 		if(player->crashc == player->crashlen){

@@ -57,7 +57,7 @@ int main(void) {
 	player.old_ctl = 0;
 	player.speed = 4;
 	player.iscalc = 0;
-	player.crashlen = 50;
+	player.crashlen = 24;
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);
