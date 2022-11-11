@@ -146,7 +146,7 @@ void drawcar(int x, int y, int direction) {
 		case 7:
 			draw_image_del_color(x, y, car4_data, 32, 32, 0, 0, 0, 0);
 			break;
-		case 8:
+		default:
 			draw_image_del_color(x, y, car6_data, 32, 32, 0, 0, 0, 0);
 			break;
 	}

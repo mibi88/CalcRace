@@ -41,6 +41,7 @@
 #include "../img_conv/coin1.h"
 #include "../img_conv/coin2.h"
 #include "../img_conv/coin3.h"
+#include "../img_conv/colon.h"
 #include "../img_conv/color_change1.h"
 #include "../img_conv/color_change2.h"
 #include "../img_conv/color_change3.h"

@@ -39,6 +39,9 @@ void dtext(unsigned char *text, int sx, int sy, int len) {
 			case '*':
 				draw_image_del_color(sx, sy, &multiply_data, 8, 8, 0, 0, 0, 0);
 				break;
+			case ':':
+				draw_image_del_color(sx, sy, &colon_data, 8, 8, 0, 0, 0, 0);
+				break;
 		}
 		if(c == '\n'){
 			sy += 9;

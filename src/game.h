@@ -10,6 +10,7 @@ typedef struct {
 	int loopn, seed;
 } Game;
 
+#include "config.h"
 #include "../lib/canvas.h"
 #include "map.h"
 #include "text.h"

@@ -26,10 +26,6 @@
 #include "game.h"
 #include "maps/map1.h"
 
-/* Define DEV to test unstable or not working features */
-
-/* #define DEV */
-
 Player player;
 Game game;
 
@@ -39,11 +35,10 @@ void loop() {
 	start = clock();
 	move(&player, &game, (unsigned char*)&map1_1);
 	drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
-	#ifdef DEV
 	if(player.iscalc){
 		dtext(player.calc, player.calc_x, 1, 20);
+		dtext(player.choices, player.choices_x, 10, 60);
 	}
-	#endif
 	update();
 	time = clock() - start;
 	printf("Time : %d\n", (int)(time / 1000));
@@ -62,6 +57,7 @@ int main(void) {
 	player.old_ctl = 0;
 	player.speed = 4;
 	player.iscalc = 0;
+	player.crashlen = 24;
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);

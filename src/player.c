@@ -57,7 +57,7 @@ void move_ym(Player *player) {
 }
 
 int get_collision(Player *player, unsigned char *map, int map_w, int map_h) {
-	int nx = player->x, ny = player->y, tiles[2], i;
+	int nx = player->x, ny = player->y, tiles[2], i, n;
     /* nx and ny are test x and y positions */
 	switch(player->direction){
 		case 1:
@@ -127,14 +127,13 @@ int get_collision(Player *player, unsigned char *map, int map_w, int map_h) {
             tiles[1] = get_tile_at_point(nx+12, ny+4, map, map_w, map_h);
             break;
     };
-	#ifdef DEV
     /* Generate a new calculation */
 	if(is_in(tiles, 2, 1) && !player->iscalc){
 		player->iscalc = 1;
 		player->choice = rand() % 3;
 		player->n1 = rand() % 10 + 1;
 		player->n2 = rand() % 10 + 1;
-		player->intchoices[choice] = player->n1*player->n2;
+		player->intchoices[player->choice] = player->n1*player->n2;
 		for(i=0;i<3;i++){
 			if(!(i == player->choice)){
 				n = 0;
@@ -148,13 +147,44 @@ int get_collision(Player *player, unsigned char *map, int map_w, int map_h) {
 				player->intchoices[i] = n;
 			}
 		}
-		for(i=0;i<3;i++){
-			sprintf((char*)player->choices[i], "%d : %d", i, player->intchoices[i]);
-		}
-		player->calcsz = sprintf((char*)calc, "%d*%d", player->n1, player->n2);
-		player->calc_x = WIDTH/2 - calcsz/2;
+		player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d", player->intchoices[0], player->intchoices[1], player->intchoices[2]);
+		player->calcsz = sprintf((char*)player->calc, "%d*%d", player->n1, player->n2);
+		player->choices_x = WIDTH/2 - (player->choicessz/2*9);
+		player->calc_x = WIDTH/2 - (player->calcsz/2*9);
 	}
-	#endif
+	/* Choice 1 */
+	if(is_in(tiles, 2, 12) && player->iscalc){
+		if(player->choice != 0){
+			player->crash = 1;
+			player->crashc = 0;
+			player->crashd = rand() % 2;
+		}else{
+			player->iscalc = 0;
+		}
+		player->calcs++;
+	}
+	/* Choice 2 */
+	if(is_in(tiles, 2, 13) && player->iscalc){
+		if(player->choice != 1){
+			player->crash = 1;
+			player->crashc = 0;
+			player->crashd = rand() % 2;
+		}else{
+			player->iscalc = 0;
+		}
+		player->calcs++;
+	}
+	/* Choice 3 */
+	if(is_in(tiles, 2, 14) && player->iscalc){
+		if(player->choice != 2){
+			player->crash = 1;
+			player->crashc = 0;
+			player->crashd = rand() % 2;
+		}else{
+			player->iscalc = 0;
+		}
+		player->calcs++;
+	}
     /* Check collision type */
 	if(is_in(tiles, 2, 10) || is_in(tiles, 2, 19) || is_in(tiles, 2, 31)){ /* Block */
 		return 3;
