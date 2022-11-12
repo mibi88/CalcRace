@@ -51,6 +51,7 @@
 #include "../img_conv/curve_middle2.h"
 #include "../img_conv/curve_middle3.h"
 #include "../img_conv/curve_middle4.h"
+#include "../img_conv/divide.h"
 #include "../img_conv/endline.h"
 #include "../img_conv/grass1.h"
 #include "../img_conv/grass2.h"

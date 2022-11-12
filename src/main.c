@@ -29,35 +29,38 @@
 Player player;
 Game game;
 
+#include "../img_conv/title.h"
+
 void loop() {
 	int i;
 	float start, time;
 	start = clock();
-	move(&player, &game, (unsigned char*)&map1_1);
-	drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
-	if(player.iscalc){
-		dtext(player.calc, player.calc_x, 1, 20);
-		dtext(player.choices, player.choices_x, 10, 60);
+	if(game.stat == 0){
+		draw_image(0, 0, (unsigned char*)title_data, title_width, title_height);
+		if(getkey(KEY_SPACE)){
+			game.seed = clock();
+			printf("Seed : %d\n", game.seed);
+			srand(game.seed);
+			game.stat = 1;
+			game.start_time = clock();
+		}
+		update();
+	}else if(game.stat == 1){
+		move(&player, &game, (unsigned char*)&map1_1, MAP1_1CALCS);
+		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
+		if(player.iscalc){
+			dtext(player.calc, player.calc_x, 1, 20);
+			dtext(player.choices, player.choices_x, 10, 60);
+		}
+		dtext(player.loopinfo, 1, 87, 20);
+		update();
 	}
-	update();
 	time = clock() - start;
 	printf("Time : %d\n", (int)(time / 1000));
 }
 
 int main(void) {
-	game.seed = clock();
-	printf("Seed : %d\n", game.seed);
-	srand(game.seed);
-	player.x = 576;
-	player.y = 384;
-	player.direction = 5;
-	player.can_turn_left = 1;
-	player.can_turn_right = 1;
-	player.oldctr = 0;
-	player.old_ctl = 0;
-	player.speed = 4;
-	player.iscalc = 0;
-	player.crashlen = 24;
+	init_game(&player, &game);
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);

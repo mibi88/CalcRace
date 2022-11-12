@@ -1,6 +1,24 @@
+/*
+ * MathRace - Get better in mental calculation while having some fun !
+ * Copyright (C) 2022  Mibi88
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ */
+
 #include "game.h"
 
-void move(Player *player, Game *game, unsigned char *map) {
+void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
     int i;
 	if(!player->crash){
 		if(getkey(KEY_LEFT) && player->can_turn_left){
@@ -26,7 +44,7 @@ void move(Player *player, Game *game, unsigned char *map) {
 		player->rspeed = player->speed;
 		for(i=0;i<player->speed;i++){
 			player->collision = 0;
-			player->collisiontest = get_collision(player, map, MAP_WIDTH, MAP_HEIGHT);
+			player->collisiontest = get_collision(player, game, map, MAP_WIDTH, MAP_HEIGHT, mincalcs);
 			if(player->collisiontest == 3){
 				player->collision = player->collisiontest;
 				break;
@@ -78,4 +96,21 @@ void move(Player *player, Game *game, unsigned char *map) {
 			player->iscalc = 0;
 		}
 	}
+}
+
+void init_game(Player *player, Game *game) {
+	game->stat = 0;
+	player->x = 576;
+	player->y = 384;
+	player->direction = 5;
+	player->can_turn_left = 1;
+	player->can_turn_right = 1;
+	player->oldctr = 0;
+	player->old_ctl = 0;
+	player->speed = 4;
+	player->iscalc = 0;
+	player->crashlen = 24;
+	player->loopn = 1;
+	game->loops = 3;
+	generate_loop_info(player, game);
 }

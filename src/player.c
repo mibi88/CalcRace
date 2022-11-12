@@ -1,3 +1,21 @@
+/*
+ * MathRace - Get better in mental calculation while having some fun !
+ * Copyright (C) 2022  Mibi88
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ */
+
 #include "player.h"
 
 void move_xp(Player *player) {
@@ -56,7 +74,15 @@ void move_ym(Player *player) {
 	};
 }
 
-int get_collision(Player *player, unsigned char *map, int map_w, int map_h) {
+void generate_loop_info(Player *player, Game *game) {
+	sprintf((char*)player->loopinfo, "%d/%d", player->loopn, game->loops);
+}
+
+void player_finished(Player *player, Game *game) {
+	init_game(player, game);
+}
+
+int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int map_h, int mincalcs) {
 	int nx = player->x, ny = player->y, tiles[2], i, n;
     /* nx and ny are test x and y positions */
 	switch(player->direction){
@@ -184,6 +210,15 @@ int get_collision(Player *player, unsigned char *map, int map_w, int map_h) {
 			player->iscalc = 0;
 		}
 		player->calcs++;
+	}
+	/* Finishing line */
+	if(is_in(tiles, 2, 24) && player->calcs>=mincalcs){
+		player->loopn++;
+		player->calcs = 0;
+		if(player->loopn>game->loops){
+			player_finished(player, game);
+		}
+		generate_loop_info(player, game);
 	}
     /* Check collision type */
 	if(is_in(tiles, 2, 10) || is_in(tiles, 2, 19) || is_in(tiles, 2, 31)){ /* Block */
