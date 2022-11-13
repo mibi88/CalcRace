@@ -26,7 +26,7 @@
 #define MAP1_1CALCS 1
 
 typedef struct {
-	int stat, seed, start_time, loops;
+	int stat, seed, loops, start_time;
 } Game;
 
 #include "config.h"

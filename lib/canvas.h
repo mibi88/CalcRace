@@ -37,5 +37,6 @@ void init_getkey(void);
 bool getkey(int key);
 int getwidth(void);
 int getheight(void);
+int ms_time(void);
 
 #endif

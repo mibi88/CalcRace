@@ -79,7 +79,7 @@ void generate_loop_info(Player *player, Game *game) {
 }
 
 void player_finished(Player *player, Game *game) {
-	init_game(player, game);
+	game->stat = 2;
 }
 
 int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int map_h, int mincalcs) {

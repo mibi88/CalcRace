@@ -109,7 +109,7 @@ void init_game(Player *player, Game *game) {
 	player->old_ctl = 0;
 	player->speed = 4;
 	player->iscalc = 0;
-	player->crashlen = 24;
+	player->crashlen = 192;
 	player->loopn = 1;
 	game->loops = 3;
 	generate_loop_info(player, game);

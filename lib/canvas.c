@@ -76,3 +76,7 @@ EM_JS(int, getwidth, (void), {
 EM_JS(int, getheight, (void), {
 	return window.h;
 })
+
+EM_JS(int, ms_time, (void), {
+	return Date.now();
+})

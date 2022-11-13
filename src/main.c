@@ -30,6 +30,7 @@ Player player;
 Game game;
 
 #include "../img_conv/title.h"
+#include "../img_conv/end.h"
 
 void loop() {
 	int i;
@@ -42,18 +43,39 @@ void loop() {
 			printf("Seed : %d\n", game.seed);
 			srand(game.seed);
 			game.stat = 1;
-			game.start_time = clock();
+			game.start_time = ms_time();
 		}
 		update();
 	}else if(game.stat == 1){
 		move(&player, &game, (unsigned char*)&map1_1, MAP1_1CALCS);
 		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
+		player.time = ms_time();
+		player.difftime = (player.time - game.start_time);
+		player.min = player.difftime/1000/60;
+		player.sec = player.difftime/1000%60;
+		player.ms = player.difftime%1000;
+		if(player.min>99){
+			player.min = 99;
+		}
+		player.timelen = sprintf((char*)player.timeinfo, "%02d:%02d:%03d", player.min, player.sec, player.ms);
 		if(player.iscalc){
 			dtext(player.calc, player.calc_x, 1, 20);
 			dtext(player.choices, player.choices_x, 10, 60);
 		}
 		dtext(player.loopinfo, 1, 87, 20);
+		dtext(player.timeinfo, 127-player.timelen*9, 87, 20);
 		update();
+	}else if(game.stat == 2){
+		draw_image(0, 0, (unsigned char*)end_data, end_width, end_height);
+		dtext(player.timeinfo, 64-player.timelen*9/2, 19, 20);
+		if(getkey(KEY_SPACE)){
+			game.stat = 3;
+		}
+		update();
+	}else if(game.stat == 3){
+		if(!getkey(KEY_SPACE)){
+			init_game(&player, &game);
+		}
 	}
 	time = clock() - start;
 	printf("Time : %d\n", (int)(time / 1000));
