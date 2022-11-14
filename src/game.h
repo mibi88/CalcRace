@@ -23,7 +23,7 @@
 #define HEIGHT 96
 #define MAP_WIDTH 64
 #define MAP_HEIGHT 60
-#define MAP1_1CALCS 1
+#define MAP1_1CALCS 2
 
 typedef struct {
 	int stat, seed, loops, start_time;

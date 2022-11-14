@@ -118,6 +118,36 @@ void drawtile(int x, int y, int type){
 		case 32:
 			draw_image(x, y, road_middle_data, 32, 32);
 			break;
+		case 33:
+			draw_image(x, y, line1_data, 32, 32);
+			break;
+		case 34:
+			draw_image(x, y, line2_data, 32, 32);
+			break;
+		case 35:
+			draw_image(x, y, line3_data, 32, 32);
+			break;
+		case 36:
+			draw_image(x, y, line4_data, 32, 32);
+			break;
+		case 37:
+			draw_image(x, y, line5_data, 32, 32);
+			break;
+		case 38:
+			draw_image(x, y, line6_data, 32, 32);
+			break;
+		case 39:
+			draw_image(x, y, line7_data, 32, 32);
+			break;
+		case 40:
+			draw_image(x, y, line_n1_data, 32, 32);
+			break;
+		case 41:
+			draw_image(x, y, line_n2_data, 32, 32);
+			break;
+		case 42:
+			draw_image(x, y, line_n3_data, 32, 32);
+			break;
 	};
 }
 
