@@ -19,23 +19,23 @@
 #include "map.h"
 
 void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_height, unsigned char *map, int car) {
-	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x, dy = (ty<<5) - y, sdx = dx, lx, ly, type, mw = map_width<<5, mh = map_height<<5, ox = x, oy = y, cx, cy;
-	x = x - (w>>1);
-	y = y - (h>>1);
-	if(ox < w>>1){
-		cx = ox;
-	}else if(ox < mw - (w>>1)){
+	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x, dy = (ty<<5) - y, sdx = dx, lx, ly, type, mw = map_width<<5, mh = map_height<<5, cx, cy;
+	if(x < w>>1){
+		cx = x;
+	}else if(x < mw - (w>>1)){
 		cx = w>>1;
 	}else{
-		cx = ox - mw - w;
+		cx = x - (mw - w);
 	}
-	if(oy < h>>1){
-		cy = oy;
-	}else if(oy < mh - (h>>1)){
-		cy = w>>1;
+	if(y < h>>1){
+		cy = y;
+	}else if(y < mh - (h>>1)){
+		cy = h>>1;
 	}else{
-		cy = oy - mh - h;
+		cy = y - (mh - h);
 	}
+	x -= cx;
+	y -= cy;
 	if(x < 0){
 		x = 0;
 	}else if(x > mw - w){

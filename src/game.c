@@ -71,10 +71,10 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 			if(player->y>0){
 				move_ym(player);
 			}
-			if(player->x<(MAP_WIDTH<<5)-(WIDTH>>1)-32){
+			if(player->x<(MAP_WIDTH<<5)){
 				move_xp(player);
 			}
-			if(player->y<(MAP_HEIGHT<<5)-(HEIGHT>>1)-32){
+			if(player->y<(MAP_HEIGHT<<5)){
 				move_yp(player);
 			}
 		}
@@ -93,15 +93,15 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 		player->crashc++;
 		if(player->crashc == player->crashlen){
 			player->crash = 0;
-			player->iscalc = 0;
 		}
 	}
+	printf("Calcs : %d", player->calcs);
 }
 
-void init_game(Player *player, Game *game) {
+void init_game(Player *player, Game *game, int start_x, int start_y) {
 	game->stat = 0;
-	player->x = 576;
-	player->y = 384;
+	player->x = start_x;
+	player->y = start_y;
 	player->direction = 5;
 	player->can_turn_left = 1;
 	player->can_turn_right = 1;

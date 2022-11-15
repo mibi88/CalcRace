@@ -39,7 +39,7 @@ void loop() {
 	if(game.stat == 0){
 		draw_image(0, 0, (unsigned char*)title_data, title_width, title_height);
 		if(getkey(KEY_SPACE)){
-			game.seed = clock();
+			game.seed = ms_time();
 			printf("Seed : %d\n", game.seed);
 			srand(game.seed);
 			game.stat = 1;
@@ -74,7 +74,7 @@ void loop() {
 		update();
 	}else if(game.stat == 3){
 		if(!getkey(KEY_SPACE)){
-			init_game(&player, &game);
+			init_game(&player, &game, 576, 384);
 		}
 	}
 	time = clock() - start;
@@ -82,7 +82,7 @@ void loop() {
 }
 
 int main(void) {
-	init_game(&player, &game);
+	init_game(&player, &game, 576, 384);
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);

@@ -83,7 +83,7 @@ void player_finished(Player *player, Game *game) {
 }
 
 int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int map_h, int mincalcs) {
-	int nx = player->x, ny = player->y, tiles[2], i, n;
+	int nx = player->x, ny = player->y, tiles[2], i, n, cx, cy;
     /* nx and ny are test x and y positions */
 	switch(player->direction){
 		case 1:
@@ -116,8 +116,22 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			break;
 	};
     /* Fixing nx and ny values to simulate the "real" car */
-	nx += 48;
-	ny += 48;
+	if(nx < WIDTH>>1){
+		cx = nx;
+	}else if(nx < (map_w<<5) - (WIDTH>>1)){
+		cx = WIDTH>>1;
+	}else{
+		cx = nx - ((map_w<<5) - WIDTH);
+	}
+	if(ny < HEIGHT>>1){
+		cy = ny;
+	}else if(ny < (map_h<<5) - (HEIGHT>>1)){
+		cy = HEIGHT>>1;
+	}else{
+		cy = ny - ((map_h<<5) - HEIGHT);
+	}
+	nx += (cx-(WIDTH>>1))+48;
+	ny += (cy-(HEIGHT>>1))+32;
     /* Collisions are adapted to the direction */
     switch(player->direction){
         case 1: /* Car up */
@@ -184,9 +198,8 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->crash = 1;
 			player->crashc = 0;
 			player->crashd = rand() % 2;
-		}else{
-			player->iscalc = 0;
 		}
+		player->iscalc = 0;
 		player->calcs++;
 	}
 	/* Choice 2 */
@@ -195,9 +208,8 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->crash = 1;
 			player->crashc = 0;
 			player->crashd = rand() % 2;
-		}else{
-			player->iscalc = 0;
 		}
+		player->iscalc = 0;
 		player->calcs++;
 	}
 	/* Choice 3 */
@@ -206,9 +218,8 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->crash = 1;
 			player->crashc = 0;
 			player->crashd = rand() % 2;
-		}else{
-			player->iscalc = 0;
 		}
+		player->iscalc = 0;
 		player->calcs++;
 	}
 	/* Finishing line */
