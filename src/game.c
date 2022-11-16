@@ -95,7 +95,22 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 			player->crash = 0;
 		}
 	}
-	printf("Calcs : %d", player->calcs);
+}
+
+void generate_time_info(Player *player, Game *game) {
+	int i;
+	player->time = ms_time();
+	player->difftime = (player->time - game->start_time);
+	player->min = player->difftime/1000/60;
+	player->sec = player->difftime/1000%60;
+	player->ms = player->difftime%1000;
+	if(player->min>99){
+		player->min = 99;
+	}
+	for(i=0;i<20;i++){
+		player->timeinfo[i]=' ';
+	}
+	player->timelen = sprintf((char*)player->timeinfo, "%02d:%02d:%03d", player->min, player->sec, player->ms);
 }
 
 void init_game(Player *player, Game *game, int start_x, int start_y) {

@@ -75,6 +75,10 @@ void move_ym(Player *player) {
 }
 
 void generate_loop_info(Player *player, Game *game) {
+	int i;
+	for(i=0;i<20;i++){
+		player->loopinfo[i]=' ';
+	}
 	sprintf((char*)player->loopinfo, "%d/%d", player->loopn, game->loops);
 }
 
@@ -186,6 +190,12 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 				}
 				player->intchoices[i] = n;
 			}
+		}
+		for(i=0;i<60;i++){
+			player->choices[i]=' ';
+		}
+		for(i=0;i<20;i++){
+			player->calc[i]=' ';
 		}
 		player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d", player->intchoices[0], player->intchoices[1], player->intchoices[2]);
 		player->calcsz = sprintf((char*)player->calc, "%d*%d", player->n1, player->n2);

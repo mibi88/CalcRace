@@ -49,15 +49,7 @@ void loop() {
 	}else if(game.stat == 1){
 		move(&player, &game, (unsigned char*)&map1_1, MAP1_1CALCS);
 		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
-		player.time = ms_time();
-		player.difftime = (player.time - game.start_time);
-		player.min = player.difftime/1000/60;
-		player.sec = player.difftime/1000%60;
-		player.ms = player.difftime%1000;
-		if(player.min>99){
-			player.min = 99;
-		}
-		player.timelen = sprintf((char*)player.timeinfo, "%02d:%02d:%03d", player.min, player.sec, player.ms);
+		generate_time_info(&player, &game);
 		if(player.iscalc){
 			dtext(player.calc, player.calc_x, 1, 20);
 			dtext(player.choices, player.choices_x, 10, 60);

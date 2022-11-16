@@ -48,7 +48,7 @@ void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_
 	}
 	for(ly=0;ly<ny;ly++){
 		for(lx=0;lx<nx;lx++){
-			if((ty+ly)*map_width+(tx+lx)<map_width*map_height){
+			if((ty+ly)*map_width+(tx+lx)<map_width*map_height && (tx+lx)<map_width){
 				type = map[(ty+ly)*map_width+(tx+lx)];
 			}else{
 				type = 25;
