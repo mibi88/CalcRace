@@ -3,13 +3,22 @@
   <head>
     <meta charset="utf-8">
     <title>MapEdit</title>
+    <style>
+      tr, th, td {
+        padding: 0px;
+        border: 1px solid;
+      }
+      image {
+        padding: 0px;
+        margin: 0px;
+      }
+      table {
+        border-spacing: 0px;
+      }
+    </style>
   </head>
-  <body>
-    <script>
-      tilenum = 1;
-      let mapdata = Array();
-    </script>
-    <table border id = "choice" style = "top: 0; left: 0; height: 40; position: sticky;">
+  <header>
+    <table id = "choice" style = "top: 0; left: 0; height: 40px; position: fixed; background-color: white;">
       <tr>
         <td><image src = "../../img/ask.png" onclick="tilenum = 1"></image></td>
         <td><image src = "../../img/border_curve1.png" onclick="tilenum = 2"></image></td>
@@ -53,9 +62,17 @@
         <td><image src = "../../img/line_n1.png" onclick="tilenum = 40"></image></td>
         <td><image src = "../../img/line_n2.png" onclick="tilenum = 41"></image></td>
         <td><image src = "../../img/line_n3.png" onclick="tilenum = 42"></image></td>
+        <td><image src = "../../img/line8.png" onclick="tilenum = 43"></image></td>
+        <td><image src = "../../img/line9.png" onclick="tilenum = 44"></image></td>
       </tr>
     </table>
-    <table border id = "table" style = "top: 40;">
+  </header>
+  <body style = "margin-top: 41px;">
+    <script>
+      tilenum = 1;
+      let mapdata = Array();
+    </script>
+    <table border id = "table" style = "top: 41px;">
       <!-- -->
     </table>
     <p>Output</p>
@@ -224,6 +241,12 @@
           case 42:
             image.src = "../../img/line_n3.png"
             break;
+          case 43:
+            image.src = "../../img/line8.png"
+            break;
+          case 44:
+            image.src = "../../img/line9.png"
+            break;
         }
       }
       generatemap()
@@ -236,7 +259,7 @@
     for(x=0;x<65;x++){
       header = document.createElement("th");
       header.scope = "column";
-      header.style = "position: sticky; top: 0;";
+      header.style = "position: sticky; top: 41px; background-color: white;";
       header.innerHTML = String(x);
       line.append(header);
     };
@@ -245,7 +268,7 @@
       table.append(line);
       header = document.createElement("th");
       header.scope = "row";
-      header.style = "position: sticky; left: 0;";
+      header.style = "position: sticky; top: 41px; left: 0; background-color: white;";
       header.innerHTML = String(y+1);
       line.append(header);
       for(x=0;x<64;x++){
@@ -383,6 +406,12 @@
               break;
             case 42:
               this.src = "../../img/line_n3.png"
+              break;
+            case 43:
+              this.src = "../../img/line8.png"
+              break;
+            case 44:
+              this.src = "../../img/line9.png"
               break;
           };
           mapdata[Number(this.id)] = tilenum;

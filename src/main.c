@@ -25,6 +25,7 @@
 
 #include "game.h"
 #include "maps/map1.h"
+#include "maps/map2.h"
 
 Player player;
 Game game;
@@ -39,16 +40,13 @@ void loop() {
 	if(game.stat == 0){
 		draw_image(0, 0, (unsigned char*)title_data, title_width, title_height);
 		if(getkey(KEY_SPACE)){
-			game.seed = ms_time();
-			printf("Seed : %d\n", game.seed);
-			srand(game.seed);
-			game.stat = 1;
-			game.start_time = ms_time();
+			game.stat = 5;
 		}
 		update();
 	}else if(game.stat == 1){
-		move(&player, &game, (unsigned char*)&map1_1, MAP1_1CALCS);
-		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, (unsigned char*)&map1_1, player.direction);
+		move(&player, &game, game.map, *game.calcs);
+		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, game.map, player.direction);
+		printf("Player : %d, %d\n", player.x, player.y);
 		generate_time_info(&player, &game);
 		if(player.iscalc){
 			dtext(player.calc, player.calc_x, 1, 20);
@@ -66,7 +64,46 @@ void loop() {
 		update();
 	}else if(game.stat == 3){
 		if(!getkey(KEY_SPACE)){
-			init_game(&player, &game, 576, 384);
+			init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
+		}
+	}else if(game.stat == 4){
+		clear();
+		if(getkey(KEY_UP) && game.menu_selection>0){
+			game.menu_selection--;
+		}
+		if(getkey(KEY_DOWN) && game.menu_selection<game.menu_len){
+			game.menu_selection++;
+		}
+		dtext((unsigned char*)"*", MENU_X, MENU_Y+game.menu_selection*9, 1);
+		dtext((unsigned char*)"map 1-1", MENU_X+9, MENU_Y, 7);
+		dtext((unsigned char*)"map 1-2", MENU_X+9, MENU_Y+9, 7);
+		if(getkey(KEY_SPACE)){
+			if(game.menu_selection == 0){
+				game.map = (unsigned char*)map1_1;
+				game.speed = (unsigned int*)&map1_1_speed;
+				game.start_x = (unsigned int*)&map1_1_start_x;
+				game.start_y = (unsigned int*)&map1_1_start_y;
+				game.calcs = (unsigned int*)&map1_1_calcs;
+				game.type = (unsigned int*)&map1_1_type;
+			}else{
+				game.map = (unsigned char*)map1_2;
+				game.speed = (unsigned int*)&map1_2_speed;
+				game.start_x = (unsigned int*)&map1_2_start_x;
+				game.start_y = (unsigned int*)&map1_2_start_y;
+				game.calcs = (unsigned int*)&map1_2_calcs;
+				game.type = (unsigned int*)&map1_2_type;
+			}
+			init_game(&player, &game, *game.start_x, *game.start_y, *game.speed);
+			game.seed = ms_time();
+			printf("Seed : %d\n", game.seed);
+			srand(game.seed);
+			game.stat = 1;
+			game.start_time = ms_time();
+		}
+		update();
+	}else if(game.stat == 5){
+		if(!getkey(KEY_SPACE)){
+			game.stat = 4;
 		}
 	}
 	time = clock() - start;
@@ -74,7 +111,14 @@ void loop() {
 }
 
 int main(void) {
-	init_game(&player, &game, 576, 384);
+	game.map = (unsigned char*)map1_1;
+	game.speed = (unsigned int*)&map1_1_speed;
+	game.start_x = (unsigned int*)&map1_1_start_x;
+	game.start_y = (unsigned int*)&map1_1_start_y;
+	game.calcs = (unsigned int*)&map1_1_calcs;
+	game.menu_selection = 0;
+	game.menu_len = 1;
+	init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	emscripten_set_main_loop(loop, 50, 1);

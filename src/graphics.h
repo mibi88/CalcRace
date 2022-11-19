@@ -69,6 +69,8 @@
 #include "../img_conv/line5.h"
 #include "../img_conv/line6.h"
 #include "../img_conv/line7.h"
+#include "../img_conv/line8.h"
+#include "../img_conv/line9.h"
 #include "../img_conv/little_tree.h"
 #include "../img_conv/multiply.h"
 #include "../img_conv/n0.h"
@@ -81,6 +83,7 @@
 #include "../img_conv/n7.h"
 #include "../img_conv/n8.h"
 #include "../img_conv/n9.h"
+#include "../img_conv/plus.h"
 #include "../img_conv/road_middle.h"
 
 #endif

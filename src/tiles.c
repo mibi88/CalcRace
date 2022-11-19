@@ -148,6 +148,12 @@ void drawtile(int x, int y, int type){
 		case 42:
 			draw_image(x, y, line_n3_data, 32, 32);
 			break;
+		case 43:
+			draw_image(x, y, line8_data, 32, 32);
+			break;
+		case 44:
+			draw_image(x, y, line9_data, 32, 32);
+			break;
 	};
 }
 

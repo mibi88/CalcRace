@@ -113,7 +113,7 @@ void generate_time_info(Player *player, Game *game) {
 	player->timelen = sprintf((char*)player->timeinfo, "%02d:%02d:%03d", player->min, player->sec, player->ms);
 }
 
-void init_game(Player *player, Game *game, int start_x, int start_y) {
+void init_game(Player *player, Game *game, int start_x, int start_y, int speed) {
 	game->stat = 0;
 	player->x = start_x;
 	player->y = start_y;
@@ -122,7 +122,7 @@ void init_game(Player *player, Game *game, int start_x, int start_y) {
 	player->can_turn_right = 1;
 	player->oldctr = 0;
 	player->old_ctl = 0;
-	player->speed = 4;
+	player->speed = speed;
 	player->iscalc = 0;
 	player->crashlen = 192;
 	player->loopn = 1;
