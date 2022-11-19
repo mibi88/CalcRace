@@ -1,8 +1,8 @@
 # TODO
 
 * Multiplayer game with an automatically generated code
-* More tracks (additions, powers, divisions, multiplications, scientific notation etc).
-* ~~Ajouter des calculs à la map 1-1~~
+* **In progress !** More tracks (additions, powers, divisions, multiplications, scientific notation etc).
+* ~~Ajouter des calculs à la map 1-2~~
 * ~~Add marks on the floor of the tollbooth to help the player.~~
 * Play with help
 * Help
