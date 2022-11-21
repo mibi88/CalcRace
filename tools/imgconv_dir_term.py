@@ -16,39 +16,11 @@
     along with this program. If not, see https://www.gnu.org/licenses/.
 """
 
-from PIL import Image
-
-import os, sys
+import sys
+from imgconv_lib import *
 
 if len(sys.argv) > 2:
 	path = sys.argv[1]
 	outpath = sys.argv[2]
 	for image in os.listdir(path):
-		name, ext = os.path.splitext(image)
-		if ext == ".png":
-			img = Image.open(path + image).convert("RGBA")
-			w, h = img.size
-
-			pixels = []
-
-			for y in range(h):
-				for x in range(w):
-					pixel = img.getpixel((x, y))
-					pixels.append(pixel[0])
-					pixels.append(pixel[1])
-					pixels.append(pixel[2])
-					pixels.append(pixel[3])
-
-			image_name = image[:-4]
-
-			out = "#ifndef " + image_name.upper() + "_H\n#define " + image_name.upper() + "_H\n#include \"../lib/image.h\"\n\n/* Image " + image + " converted with tools/imgconv_dir.py */\n\nconst unsigned char " + image_name + "_data[" + str(w*h*4) + "] = {"
-
-			for i in pixels:
-				out += hex(i) + ", "
-			out = out[:-2]
-			out += "};\n\nconst int " + image_name + "_width = " + str(w) + ";\nconst int " + image_name + "_height = " + str(h) + ";\n#endif\n"
-			# print(out)
-
-			with open(outpath + name + ".h", "w") as file:
-				file.write(out)
-				file.close()
+		conv(image, path, outpath)

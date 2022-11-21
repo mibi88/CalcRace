@@ -7,10 +7,13 @@ FILES = src/main.c src/map.c src/tiles.c src/text.c src/player.c src/game.c src/
 all:
 	mkdir -p bin
 	mkdir -p img_conv
+	mkdir -p font_chars
+	mkdir -p font_conv
 	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
-	python3 tools/imgconv_dir_term.py "img/font/skin1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
+	python3 tools/imgconv_font_term.py "img/font/skin1/table.png" "font_chars/"
+	python3 tools/imgconv_dir_term.py "font_chars/" "font_conv/"
 	$(CC) $(CFLAGS) $(FILES) -o bin/MathRace.js
 	cp img/favicon.ico bin/
 	cp src/MathRace.html bin/
@@ -21,8 +24,9 @@ release:
 	mkdir -p img_conv
 	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
-	python3 tools/imgconv_dir_term.py "img/font/skin1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
+	python3 tools/imgconv_font_term.py "img/font/skin1/table.png" "font_chars/"
+	python3 tools/imgconv_dir_term.py "font_chars/" "font_conv/"
 	$(CC) $(RELEASEFLAGS) $(FILES) -o bin/MathRace.js
 	cp img/favicon.ico bin/
 	cp src/MathRace.html bin/
@@ -33,3 +37,5 @@ run:
 clean:
 	rm --force --recursive bin
 	rm --force --recursive img_conv
+	rm --force --recursive font_chars
+	rm --force --recursive font_conv
