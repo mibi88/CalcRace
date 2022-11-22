@@ -21,6 +21,7 @@
 #include "font.h"
 
 void dtext(unsigned char *text, int sx, int sy, int len) {
+	/* Todo : don't use an image for each character. */
 	int i, osx = sx;
 	unsigned char c;
 	for(i=0;i<len;i++){

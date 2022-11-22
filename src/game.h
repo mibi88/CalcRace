@@ -24,14 +24,14 @@
 #define MAP_WIDTH 64
 #define MAP_HEIGHT 60
 
-#define MENU_X 20
-#define MENU_Y 20
+#define MENU_X 48
+#define MENU_Y 16
 
 typedef struct {
 	int stat, seed, loops, start_time;
 	unsigned char *map;
 	unsigned int *speed, *start_x, *start_y, *calcs, *type;
-	unsigned int menu_selection, menu_len;
+	unsigned int menu_selection, menu_len, menu_canmove;
 } Game;
 
 #include "config.h"

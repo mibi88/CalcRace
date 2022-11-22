@@ -31,7 +31,9 @@ Player player;
 Game game;
 
 #include "../img_conv/title.h"
+#include "../img_conv/map_choosing_screen.h"
 #include "../img_conv/end.h"
+#include "../img_conv/arrow.h"
 
 void loop() {
 	int i;
@@ -67,14 +69,26 @@ void loop() {
 			init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 		}
 	}else if(game.stat == 4){
-		clear();
-		if(getkey(KEY_UP) && game.menu_selection>0){
-			game.menu_selection--;
+		draw_image(0, 0, (unsigned char*)map_choosing_screen_data, map_choosing_screen_width, map_choosing_screen_height);
+		if(getkey(KEY_UP) && game.menu_canmove){
+			if(game.menu_selection){
+				game.menu_selection--;
+			}else{
+				game.menu_selection = game.menu_len;
+			}
+			game.menu_canmove = 0;
 		}
-		if(getkey(KEY_DOWN) && game.menu_selection<game.menu_len){
+		if(getkey(KEY_DOWN) && game.menu_canmove){
 			game.menu_selection++;
+			if(game.menu_selection > game.menu_len){
+				game.menu_selection = 0;
+			}
+			game.menu_canmove = 0;
 		}
-		dtext((unsigned char*)"*", MENU_X, MENU_Y+game.menu_selection*9, 1);
+		if(!getkey(KEY_UP) && !getkey(KEY_DOWN) && !game.menu_canmove){
+			game.menu_canmove = 1;
+		}
+		draw_image_del_color(MENU_X, MENU_Y+game.menu_selection*9, arrow_data, 8, 8, 0, 0, 0, 0);
 		dtext((unsigned char*)"map 1-1", MENU_X+9, MENU_Y, 7);
 		dtext((unsigned char*)"map 1-2", MENU_X+9, MENU_Y+9, 7);
 		if(getkey(KEY_SPACE)){
@@ -103,6 +117,7 @@ void loop() {
 		update();
 	}else if(game.stat == 5){
 		if(!getkey(KEY_SPACE)){
+			game.menu_canmove = 1;
 			game.stat = 4;
 		}
 	}

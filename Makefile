@@ -2,7 +2,7 @@ CC = emcc
 LIBS = 
 CFLAGS = -std=c89 -Wall -Wextra -Wpedantic -O0 -ggdb -fsanitize=address -s WASM=1
 RELEASEFLAGS = -std=c89 -Wall -Wextra -Wpedantic -O3 -s WASM=1
-FILES = src/main.c src/map.c src/tiles.c src/text.c src/player.c src/game.c src/memory.c lib/canvas.c lib/image.c
+FILES = src/map.c src/tiles.c src/text.c src/player.c src/game.c src/memory.c src/main.c lib/canvas.c lib/image.c
 
 all:
 	mkdir -p bin
