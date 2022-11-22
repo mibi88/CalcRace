@@ -22,6 +22,8 @@ all:
 release:
 	mkdir -p bin
 	mkdir -p img_conv
+	mkdir -p font_chars
+	mkdir -p font_conv
 	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
