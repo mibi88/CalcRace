@@ -21,7 +21,7 @@
 void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
     int i;
 	if(!player->crash){
-		if(getkey(KEY_LEFT) && player->can_turn_left){
+		if(input_left() && player->can_turn_left){
 			player->direction--;
 			if(player->direction < 1){
 				player->direction = 8;
@@ -30,8 +30,8 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 		}else if(!player->old_ctl){
 			player->can_turn_left = 1;
 		}
-		player->old_ctl = getkey(KEY_LEFT);
-		if(getkey(KEY_RIGHT) && player->can_turn_right){
+		player->old_ctl = input_left();
+		if(input_right() && player->can_turn_right){
 			player->direction++;
 			if(player->direction > 8){
 				player->direction = 1;
@@ -40,7 +40,7 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 		}else if(!player->oldctr){
 			player->can_turn_right = 1;
 		}
-		player->oldctr = getkey(KEY_RIGHT);
+		player->oldctr = input_right();
 		player->rspeed = player->speed;
 		for(i=0;i<player->speed;i++){
 			player->collision = 0;
@@ -62,8 +62,10 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 				break;
 			case 3:
 				player->rspeed = 0;
+                set_frequency(50);
 				break;
 		}
+        set_frequency((player->rspeed/2)*50+(player->direction*5));
 		for(i=0;i<player->rspeed;i++){
 			if(player->x>0){
 				move_xm(player);
@@ -79,6 +81,7 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 			}
 		}
 	}else{
+        set_frequency(600+(player->direction*20));
 		if(player->crashd){
 			player->direction++;
 			if(player->direction > 8){
@@ -128,4 +131,46 @@ void init_game(Player *player, Game *game, int start_x, int start_y, int speed) 
 	player->loopn = 1;
 	game->loops = 3;
 	generate_loop_info(player, game);
+}
+
+int click_on_zone(int x1, int y1, int x2, int y2) {
+    int x, y, tmp;
+    if(x1>x2){
+        tmp = x2;
+        x2 = x1;
+        x1 = tmp;
+    }
+    if(y1>y2){
+        tmp = y2;
+        y2 = y1;
+        y1 = tmp;
+    }
+    if(is_clicked()){
+		x = get_mouse_x();
+        y = get_mouse_y();
+        if(x>=x1 && x<=x2 && y>=y1 && y<=y2){
+            return 1;
+        }
+	}
+    return 0;
+}
+
+int input_up(void) {
+    return click_on_zone(32,0, 95,32) | getkey(KEY_UP);
+}
+
+int input_down(void) {
+    return click_on_zone(32,63, 95,95) | getkey(KEY_DOWN);
+}
+
+int input_left(void) {
+    return click_on_zone(0,32, 32,95) | getkey(KEY_LEFT);
+}
+
+int input_right(void) {
+    return click_on_zone(63,32, 127,63) | getkey(KEY_RIGHT);
+}
+
+int input_space(void) {
+    return click_on_zone(32,32, 95,63) | getkey(KEY_SPACE);
 }

@@ -41,7 +41,7 @@ void loop() {
 	start = clock();
 	if(game.stat == 0){
 		draw_image(0, 0, (unsigned char*)title_data, title_width, title_height);
-		if(getkey(KEY_SPACE)){
+		if(input_space()){
 			game.stat = 5;
 		}
 		update();
@@ -58,19 +58,20 @@ void loop() {
 		dtext(player.timeinfo, 127-player.timelen*9, 87, 20);
 		update();
 	}else if(game.stat == 2){
+		stop_beep();
 		draw_image(0, 0, (unsigned char*)end_data, end_width, end_height);
 		dtext(player.timeinfo, 64-player.timelen*9/2, 19, 20);
-		if(getkey(KEY_SPACE)){
+		if(input_space()){
 			game.stat = 3;
 		}
 		update();
 	}else if(game.stat == 3){
-		if(!getkey(KEY_SPACE)){
+		if(!input_space()){
 			init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 		}
 	}else if(game.stat == 4){
 		draw_image(0, 0, (unsigned char*)map_choosing_screen_data, map_choosing_screen_width, map_choosing_screen_height);
-		if(getkey(KEY_UP) && game.menu_canmove){
+		if(input_up() && game.menu_canmove){
 			if(game.menu_selection){
 				game.menu_selection--;
 			}else{
@@ -78,20 +79,20 @@ void loop() {
 			}
 			game.menu_canmove = 0;
 		}
-		if(getkey(KEY_DOWN) && game.menu_canmove){
+		if(input_down() && game.menu_canmove){
 			game.menu_selection++;
 			if(game.menu_selection > game.menu_len){
 				game.menu_selection = 0;
 			}
 			game.menu_canmove = 0;
 		}
-		if(!getkey(KEY_UP) && !getkey(KEY_DOWN) && !game.menu_canmove){
+		if(!input_up() && !input_down() && !game.menu_canmove){
 			game.menu_canmove = 1;
 		}
 		draw_image_del_color(MENU_X, MENU_Y+game.menu_selection*9, arrow_data, 8, 8, 0, 0, 0, 0);
 		dtext((unsigned char*)"map 1-1", MENU_X+9, MENU_Y, 7);
 		dtext((unsigned char*)"map 1-2", MENU_X+9, MENU_Y+9, 7);
-		if(getkey(KEY_SPACE)){
+		if(input_space()){
 			if(game.menu_selection == 0){
 				game.map = (unsigned char*)map1_1;
 				game.speed = (unsigned int*)&map1_1_speed;
@@ -111,12 +112,15 @@ void loop() {
 			game.seed = ms_time();
 			printf("Seed : %d\n", game.seed);
 			srand(game.seed);
+			init_audio("square");
+			set_frequency((*game.speed/2)*50+(player.direction*5));
+			start_beep();
 			game.stat = 1;
 			game.start_time = ms_time();
 		}
 		update();
 	}else if(game.stat == 5){
-		if(!getkey(KEY_SPACE)){
+		if(!input_space()){
 			game.menu_canmove = 1;
 			game.stat = 4;
 		}
@@ -136,6 +140,7 @@ int main(void) {
 	init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
+	init_mouse();
 	emscripten_set_main_loop(loop, 50, 1);
 	return 0;
 }

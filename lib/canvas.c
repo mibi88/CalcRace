@@ -20,16 +20,16 @@
 #include "canvas.h"
 
 EM_JS(void, init_canvas, (int width, int height, char *canvasname), {
-	canvas = document.getElementById(UTF8ToString(canvasname));
-	canvas.width = width;
-	canvas.height = height;
-	window.ctx = canvas.getContext("2d", antialias = 0);
+	window.canvas = document.getElementById(UTF8ToString(canvasname));
+	window.canvas.width = width;
+	window.canvas.height = height;
+	window.ctx = window.canvas.getContext("2d", antialias = 0);
 	window.ctx.imageSmoothingEnabled = false;
 	window.image = window.ctx.createImageData(width, height);
 	window.image.imageSmoothingEnabled = false;
 	window.data = image.data;
-	window.w = canvas.width;
-	window.h = canvas.height;
+	window.w = window.canvas.width;
+	window.h = window.canvas.height;
 })
 
 EM_JS(void, put_pixel, (int x, int y, int r, int g, int b, int a), {
@@ -79,4 +79,32 @@ EM_JS(int, getheight, (void), {
 
 EM_JS(int, ms_time, (void), {
 	return Date.now();
+})
+
+EM_JS(void, init_mouse, (void), {
+	window.mx = 0;
+	window.my = 0;
+	window.canvas.addEventListener("mousemove", (event) => {
+    	window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
+	    window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
+	});
+	window.click = 0;
+	window.canvas.addEventListener("mousedown", function(event) {
+		window.click = 1;
+	});
+	window.canvas.addEventListener("mouseup", function(event) {
+		window.click = 0;
+	});
+})
+
+EM_JS(int, get_mouse_x, (void), {
+	return window.mx;
+})
+
+EM_JS(int, get_mouse_y, (void), {
+	return window.my;
+})
+
+EM_JS(bool, is_clicked, (void), {
+	return window.click;
 })

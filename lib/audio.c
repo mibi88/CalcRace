@@ -1,6 +1,5 @@
 /*
- * Draw easly on an HTML5 canvas.
- * This is a part of MathRace
+ * MathRace - Get better in mental calculation while having some fun !
  * Copyright (C) 2022  Mibi88
  *
  * This program is free software; you can redistribute it and/or modify
@@ -17,30 +16,23 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#ifndef CANVAS_H
-#define CANVAS_H
+#include "audio.h"
 
-#define KEY_UP 38
-#define KEY_DOWN 40
-#define KEY_LEFT 37
-#define KEY_RIGHT 39
-#define KEY_SPACE 32
+EM_JS(void, init_audio, (char* ctype), {
+	window.audioCtx = new AudioContext();
+    window.oscillator = window.audioCtx.createOscillator();
+    window.oscillator.type = UTF8ToString(ctype);
+    window.oscillator.connect(window.audioCtx.destination);
+})
 
-#include <emscripten.h>
-typedef enum {FALSE, TRUE} bool;
+EM_JS(void, set_frequency, (int hz), {
+	window.oscillator.frequency.setValueAtTime(hz, window.audioCtx.currentTime);
+})
 
-void init_canvas(int width, int height, char *canvasname);
-void put_pixel(int x, int y, int r, int g, int b, int a);
-void update(void);
-void clear(void);
-void init_getkey(void);
-bool getkey(int key);
-int getwidth(void);
-int getheight(void);
-int ms_time(void);
-void init_mouse(void);
-int get_mouse_x(void);
-int get_mouse_y(void);
-bool is_clicked(void);
+EM_JS(void, start_beep, (void), {
+	window.oscillator.start();
+})
 
-#endif
+EM_JS(void, stop_beep, (void), {
+	window.oscillator.stop();
+})
