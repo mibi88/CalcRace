@@ -9,5 +9,5 @@
 * Webgl version of canvas.h (issue #4)
 * Better performance on old hardware (issue #3)
 * Story mode (like in SuperTuxKart)
-* Mobile controls
+* ~~Mobile controls~~
 * CRT effect and arcade cabinet background
