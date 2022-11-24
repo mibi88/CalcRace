@@ -88,11 +88,38 @@ EM_JS(void, init_mouse, (void), {
     	window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
 	    window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
 	});
+})
+
+EM_JS(void, init_click, (void), {
 	window.click = 0;
 	window.canvas.addEventListener("mousedown", function(event) {
 		window.click = 1;
+		window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
+		window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
 	});
 	window.canvas.addEventListener("mouseup", function(event) {
+		window.click = 0;
+		window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
+		window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
+	});
+})
+
+EM_JS(void, init_touch_move, (void), {
+	window.mx = 0;
+	window.my = 0;
+	window.canvas.addEventListener("mousemove", (event) => {
+    	window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
+	    window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
+		console.log(mx+", "+my);
+	});
+})
+
+EM_JS(void, init_touch, (void), {
+	window.click = 0;
+	window.canvas.addEventListener("touchstart", function(event) {
+		window.click = 1;
+	});
+	window.canvas.addEventListener("touchend", function(event) {
 		window.click = 0;
 	});
 })

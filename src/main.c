@@ -48,7 +48,6 @@ void loop() {
 	}else if(game.stat == 1){
 		move(&player, &game, game.map, *game.calcs);
 		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, game.map, player.direction);
-		printf("Player : %d, %d\n", player.x, player.y);
 		generate_time_info(&player, &game);
 		if(player.iscalc){
 			dtext(player.calc, player.calc_x, 1, 20);
@@ -141,6 +140,9 @@ int main(void) {
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();
 	init_mouse();
+	init_click();
+	init_touch_move();
+	init_touch();
 	emscripten_set_main_loop(loop, 50, 1);
 	return 0;
 }
