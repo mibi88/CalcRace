@@ -179,6 +179,8 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 		player->n2 = rand() % 10 + 1;
 		if(*game->type == 2){
 			player->intchoices[player->choice] = player->n1*player->n2;
+		}else if(*game->type == 3){
+			player->intchoices[player->choice] = player->n1-player->n2;
 		}else{
 			player->intchoices[player->choice] = player->n1+player->n2;
 		}
@@ -204,6 +206,8 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 		player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d", player->intchoices[0], player->intchoices[1], player->intchoices[2]);
 		if(*game->type == 2){
 			player->calcsz = sprintf((char*)player->calc, "%d*%d", player->n1, player->n2);
+		}else if(*game->type == 3){
+			player->calcsz = sprintf((char*)player->calc, "%d-%d", player->n1, player->n2);
 		}else{
 			player->calcsz = sprintf((char*)player->calc, "%d+%d", player->n1, player->n2);
 		}

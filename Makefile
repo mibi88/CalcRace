@@ -41,3 +41,4 @@ clean:
 	rm --force --recursive img_conv
 	rm --force --recursive font_chars
 	rm --force --recursive font_conv
+	rm --force --recursive tools/__pycache__
