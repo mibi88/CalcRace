@@ -27,6 +27,7 @@
 #include "maps/map1.h"
 #include "maps/map2.h"
 #include "maps/map3.h"
+#include "maps/map4.h"
 
 Player player;
 Game game;
@@ -93,6 +94,7 @@ void loop() {
 		dtext((unsigned char*)"map 1-1", MENU_X+9, MENU_Y, 7);
 		dtext((unsigned char*)"map 1-2", MENU_X+9, MENU_Y+9, 7);
 		dtext((unsigned char*)"map 1-3", MENU_X+9, MENU_Y+18, 7);
+		dtext((unsigned char*)"map 1-4", MENU_X+9, MENU_Y+27, 7);
 		if(input_space()){
 			if(game.menu_selection == 0){
 				game.map = (unsigned char*)map1_1;
@@ -108,13 +110,20 @@ void loop() {
 				game.start_y = (unsigned int*)&map1_2_start_y;
 				game.calcs = (unsigned int*)&map1_2_calcs;
 				game.type = (unsigned int*)&map1_2_type;
-			}else{
+			}else if(game.menu_selection == 2){
 				game.map = (unsigned char*)map1_3;
 				game.speed = (unsigned int*)&map1_3_speed;
 				game.start_x = (unsigned int*)&map1_3_start_x;
 				game.start_y = (unsigned int*)&map1_3_start_y;
 				game.calcs = (unsigned int*)&map1_3_calcs;
 				game.type = (unsigned int*)&map1_3_type;
+			}else{
+				game.map = (unsigned char*)map1_4;
+				game.speed = (unsigned int*)&map1_4_speed;
+				game.start_x = (unsigned int*)&map1_4_start_x;
+				game.start_y = (unsigned int*)&map1_4_start_y;
+				game.calcs = (unsigned int*)&map1_4_calcs;
+				game.type = (unsigned int*)&map1_4_type;
 			}
 			init_game(&player, &game, *game.start_x, *game.start_y, *game.speed);
 			game.seed = ms_time();
@@ -144,7 +153,7 @@ int main(void) {
 	game.start_y = (unsigned int*)&map1_1_start_y;
 	game.calcs = (unsigned int*)&map1_1_calcs;
 	game.menu_selection = 0;
-	game.menu_len = 2;
+	game.menu_len = 3;
 	init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();

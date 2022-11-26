@@ -4,6 +4,7 @@
         <title>MathRace</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
         <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <div style = "display: none;">
             <img src = "favicon.ico">
                 [)=(]
@@ -31,12 +32,12 @@
         <script>
             /* Let the canvas fill the page */
             function fill(){
-                if(window.innerWidth<window.innerHeight){
-                    document.getElementById("canvas").style.width = "132vw";
-                    document.getElementById("canvas").style.height = "99vw";
-                }else{
+                if(window.innerHeight/100*132<window.innerWidth){
                     document.getElementById("canvas").style.width = "132vh";
                     document.getElementById("canvas").style.height = "99vh";
+                }else{
+                    document.getElementById("canvas").style.width = "100vw";
+                    document.getElementById("canvas").style.height = "75vw";
                 }
             }
             fill();

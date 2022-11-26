@@ -34,6 +34,9 @@ release:
 	cp src/MathRace.html bin/
 	cp src/run.sh bin/
 	chmod a+x bin/run.sh
+github_pages:
+	rm --force bin/run.sh
+	mv bin/MathRace.html bin/index.html
 run:
 	bin/run.sh
 clean:
