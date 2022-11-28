@@ -20,7 +20,7 @@ from PIL import Image
 
 import os
 
-def conv(image, path, outpath):
+def conv(image, path, outpath, prefix = ""):
 	name, ext = os.path.splitext(image)
 	if ext == ".png":
 		img = Image.open(path + image).convert("RGBA")
@@ -36,7 +36,7 @@ def conv(image, path, outpath):
 				pixels.append(pixel[2])
 				pixels.append(pixel[3])
 
-		image_name = image[:-4]
+		image_name = name
 
 		out = "#ifndef " + image_name.upper() + "_H\n#define " + image_name.upper() + "_H\n#include \"../lib/image.h\"\n\n/* Image " + image + " converted with tools/imgconv_dir.py */\n\nconst unsigned char " + image_name + "_data[" + str(w*h*4) + "] = {"
 
@@ -46,6 +46,6 @@ def conv(image, path, outpath):
 		out += "};\n\nconst int " + image_name + "_width = " + str(w) + ";\nconst int " + image_name + "_height = " + str(h) + ";\n#endif\n"
 		# print(out)
 
-		with open(outpath + name + ".h", "w") as file:
+		with open(outpath + prefix + name + ".h", "w") as file:
 			file.write(out)
 			file.close()

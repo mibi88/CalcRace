@@ -20,7 +20,11 @@ import sys
 from imgconv_lib import *
 
 if len(sys.argv) > 2:
+	if len(sys.argv) > 3:
+		prefix = sys.argv[3]
+	else:
+		prefix = ""
 	path = sys.argv[1]
 	outpath = sys.argv[2]
 	for image in os.listdir(path):
-		conv(image, path, outpath)
+		conv(image, path, outpath, prefix)

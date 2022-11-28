@@ -9,7 +9,7 @@ all:
 	mkdir -p img_conv
 	mkdir -p font_chars
 	mkdir -p font_conv
-	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
+	python3 tools/imgconv_dir_term.py "img/tiles/world1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
 	python3 tools/imgconv_font_term.py "img/font/skin1/table.png" "font_chars/"
@@ -30,6 +30,22 @@ release:
 	python3 tools/imgconv_font_term.py "img/font/skin1/table.png" "font_chars/"
 	python3 tools/imgconv_dir_term.py "font_chars/" "font_conv/"
 	$(CC) $(RELEASEFLAGS) $(FILES) -o bin/MathRace.js
+	cp img/favicon.ico bin/
+	cp src/MathRace.html bin/
+	cp src/run.sh bin/
+	chmod a+x bin/run.sh
+tiletest:
+	mkdir -p bin
+	mkdir -p img_conv
+	mkdir -p font_chars
+	mkdir -p font_conv
+	python3 tools/imgconv_dir_term.py "img/tiles/world1/" "img_conv/"
+	python3 tools/imgconv_dir_term.py "img/tiles/world2/" "img_conv/"
+	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
+	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
+	python3 tools/imgconv_font_term.py "img/font/skin1/table.png" "font_chars/"
+	python3 tools/imgconv_dir_term.py "font_chars/" "font_conv/"
+	$(CC) $(CFLAGS) $(FILES) -o bin/MathRace.js
 	cp img/favicon.ico bin/
 	cp src/MathRace.html bin/
 	cp src/run.sh bin/
