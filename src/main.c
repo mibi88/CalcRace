@@ -24,10 +24,10 @@
 #include <unistd.h>
 
 #include "game.h"
-#include "maps/map1.h"
-#include "maps/map2.h"
-#include "maps/map3.h"
-#include "maps/map4.h"
+#include "maps/map1_1.h"
+#include "maps/map1_2.h"
+#include "maps/map1_3.h"
+#include "maps/map1_4.h"
 
 Player player;
 Game game;
