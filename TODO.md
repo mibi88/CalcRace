@@ -11,3 +11,4 @@
 * Story mode (like in SuperTuxKart)
 * ~~Mobile controls~~
 * CRT effect and arcade cabinet background
+* Fix the map editor
