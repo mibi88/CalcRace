@@ -19,7 +19,7 @@
 #ifndef TILES_H
 #define TILES_H
 
-/* 
+/*
  * 1  - ask
  * 2  - border_curve1
  * 3  - border_curve2
@@ -54,7 +54,7 @@
  * 32 - road_middle
  */
 
-void drawtile(int x, int y, int type);
+void drawtile(int x, int y, int type, unsigned char *tilesheet);
 void drawcar(int x, int y, int direction);
 
 #endif

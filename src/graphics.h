@@ -28,6 +28,4 @@
 #include "../img_conv/car7.h"
 #include "../img_conv/car8.h"
 
-#include "../img_conv/world1.h"
-
 #endif

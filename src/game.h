@@ -29,9 +29,11 @@
 
 typedef struct {
 	int stat, seed, loops, start_time;
-	unsigned char *map;
+	unsigned char *map, *tilesheet;
 	unsigned int *speed, *start_x, *start_y, *calcs, *type;
-	unsigned int menu_selection, menu_len, menu_canmove;
+	unsigned int menu_selection, menu_len, menu_canmove, menu_canmove_world, menu_world, menu_worlds;
+	unsigned char world_info[20];
+	int world_info_len;
 } Game;
 
 #include "config.h"

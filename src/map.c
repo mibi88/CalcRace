@@ -18,7 +18,7 @@
 
 #include "map.h"
 
-void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_height, unsigned char *map, int car) {
+void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_height, unsigned char *map, int car, unsigned char *tilesheet) {
 	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x, dy = (ty<<5) - y, sdx = dx, lx, ly, type, mw = map_width<<5, mh = map_height<<5, cx, cy;
 	if(x < w>>1){
 		cx = x;
@@ -53,7 +53,7 @@ void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_
 			}else{
 				type = 25;
 			}
-			drawtile(sx+dx, sy+dy, type);
+			drawtile(sx+dx, sy+dy, type, tilesheet);
 			dx += 32;
 		}
 		dy += 32;

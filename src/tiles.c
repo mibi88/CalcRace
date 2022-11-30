@@ -20,12 +20,12 @@
 
 #include "graphics.h"
 
-void drawtile(int x, int y, int type){
+void drawtile(int x, int y, int type, unsigned char *tilesheet){
 	int px, py, tmp_t;
 	tmp_t = type - 1;
 	py = tmp_t>>3;
 	px = tmp_t%8;
-	draw_image_part(x, y, px<<5, py<<5, world1_data, 32, 32, 256);
+	draw_image_part(x, y, px<<5, py<<5, tilesheet, 32, 32, 256);
 	/* draw_image_part(y, x, 32, 0, world1_data, 32, 32, 256); */
 }
 
