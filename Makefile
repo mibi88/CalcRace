@@ -25,8 +25,6 @@ release:
 	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
-	python3 tools/imgconv_font_term.py "img/font/skin1/table.png" "font_chars/"
-	python3 tools/imgconv_dir_term.py "font_chars/" "font_conv/"
 	$(CC) $(RELEASEFLAGS) $(FILES) -o bin/MathRace.js
 	cp img/favicon.ico bin/
 	cp src/MathRace.html bin/
