@@ -20,7 +20,7 @@
 #define PLAYER_H
 
 typedef struct {
-	int x, y, direction, speed, can_turn_right, can_turn_left, oldctr , old_ctl, iscalc, calcs, choice, rspeed, intchoices[3], n, collision, collisiontest, calc_x, choices_x, calcsz, choicessz, n1, n2, crash, crashlen, crashc, crashd, loopn, min, sec, ms, timelen, time, difftime;
+	int x, y, direction, speed, can_turn_right, can_turn_left, oldctr , old_ctl, iscalc, calcs, choice, rspeed, intchoices[3], n, collision, collisiontest, calc_x, choices_x, choices_x_small, calcsz, choicessz, n1, n2, crash, crashlen, crashc, crashd, loopn, min, sec, ms, timelen, time, difftime;
 	unsigned char choices[60], calc[20], loopinfo[20], timeinfo[20];
 } Player;
 

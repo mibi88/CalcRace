@@ -178,11 +178,14 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 		if(*game->type == 5){
 			player->n1 = (rand() % 4) + 1;
 			player->n2 = (rand() % 3) + 1;
+		}else if(*game->type == 6){
+			player->n1 = (rand() % 17);
+			player->n2 = (rand() % 17);
 		}else{
 			player->n1 = (rand() % 10) + 1;
 			player->n2 = (rand() % 10) + 1;
 		}
-		if(*game->type == 2){
+		if(*game->type == 2 || *game->type == 6){
 			player->intchoices[player->choice] = player->n1*player->n2;
 		}else if(*game->type == 3){
 			player->intchoices[player->choice] = player->n1-player->n2;
@@ -213,7 +216,7 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->calc[i]=' ';
 		}
 		player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d", player->intchoices[0], player->intchoices[1], player->intchoices[2]);
-		if(*game->type == 2){
+		if(*game->type == 2 || *game->type == 6){
 			player->calcsz = sprintf((char*)player->calc, "%d*%d", player->n1, player->n2);
 		}else if(*game->type == 3){
 			player->calcsz = sprintf((char*)player->calc, "%d-%d", player->n1, player->n2);
@@ -225,6 +228,7 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->calcsz = sprintf((char*)player->calc, "%d+%d", player->n1, player->n2);
 		}
 		player->choices_x = WIDTH/2 - (player->choicessz/2*9);
+		player->choices_x_small = WIDTH/2 - (player->choicessz/2*5);
 		player->calc_x = WIDTH/2 - (player->calcsz/2*9);
 	}
 	/* Choice 1 */

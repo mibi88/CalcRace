@@ -18,9 +18,7 @@
 
 #include "text.h"
 
-#include "font.h"
-
-void dtext(unsigned char *text, int sx, int sy, int len) {
+void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font, int font_width, int width, int height) {
 	/* Todo : don't use an image for each character. */
 	int i, osx = sx, px, py, tmp_t;
 	unsigned char c;
@@ -30,13 +28,13 @@ void dtext(unsigned char *text, int sx, int sy, int len) {
 			tmp_t = (int)c - 0x20;
 			py = tmp_t>>4;
 			px = tmp_t%16;
-			draw_image_del_color_part(sx, sy, px<<3, py<<3, font_data, 8, 8, 0, 0, 0, 0, 128);
+			draw_image_del_color_part(sx, sy, px*width, py*height, font, width, height, 0, 0, 0, 0, font_width);
 		}
 		if(c == '\n'){
-			sy += 9;
+			sy += height+1;
 			sx = osx;
 		}else{
-			sx += 9;
+			sx += width+1;
 		}
 	}
 }

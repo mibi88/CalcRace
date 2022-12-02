@@ -29,6 +29,7 @@
 #include "maps/map1_3.h"
 #include "maps/map1_4.h"
 #include "maps/map2_1.h"
+#include "maps/map2_2.h"
 
 Player player;
 Game game;
@@ -42,14 +43,16 @@ int _jump;
 #include "../img_conv/world1.h"
 #include "../img_conv/world2.h"
 
+#include "font.h"
+
 const unsigned char menu_choices[2][40] = {
 	"map 1-1\nmap 1-2\nmap 1-3\nmap 1-4",
-	"map 2-1"
+	"map 2-1\nmap 2-2"
 };
 
 const unsigned char menu_lengths[2] = {
 	3,
-	0
+	1
 };
 
 void jump(int to) {
@@ -73,16 +76,20 @@ void loop() {
 		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, game.map, player.direction, game.tilesheet);
 		generate_time_info(&player, &game);
 		if(player.iscalc){
-			dtext(player.calc, player.calc_x, 1, 20);
-			dtext(player.choices, player.choices_x, 10, 60);
+			dtext(player.calc, player.calc_x, 1, 20, (unsigned char*)font_data, font_width, 8, 8);
+			if(player.choices_x<0 || player.choicessz*9>WIDTH){
+				dtext(player.choices, player.choices_x_small, 10, 60, (unsigned char*)font_small_data, font_small_width, 4, 5);
+			}else{
+				dtext(player.choices, player.choices_x, 10, 60, (unsigned char*)font_data, font_width, 8, 8);
+			}
 		}
-		dtext(player.loopinfo, 1, 87, 20);
-		dtext(player.timeinfo, 127-player.timelen*9, 87, 20);
+		dtext(player.loopinfo, 1, 87, 20, (unsigned char*)font_data, font_width, 8, 8);
+		dtext(player.timeinfo, 127-player.timelen*9, 87, 20, (unsigned char*)font_data, font_width, 8, 8);
 		update();
 	}else if(game.stat == 2){
 		stop_beep();
 		draw_image(0, 0, (unsigned char*)end_data, end_width, end_height);
-		dtext(player.timeinfo, 64-player.timelen*9/2, 19, 20);
+		dtext(player.timeinfo, 64-player.timelen*9/2, 19, 20, (unsigned char*)font_data, font_width, 8, 8);
 		if(input_space()){
 			init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 			jump(0);
@@ -136,8 +143,8 @@ void loop() {
 			game.menu_canmove = 1;
 		}
 		draw_image_del_color(MENU_X, MENU_Y+game.menu_selection*9, arrow_data, 8, 8, 0, 0, 0, 0);
-		dtext((unsigned char*)menu_choices[game.menu_world], MENU_X+9, MENU_Y, 40);
-		dtext((unsigned char*)&game.world_info, WIDTH/2-game.world_info_len*8/2, 4, 20);
+		dtext((unsigned char*)menu_choices[game.menu_world], MENU_X+9, MENU_Y, 40, (unsigned char*)font_data, font_width, 8, 8);
+		dtext((unsigned char*)&game.world_info, WIDTH/2-game.world_info_len*8/2, 4, 20, (unsigned char*)font_data, font_width, 8, 8);
 		if(input_space()){
 			if(game.menu_world == 0){
 				if(game.menu_selection == 0){
@@ -178,6 +185,13 @@ void loop() {
 					game.start_y = (unsigned int*)&map2_1_start_y;
 					game.calcs = (unsigned int*)&map2_1_calcs;
 					game.type = (unsigned int*)&map2_1_type;
+				}else if(game.menu_selection == 1){
+					game.map = (unsigned char*)map2_2;
+					game.speed = (unsigned int*)&map2_2_speed;
+					game.start_x = (unsigned int*)&map2_2_start_x;
+					game.start_y = (unsigned int*)&map2_2_start_y;
+					game.calcs = (unsigned int*)&map2_2_calcs;
+					game.type = (unsigned int*)&map2_2_type;
 				}
 				game.tilesheet = (unsigned char*)world2_data;
 			}
