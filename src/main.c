@@ -83,6 +83,11 @@ void loop() {
 				dtext(player.choices, player.choices_x, 10, 60, (unsigned char*)font_data, font_width, 8, 8);
 			}
 		}
+		if(input_space()){
+			game.menu_canmove = 1;
+			game.paused_selection = 0;
+			jump(5);
+		}
 		dtext(player.loopinfo, 1, 87, 20, (unsigned char*)font_data, font_width, 8, 8);
 		dtext(player.timeinfo, 127-player.timelen*9, 87, 20, (unsigned char*)font_data, font_width, 8, 8);
 		update();
@@ -202,10 +207,42 @@ void loop() {
 			init_audio("square");
 			set_frequency((*game.speed/2)*50+(player.direction*5));
 			start_beep();
-			game.stat = 1;
+			jump(1);
 			game.start_time = ms_time();
 		}
 		update();
+	}else if(game.stat == 5){
+		if(input_up() && game.menu_canmove){
+			if(game.paused_selection){
+				game.paused_selection--;
+			}else{
+				game.paused_selection = PAUSED_LEN;
+			}
+			game.menu_canmove = 0;
+		}
+		if(input_down() && game.menu_canmove){
+			game.paused_selection++;
+			if(game.paused_selection > PAUSED_LEN){
+				game.paused_selection = 0;
+			}
+			game.menu_canmove = 0;
+		}
+		if(!input_up() && !input_down() && !game.menu_canmove){
+			game.menu_canmove = 1;
+		}
+		drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH, MAP_HEIGHT, game.map, player.direction, game.tilesheet);
+		draw_image_del_color(PAUSED_X, PAUSED_Y+game.paused_selection*9+9, arrow_data, 8, 8, 0, 0, 0, 0);
+		dtext((unsigned char*)"Paused", PAUSED_X+9, PAUSED_Y, 6, (unsigned char*)font_data, font_width, 8, 8);
+		dtext((unsigned char*)"Continue\nMain menu", PAUSED_X+9, PAUSED_Y+9, 18, (unsigned char*)font_data, font_width, 8, 8);
+		update();
+		if(input_space()){
+			if(game.paused_selection == 0){
+				jump(1);
+			}else{
+				init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
+				jump(0);
+			}
+		}
 	}
 	time = clock() - start;
 	printf("Time : %d\n", (int)(time / 1000));

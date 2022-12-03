@@ -201,9 +201,17 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 				n = 0;
 				while(is_in(player->intchoices, 3, n)){
 					if(rand() % 2){
-						n = player->intchoices[player->choice] - (rand() % (player->n2) + 1);
+						if(player->n2>2){
+							n = player->intchoices[player->choice] - (rand() % (player->n2) + 1);
+						}else{
+							n = player->intchoices[player->choice] - (rand() % 4);
+						}
 					}else{
-						n = player->intchoices[player->choice] + (rand() % (player->n2) + 1);
+						if(player->n2>2){
+							n = player->intchoices[player->choice] + (rand() % (player->n2) + 1);
+						}else{
+							n = player->intchoices[player->choice] + (rand() % 4);
+						}
 					}
 				}
 				player->intchoices[i] = n;
