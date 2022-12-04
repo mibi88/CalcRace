@@ -193,6 +193,8 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->intchoices[player->choice] = player->n1/player->n2;
 		}else if(*game->type == 5){
 			player->intchoices[player->choice] = pow(player->n1, player->n2);
+		}else if(*game->type == 7){
+			player->intchoices[player->choice] = player->n1%player->n2;
 		}else{
 			player->intchoices[player->choice] = player->n1+player->n2;
 		}
@@ -232,6 +234,8 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->calcsz = sprintf((char*)player->calc, "%d/%d", player->n1, player->n2);
 		}else if(*game->type == 5){
 			player->calcsz = sprintf((char*)player->calc, "%d^%d", player->n1, player->n2);
+		}else if(*game->type == 7){
+			player->calcsz = sprintf((char*)player->calc, "%d mod %d", player->n1, player->n2);
 		}else{
 			player->calcsz = sprintf((char*)player->calc, "%d+%d", player->n1, player->n2);
 		}

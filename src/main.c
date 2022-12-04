@@ -30,6 +30,7 @@
 #include "maps/map1_4.h"
 #include "maps/map2_1.h"
 #include "maps/map2_2.h"
+#include "maps/map3_1.h"
 
 Player player;
 Game game;
@@ -42,17 +43,20 @@ int _jump;
 
 #include "../img_conv/world1.h"
 #include "../img_conv/world2.h"
+#include "../img_conv/world3.h"
 
 #include "font.h"
 
-const unsigned char menu_choices[2][40] = {
+const unsigned char menu_choices[3][40] = {
 	"map 1-1\nmap 1-2\nmap 1-3\nmap 1-4",
-	"map 2-1\nmap 2-2"
+	"map 2-1\nmap 2-2",
+	"map 3-1"
 };
 
-const unsigned char menu_lengths[2] = {
+const unsigned char menu_lengths[3] = {
 	3,
-	1
+	1,
+	0
 };
 
 void jump(int to) {
@@ -86,6 +90,7 @@ void loop() {
 		if(input_space()){
 			game.menu_canmove = 1;
 			game.paused_selection = 0;
+			game.pause_start = ms_time();
 			jump(5);
 		}
 		dtext(player.loopinfo, 1, 87, 20, (unsigned char*)font_data, font_width, 8, 8);
@@ -199,6 +204,16 @@ void loop() {
 					game.type = (unsigned int*)&map2_2_type;
 				}
 				game.tilesheet = (unsigned char*)world2_data;
+			}else if(game.menu_world == 2){
+				if(game.menu_selection == 0){
+					game.map = (unsigned char*)map3_1;
+					game.speed = (unsigned int*)&map3_1_speed;
+					game.start_x = (unsigned int*)&map3_1_start_x;
+					game.start_y = (unsigned int*)&map3_1_start_y;
+					game.calcs = (unsigned int*)&map3_1_calcs;
+					game.type = (unsigned int*)&map3_1_type;
+				}
+				game.tilesheet = (unsigned char*)world3_data;
 			}
 			init_game(&player, &game, *game.start_x, *game.start_y, *game.speed);
 			game.seed = ms_time();
@@ -238,6 +253,7 @@ void loop() {
 		if(input_space()){
 			if(game.paused_selection == 0){
 				jump(1);
+				player.pausetime += ms_time() - game.pause_start;
 			}else{
 				init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 				jump(0);
@@ -257,7 +273,7 @@ int main(void) {
 	game.menu_world = 0;
 	game.menu_selection = 0;
 	game.menu_len = menu_lengths[game.menu_world];
-	game.menu_worlds = 1;
+	game.menu_worlds = 2;
 	init_game(&player, &game, (int)game.start_x, (int)game.start_y, (int)game.speed);
 	init_canvas(WIDTH, HEIGHT, "canvas");
 	init_getkey();

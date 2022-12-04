@@ -102,7 +102,7 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 
 void generate_time_info(Player *player, Game *game) {
 	int i;
-	player->time = ms_time();
+	player->time = ms_time() - player->pausetime;
 	player->difftime = (player->time - game->start_time);
 	player->min = player->difftime/1000/60;
 	player->sec = player->difftime/1000%60;
@@ -130,6 +130,7 @@ void init_game(Player *player, Game *game, int start_x, int start_y, int speed) 
 	player->crashlen = 192;
 	player->loopn = 1;
 	game->loops = 3;
+    player->pausetime = 0;
 	generate_loop_info(player, game);
 }
 
