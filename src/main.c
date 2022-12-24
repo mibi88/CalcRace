@@ -16,8 +16,6 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include <emscripten.h>
-
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -281,6 +279,6 @@ int main(void) {
 	init_click();
 	init_touch_move();
 	init_touch();
-	emscripten_set_main_loop(loop, 50, 1);
+	main_loop(loop, 50);
 	return 0;
 }

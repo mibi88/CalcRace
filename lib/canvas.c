@@ -137,3 +137,7 @@ EM_JS(int, get_mouse_y, (void), {
 EM_JS(bool, is_clicked, (void), {
 	return window.click;
 })
+
+void main_loop(void (*loop_function)(void), int fps) {
+	emscripten_set_main_loop(loop_function, fps, 1);
+}

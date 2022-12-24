@@ -45,5 +45,6 @@ void init_touch(void);
 int get_mouse_x(void);
 int get_mouse_y(void);
 bool is_clicked(void);
+void main_loop(void (*loop_function)(void), int fps);
 
 #endif
