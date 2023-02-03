@@ -19,8 +19,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-/* Define DEV to test unstable or not working features */
+/* Set DEV to (1) to test unstable or not working features */
 
-/* #define DEV */
+#define DEV (0)
 
 #endif

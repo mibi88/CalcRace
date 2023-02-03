@@ -64,8 +64,8 @@ void jump(int to) {
 
 void loop() {
 	int i;
-	float start, time;
-	start = clock();
+	int start, time;
+	start = ms_time();
 	if(game.stat == 0){
 		draw_image(0, 0, (unsigned char*)title_data, title_width, title_height);
 		if(input_space()){
@@ -258,8 +258,8 @@ void loop() {
 			}
 		}
 	}
-	time = clock() - start;
-	printf("Time : %d\n", (int)(time / 1000));
+	time = ms_time() - start;
+	printf("Time : %d\n", time);
 }
 
 int main(void) {
