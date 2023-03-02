@@ -1,5 +1,5 @@
 /*
- * MathRace - Get better in mental calculation while having some fun !
+ * CalcRace - Get better in mental calculation while having some fun !
  * Copyright (C) 2022  Mibi88
  *
  * This program is free software; you can redistribute it and/or modify
