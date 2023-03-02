@@ -10,9 +10,9 @@ all:
 	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
-	$(CC) $(CFLAGS) $(FILES) -o bin/MathRace.js
+	$(CC) $(CFLAGS) $(FILES) -o bin/CalcRace.js
 	cp img/favicon.ico bin/
-	cp src/MathRace.html bin/
+	cp src/CalcRace.html bin/
 	cp src/run.sh bin/
 	chmod a+x bin/run.sh
 release:
@@ -21,14 +21,14 @@ release:
 	python3 tools/imgconv_dir_term.py "img/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/cars/skin1/" "img_conv/"
 	python3 tools/imgconv_dir_term.py "img/backgrounds/" "img_conv/"
-	$(CC) $(RELEASEFLAGS) $(FILES) -o bin/MathRace.js
+	$(CC) $(RELEASEFLAGS) $(FILES) -o bin/CalcRace.js
 	cp img/favicon.ico bin/
-	cp src/MathRace.html bin/
+	cp src/CalcRace.html bin/
 	cp src/run.sh bin/
 	chmod a+x bin/run.sh
 github_pages:
 	rm --force bin/run.sh
-	mv bin/MathRace.html bin/index.html
+	mv bin/CalcRace.html bin/index.html
 run:
 	bin/run.sh
 clean:
