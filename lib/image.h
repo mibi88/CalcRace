@@ -1,6 +1,6 @@
 /*
  * Draw easly on an HTML5 canvas.
- * This is a part of MathRace
+ * This is a part of CalcRace
  * Copyright (C) 2022  Mibi88
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,8 @@ void draw_image(int sx, int sy, const unsigned char *image_data, const int w,
 void draw_image_part(int sx, int sy, int px, int py,
 	const unsigned char *image_data, const int w, const int h, const int rw);
 void draw_image_del_color(int sx, int sy, const unsigned char *image_data,
-	const int w, const int h, const int r, const int g, const int b, const int a);
+	const int w, const int h, const int r, const int g, const int b,
+	const int a);
 void draw_image_del_color_part(int sx, int sy, int px, int py,
 	const unsigned char *image_data, const int w, const int h, const int r,
 	const int g, const int b, const int a, const int rw);

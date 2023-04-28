@@ -1,6 +1,6 @@
 /*
  * Draw easly on an HTML5 canvas.
- * This is a part of MathRace
+ * This is a part of CalcRace
  * Copyright (C) 2022  Mibi88
  *
  * This program is free software; you can redistribute it and/or modify

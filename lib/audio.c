@@ -16,7 +16,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include "audio.h"
+#include <audio.h>
 
 EM_JS(void, init_audio, (char* ctype), {
 	window.audioCtx = new AudioContext();

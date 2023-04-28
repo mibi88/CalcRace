@@ -16,7 +16,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include "text.h"
+#include <text.h>
 
 void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
 	int font_width, int width, int height) {

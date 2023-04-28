@@ -17,7 +17,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include "image.h"
+#include <image.h>
 
 void draw_image(int sx, int sy, const unsigned char *image_data, const int w,
 	const int h) {

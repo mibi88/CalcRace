@@ -17,7 +17,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include "canvas.h"
+#include <canvas.h>
 
 EM_JS(void, init_canvas, (int width, int height, char *canvasname), {
 	window.canvas = document.getElementById(UTF8ToString(canvasname));

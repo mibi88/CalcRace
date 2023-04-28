@@ -16,9 +16,9 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include "tiles.h"
+#include <tiles.h>
 
-#include "graphics.h"
+#include <graphics.h>
 
 void drawtile(int x, int y, int type, unsigned char *tilesheet){
 	int px, py, tmp_t;

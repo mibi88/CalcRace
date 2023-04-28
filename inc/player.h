@@ -32,10 +32,10 @@ typedef struct {
 #include <stdio.h>
 #include <math.h>
 
-#include "config.h"
-#include "map.h"
-#include "memory.h"
-#include "game.h"
+#include <config.h>
+#include <map.h>
+#include <memory.h>
+#include <game.h>
 
 /* Move the player */
 void move_xp(Player *player);

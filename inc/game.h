@@ -66,12 +66,12 @@ typedef struct {
 	int world_info_len;
 } Game;
 
-#include "config.h"
-#include "../lib/canvas.h"
-#include "../lib/audio.h"
-#include "map.h"
-#include "text.h"
-#include "player.h"
+#include <config.h>
+#include <canvas.h>
+#include <audio.h>
+#include <map.h>
+#include <text.h>
+#include <player.h>
 
 /* I could put move in player.h but it's between ... */
 void move(Player *player, Game *game, unsigned char *map, int mincalcs);

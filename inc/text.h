@@ -16,10 +16,13 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#ifndef FONT2_H
-#define FONT2_H
+#ifndef TEXT_H
+#define TEXT_H
 
-#include "../img_conv/font.h"
-#include "../img_conv/font_small.h"
+#include <image.h>
+
+void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
+	int font_width, int width, int height);
+int text_size_y(unsigned char* text, int len);
 
 #endif

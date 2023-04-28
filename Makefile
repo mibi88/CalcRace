@@ -1,8 +1,9 @@
 CC = emcc
 LIBS =
 CFLAGS = -std=c89 -Wall -Wextra -Wpedantic -O0 -ggdb -fsanitize=address -lm -s \
-	WASM=1
-RELEASEFLAGS = -std=c89 -Wall -Wextra -Wpedantic -O3 -lm -s WASM=2
+	WASM=1 -Ilib -Iinc -Iimg_conv
+RELEASEFLAGS = -std=c89 -Wall -Wextra -Wpedantic -O3 -lm -s WASM=2 -Ilib -Iinc \
+	-Iimg_conv
 FILES = src/map.c \
 	src/tiles.c \
 	src/text.c \

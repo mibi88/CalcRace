@@ -21,19 +21,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "game.h"
-#include "worlds.h"
+#include <game.h>
+#include <worlds.h>
 
 Player player;
 Game game;
 int _jump;
 
-#include "../img_conv/title.h"
-#include "../img_conv/map_choosing_screen.h"
-#include "../img_conv/end.h"
-#include "../img_conv/arrow.h"
+#include <title.h>
+#include <map_choosing_screen.h>
+#include <end.h>
+#include <arrow.h>
 
-#include "font.h"
+#include <fonts.h>
 
 /* In this game there are multiple worlds, with their own tileset. menu_choices
 contains the text of the menu for each world. */

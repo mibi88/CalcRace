@@ -16,7 +16,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include "memory.h"
+#include <memory.h>
 
 int is_in(int *array, int size, int item) {
 	int i;

@@ -16,13 +16,16 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#ifndef TEXT_H
-#define TEXT_H
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
-#include "../lib/image.h"
-
-void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
-	int font_width, int width, int height);
-int text_size_y(unsigned char* text, int len);
+#include <car1.h>
+#include <car2.h>
+#include <car3.h>
+#include <car4.h>
+#include <car5.h>
+#include <car6.h>
+#include <car7.h>
+#include <car8.h>
 
 #endif

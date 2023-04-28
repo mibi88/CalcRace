@@ -16,16 +16,14 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef MAP_H
+#define MAP_H
 
-#include "../img_conv/car1.h"
-#include "../img_conv/car2.h"
-#include "../img_conv/car3.h"
-#include "../img_conv/car4.h"
-#include "../img_conv/car5.h"
-#include "../img_conv/car6.h"
-#include "../img_conv/car7.h"
-#include "../img_conv/car8.h"
+#include <stdio.h>
+#include <tiles.h>
+
+void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width,
+	int map_height, unsigned char *map, int car, unsigned char *tilesheet);
+int get_tile_at_point(int x, int y, unsigned char *map, int map_w, int map_h);
 
 #endif

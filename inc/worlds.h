@@ -19,17 +19,17 @@
 #ifndef WORLDS_H
 #define WORLDS_H
 
-#include "maps/map1_1.h"
-#include "maps/map1_2.h"
-#include "maps/map1_3.h"
-#include "maps/map1_4.h"
-#include "maps/map2_1.h"
-#include "maps/map2_2.h"
-#include "maps/map3_1.h"
+#include <maps/map1_1.h>
+#include <maps/map1_2.h>
+#include <maps/map1_3.h>
+#include <maps/map1_4.h>
+#include <maps/map2_1.h>
+#include <maps/map2_2.h>
+#include <maps/map3_1.h>
 
-#include "../img_conv/world1.h"
-#include "../img_conv/world2.h"
-#include "../img_conv/world3.h"
+#include <world1.h>
+#include <world2.h>
+#include <world3.h>
 
 const Map worlds[3][4] = {
 	{

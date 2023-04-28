@@ -16,7 +16,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include "map.h"
+#include <map.h>
 
 void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width,
 	int map_height, unsigned char *map, int car, unsigned char *tilesheet) {
