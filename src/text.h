@@ -22,7 +22,7 @@
 #include "../lib/image.h"
 
 void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
-    int font_width, int width, int height);
+	int font_width, int width, int height);
 int text_size_y(unsigned char* text, int len);
 
 #endif

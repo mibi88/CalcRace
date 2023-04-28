@@ -87,8 +87,8 @@ EM_JS(void, init_mouse, (void), {
 	window.mx = 0;
 	window.my = 0;
 	window.canvas.addEventListener("mousemove", (event) => {
-    	window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
-	    window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
+		window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
+		window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
 	});
 })
 
@@ -110,8 +110,8 @@ EM_JS(void, init_touch_move, (void), {
 	window.mx = 0;
 	window.my = 0;
 	window.canvas.addEventListener("mousemove", (event) => {
-    	window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
-	    window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
+		window.mx = Number(event.offsetX/(window.canvas.offsetWidth/window.w));
+		window.my = Number(event.offsetY/(window.canvas.offsetHeight/window.h));
 	});
 })
 
@@ -121,7 +121,7 @@ EM_JS(void, init_touch, (void), {
 		canvas_rect = window.canvas.getBoundingClientRect();
 		window.mx = Number((event.changedTouches.item(0).pageX -
 			canvas_rect.left)/(window.canvas.offsetWidth/window.w));
-	    window.my = Number((event.changedTouches.item(0).pageY -
+		window.my = Number((event.changedTouches.item(0).pageY -
 			canvas_rect.top)/(window.canvas.offsetHeight/window.h));
 		window.click = 1;
 	});

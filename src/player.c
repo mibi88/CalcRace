@@ -86,9 +86,10 @@ void player_finished(Player *player, Game *game) {
 	game->stat = S_END;
 }
 
-int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int map_h, int mincalcs) {
+int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
+	int map_h, int mincalcs) {
 	int nx = player->x, ny = player->y, tiles[2], i, n, cx, cy;
-    /* nx and ny are test x and y positions */
+	/* nx and ny are test x and y positions */
 	switch(player->direction){
 		case 1:
 			ny--;
@@ -119,7 +120,7 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			ny--;
 			break;
 	};
-    /* Fixing nx and ny values to simulate the "real" car */
+	/* Fixing nx and ny values to simulate the "real" car */
 	if(nx < WIDTH>>1){
 		cx = nx;
 	}else if(nx < (map_w<<5) - (WIDTH>>1)){
@@ -136,42 +137,42 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 	}
 	nx += (cx-(WIDTH>>1))+48;
 	ny += (cy-(HEIGHT>>1))+32;
-    /* Collisions are adapted to the direction */
-    switch(player->direction){
-        case 1: /* Car up */
-            tiles[0] = get_tile_at_point(nx+9, ny+4, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+22, ny+4, map, map_w, map_h);
-            break;
-        case 5: /* Car down */
-            tiles[0] = get_tile_at_point(nx+9, ny+27, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+22, ny+27, map, map_w, map_h);
-            break;
-        case 7: /* Car left */
-            tiles[0] = get_tile_at_point(nx+4, ny+9, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+4, ny+22, map, map_w, map_h);
-            break;
-        case 3: /* Car right */
-            tiles[0] = get_tile_at_point(nx+27, ny+9, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+27, ny+22, map, map_w, map_h);
-            break;
-        case 2: /* Car right up */
-            tiles[0] = get_tile_at_point(nx+19, ny+4, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+26, ny+11, map, map_w, map_h);
-            break;
-        case 6: /* Car left down */
-            tiles[0] = get_tile_at_point(nx+11, ny+26, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+4, ny+19, map, map_w, map_h);
-            break;
-        case 4: /* Car left up */
-            tiles[0] = get_tile_at_point(nx+27, ny+19, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+20, ny+26, map, map_w, map_h);
-            break;
-        case 8: /* Car right down */
-            tiles[0] = get_tile_at_point(nx+5, ny+11, map, map_w, map_h);
-            tiles[1] = get_tile_at_point(nx+12, ny+4, map, map_w, map_h);
-            break;
-    };
-    /* Generate a new calculation */
+	/* Collisions are adapted to the direction */
+	switch(player->direction){
+		case 1: /* Car up */
+			tiles[0] = get_tile_at_point(nx+9, ny+4, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+22, ny+4, map, map_w, map_h);
+			break;
+		case 5: /* Car down */
+			tiles[0] = get_tile_at_point(nx+9, ny+27, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+22, ny+27, map, map_w, map_h);
+			break;
+		case 7: /* Car left */
+			tiles[0] = get_tile_at_point(nx+4, ny+9, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+4, ny+22, map, map_w, map_h);
+			break;
+		case 3: /* Car right */
+			tiles[0] = get_tile_at_point(nx+27, ny+9, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+27, ny+22, map, map_w, map_h);
+			break;
+		case 2: /* Car right up */
+			tiles[0] = get_tile_at_point(nx+19, ny+4, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+26, ny+11, map, map_w, map_h);
+			break;
+		case 6: /* Car left down */
+			tiles[0] = get_tile_at_point(nx+11, ny+26, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+4, ny+19, map, map_w, map_h);
+			break;
+		case 4: /* Car left up */
+			tiles[0] = get_tile_at_point(nx+27, ny+19, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+20, ny+26, map, map_w, map_h);
+			break;
+		case 8: /* Car right down */
+			tiles[0] = get_tile_at_point(nx+5, ny+11, map, map_w, map_h);
+			tiles[1] = get_tile_at_point(nx+12, ny+4, map, map_w, map_h);
+			break;
+	};
+	/* Generate a new calculation */
 	if(is_in(tiles, 2, 1) && !player->iscalc){
 		player->iscalc = 1;
 		player->choice = rand() % 3;
@@ -204,15 +205,19 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 				while(is_in(player->intchoices, 3, n)){
 					if(rand() % 2){
 						if(player->n2>2){
-							n = player->intchoices[player->choice] - (rand() % (player->n2) + 1);
+							n = player->intchoices[player->choice] - (rand() %
+								(player->n2) + 1);
 						}else{
-							n = player->intchoices[player->choice] - (rand() % 4);
+							n = player->intchoices[player->choice] - (rand() %
+								4);
 						}
 					}else{
 						if(player->n2>2){
-							n = player->intchoices[player->choice] + (rand() % (player->n2) + 1);
+							n = player->intchoices[player->choice] + (rand() %
+								(player->n2) + 1);
 						}else{
-							n = player->intchoices[player->choice] + (rand() % 4);
+							n = player->intchoices[player->choice] + (rand() %
+								4);
 						}
 					}
 				}
@@ -225,19 +230,27 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 		for(i=0;i<20;i++){
 			player->calc[i]=' ';
 		}
-		player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d", player->intchoices[0], player->intchoices[1], player->intchoices[2]);
+		player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d",
+			player->intchoices[0], player->intchoices[1],
+			player->intchoices[2]);
 		if(*game->map.type == T_MUL || *game->map.type == T_BIGMUL){
-			player->calcsz = sprintf((char*)player->calc, "%d*%d", player->n1, player->n2);
+			player->calcsz = sprintf((char*)player->calc, "%d*%d", player->n1,
+				player->n2);
 		}else if(*game->map.type == T_SUB){
-			player->calcsz = sprintf((char*)player->calc, "%d-%d", player->n1, player->n2);
+			player->calcsz = sprintf((char*)player->calc, "%d-%d", player->n1,
+				player->n2);
 		}else if(*game->map.type == T_DIV){
-			player->calcsz = sprintf((char*)player->calc, "%d/%d", player->n1, player->n2);
+			player->calcsz = sprintf((char*)player->calc, "%d/%d", player->n1,
+				player->n2);
 		}else if(*game->map.type == T_POW){
-			player->calcsz = sprintf((char*)player->calc, "%d^%d", player->n1, player->n2);
+			player->calcsz = sprintf((char*)player->calc, "%d^%d", player->n1,
+				player->n2);
 		}else if(*game->map.type == T_MOD){
-			player->calcsz = sprintf((char*)player->calc, "%d mod %d", player->n1, player->n2);
+			player->calcsz = sprintf((char*)player->calc, "%d mod %d",
+				player->n1, player->n2);
 		}else{ /* If it's something else it's T_ADD */
-			player->calcsz = sprintf((char*)player->calc, "%d+%d", player->n1, player->n2);
+			player->calcsz = sprintf((char*)player->calc, "%d+%d", player->n1,
+				player->n2);
 		}
 		player->choices_x = WIDTH/2 - (player->choicessz/2*9);
 		player->choices_x_small = WIDTH/2 - (player->choicessz/2*5);
@@ -282,12 +295,16 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 		}
 		generate_loop_info(player, game);
 	}
-    /* Check collision type */
-	if(is_in(tiles, 2, 10) || is_in(tiles, 2, 19) || is_in(tiles, 2, 31)){ /* Block */
+	/* Check collision type */
+	if(is_in(tiles, 2, 10) || is_in(tiles, 2, 19) || is_in(tiles, 2, 31)){
+		/* Block */
 		return 3;
-	}else if(is_in(tiles, 2, 27) == 1 || is_in(tiles, 2, 28) == 1 || is_in(tiles, 2, 29) == 1 || is_in(tiles, 2, 30) == 1){ /* Hard */
+	}else if(is_in(tiles, 2, 27) == 1 || is_in(tiles, 2, 28) == 1 ||
+		is_in(tiles, 2, 29) == 1 || is_in(tiles, 2, 30) == 1){ /* Hard */
 		return 2;
-	}else if(is_in(tiles, 2, 15) == 1 || is_in(tiles, 2, 16) == 1 || is_in(tiles, 2, 17) == 1 || is_in(tiles, 2, 18) == 1 || is_in(tiles, 2, 25) == 1 || is_in(tiles, 2, 26) == 1){ /* Mid */
+	}else if(is_in(tiles, 2, 15) == 1 || is_in(tiles, 2, 16) == 1 ||
+		is_in(tiles, 2, 17) == 1 || is_in(tiles, 2, 18) == 1 ||
+		is_in(tiles, 2, 25) == 1 || is_in(tiles, 2, 26) == 1){ /* Mid */
 		return 1;
 	}
 	return 0;

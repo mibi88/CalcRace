@@ -23,9 +23,14 @@
 #include "canvas.h"
 #include <stdio.h>
 
-void draw_image(int sx, int sy, const unsigned char *image_data, const int w, const int h);
-void draw_image_part(int sx, int sy, int px, int py, const unsigned char *image_data, const int w, const int h, const int rw);
-void draw_image_del_color(int sx, int sy, const unsigned char *image_data, const int w, const int h, const int r, const int g, const int b, const int a);
-void draw_image_del_color_part(int sx, int sy, int px, int py, const unsigned char *image_data, const int w, const int h, const int r, const int g, const int b, const int a, const int rw);
+void draw_image(int sx, int sy, const unsigned char *image_data, const int w,
+	const int h);
+void draw_image_part(int sx, int sy, int px, int py,
+	const unsigned char *image_data, const int w, const int h, const int rw);
+void draw_image_del_color(int sx, int sy, const unsigned char *image_data,
+	const int w, const int h, const int r, const int g, const int b, const int a);
+void draw_image_del_color_part(int sx, int sy, int px, int py,
+	const unsigned char *image_data, const int w, const int h, const int r,
+	const int g, const int b, const int a, const int rw);
 
 #endif

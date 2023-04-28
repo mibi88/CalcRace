@@ -20,8 +20,8 @@
 
 EM_JS(void, init_audio, (char* ctype), {
 	window.audioCtx = new AudioContext();
-    window.oscillator = window.audioCtx.createOscillator();
-    window.oscillator.type = UTF8ToString(ctype);
+	window.oscillator = window.audioCtx.createOscillator();
+	window.oscillator.type = UTF8ToString(ctype);
 	window.oscillator.start();
 })
 
