@@ -44,7 +44,8 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
 		player->rspeed = player->speed;
 		for(i=0;i<player->speed;i++){
 			player->collision = 0;
-			player->collisiontest = get_collision(player, game, map, MAP_WIDTH, MAP_HEIGHT, mincalcs);
+			player->collisiontest = get_collision(player, game, map, MAP_WIDTH,
+                MAP_HEIGHT, mincalcs);
 			if(player->collisiontest == 3){
 				player->collision = player->collisiontest;
 				break;
@@ -113,11 +114,13 @@ void generate_time_info(Player *player, Game *game) {
 	for(i=0;i<20;i++){
 		player->timeinfo[i]=' ';
 	}
-	player->timelen = sprintf((char*)player->timeinfo, "%02d:%02d:%03d", player->min, player->sec, player->ms);
+	player->timelen = sprintf((char*)player->timeinfo, "%02d:%02d:%03d",
+        player->min, player->sec, player->ms);
 }
 
-void init_game(Player *player, Game *game, int start_x, int start_y, int speed) {
-	game->stat = 0;
+void init_game(Player *player, Game *game, int start_x, int start_y,
+    int speed) {
+	game->stat = S_TITLE;
 	player->x = start_x;
 	player->y = start_y;
 	player->direction = 5;

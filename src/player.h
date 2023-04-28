@@ -20,7 +20,11 @@
 #define PLAYER_H
 
 typedef struct {
-	int x, y, direction, speed, can_turn_right, can_turn_left, oldctr , old_ctl, iscalc, calcs, choice, rspeed, intchoices[3], n, collision, collisiontest, calc_x, choices_x, choices_x_small, calcsz, choicessz, n1, n2, crash, crashlen, crashc, crashd, loopn, min, sec, ms, timelen, time, difftime, pausetime;
+	int x, y, direction, speed, can_turn_right, can_turn_left, oldctr , old_ctl,
+		iscalc, calcs, choice, rspeed, intchoices[3], n, collision,
+		collisiontest, calc_x, choices_x, choices_x_small, calcsz, choicessz,
+		n1, n2, crash, crashlen, crashc, crashd, loopn, min, sec, ms, timelen,
+		time, difftime, pausetime;
 	unsigned char choices[60], calc[20], loopinfo[20], timeinfo[20];
 } Player;
 
@@ -40,6 +44,7 @@ void move_xm(Player *player);
 void move_ym(Player *player);
 void generate_loop_info(Player *player, Game *game);
 void player_finished(Player *player, Game *game);
-int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int map_h, int mincalcs);
+int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
+	int map_h, int mincalcs);
 
 #endif

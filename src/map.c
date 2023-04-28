@@ -18,8 +18,11 @@
 
 #include "map.h"
 
-void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_height, unsigned char *map, int car, unsigned char *tilesheet) {
-	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x, dy = (ty<<5) - y, sdx = dx, lx, ly, type, mw = map_width<<5, mh = map_height<<5, cx, cy;
+void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width,
+	int map_height, unsigned char *map, int car, unsigned char *tilesheet) {
+	int nx = (w>>5)+1, ny = (h>>5)+1, tx = x>>5, ty = y>>5, dx = (tx<<5) - x,
+		dy = (ty<<5) - y, sdx = dx, lx, ly, type, mw = map_width<<5,
+		mh = map_height<<5, cx, cy;
 	if(x < w>>1){
 		cx = x;
 	}else if(x < mw - (w>>1)){
@@ -48,7 +51,8 @@ void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width, int map_
 	}
 	for(ly=0;ly<ny;ly++){
 		for(lx=0;lx<nx;lx++){
-			if((ty+ly)*map_width+(tx+lx)<map_width*map_height && (tx+lx)<map_width){
+			if((ty+ly)*map_width+(tx+lx)<map_width*map_height &&
+				(tx+lx)<map_width){
 				type = map[(ty+ly)*map_width+(tx+lx)];
 			}else{
 				type = 25;
@@ -67,5 +71,5 @@ int get_tile_at_point(int x, int y, unsigned char *map, int map_w, int map_h) {
 	if(tx >= 0 && ty >= 0 && tx < map_w && ty < map_h){
 		return map[ty*map_w+tx];
 	}
-	return 0;
+	return 25; /* The normal grass tile */
 }

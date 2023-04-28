@@ -22,7 +22,7 @@ EM_JS(void, init_audio, (char* ctype), {
 	window.audioCtx = new AudioContext();
     window.oscillator = window.audioCtx.createOscillator();
     window.oscillator.type = UTF8ToString(ctype);
-    window.oscillator.connect(window.audioCtx.destination);
+	window.oscillator.start();
 })
 
 EM_JS(void, set_frequency, (int hz), {
@@ -30,9 +30,9 @@ EM_JS(void, set_frequency, (int hz), {
 })
 
 EM_JS(void, start_beep, (void), {
-	window.oscillator.start();
+	window.oscillator.connect(window.audioCtx.destination);
 })
 
 EM_JS(void, stop_beep, (void), {
-	window.oscillator.stop();
+	window.oscillator.disconnect(window.audioCtx.destination);
 })

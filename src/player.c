@@ -83,7 +83,7 @@ void generate_loop_info(Player *player, Game *game) {
 }
 
 void player_finished(Player *player, Game *game) {
-	game->stat = 2;
+	game->stat = S_END;
 }
 
 int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int map_h, int mincalcs) {
@@ -175,25 +175,25 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 	if(is_in(tiles, 2, 1) && !player->iscalc){
 		player->iscalc = 1;
 		player->choice = rand() % 3;
-		if(*game->type == 5){
+		if(*game->map.type == T_POW){
 			player->n1 = (rand() % 4) + 1;
 			player->n2 = (rand() % 3) + 1;
-		}else if(*game->type == 6){
+		}else if(*game->map.type == T_BIGMUL){
 			player->n1 = (rand() % 17);
 			player->n2 = (rand() % 17);
 		}else{
 			player->n1 = (rand() % 10) + 1;
 			player->n2 = (rand() % 10) + 1;
 		}
-		if(*game->type == 2 || *game->type == 6){
+		if(*game->map.type == T_MUL || *game->map.type == T_BIGMUL){
 			player->intchoices[player->choice] = player->n1*player->n2;
-		}else if(*game->type == 3){
+		}else if(*game->map.type == T_SUB){
 			player->intchoices[player->choice] = player->n1-player->n2;
-		}else if(*game->type == 4){
+		}else if(*game->map.type == T_DIV){
 			player->intchoices[player->choice] = player->n1/player->n2;
-		}else if(*game->type == 5){
+		}else if(*game->map.type == T_POW){
 			player->intchoices[player->choice] = pow(player->n1, player->n2);
-		}else if(*game->type == 7){
+		}else if(*game->map.type == T_MOD){
 			player->intchoices[player->choice] = player->n1%player->n2;
 		}else{
 			player->intchoices[player->choice] = player->n1+player->n2;
@@ -226,17 +226,17 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w, int
 			player->calc[i]=' ';
 		}
 		player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d", player->intchoices[0], player->intchoices[1], player->intchoices[2]);
-		if(*game->type == 2 || *game->type == 6){
+		if(*game->map.type == T_MUL || *game->map.type == T_BIGMUL){
 			player->calcsz = sprintf((char*)player->calc, "%d*%d", player->n1, player->n2);
-		}else if(*game->type == 3){
+		}else if(*game->map.type == T_SUB){
 			player->calcsz = sprintf((char*)player->calc, "%d-%d", player->n1, player->n2);
-		}else if(*game->type == 4){
+		}else if(*game->map.type == T_DIV){
 			player->calcsz = sprintf((char*)player->calc, "%d/%d", player->n1, player->n2);
-		}else if(*game->type == 5){
+		}else if(*game->map.type == T_POW){
 			player->calcsz = sprintf((char*)player->calc, "%d^%d", player->n1, player->n2);
-		}else if(*game->type == 7){
+		}else if(*game->map.type == T_MOD){
 			player->calcsz = sprintf((char*)player->calc, "%d mod %d", player->n1, player->n2);
-		}else{
+		}else{ /* If it's something else it's T_ADD */
 			player->calcsz = sprintf((char*)player->calc, "%d+%d", player->n1, player->n2);
 		}
 		player->choices_x = WIDTH/2 - (player->choicessz/2*9);

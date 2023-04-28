@@ -32,11 +32,36 @@
 
 #define PAUSED_LEN 1
 
+typedef enum {
+	S_TITLE = 0,
+	S_MAPSELECT,
+	S_GAME1P,
+	S_PAUSE,
+	S_END,
+	S_JUMP
+} Stat;
+
+typedef enum {
+	T_ADD = 0,
+	T_MUL,
+	T_BIGMUL,
+	T_SUB,
+	T_DIV,
+	T_POW,
+	T_MOD
+} Type;
+
 typedef struct {
-	int stat, seed, loops, start_time;
 	unsigned char *map, *tilesheet;
 	unsigned int *speed, *start_x, *start_y, *calcs, *type;
-	unsigned int menu_selection, menu_len, menu_canmove, menu_canmove_world, menu_world, menu_worlds, paused_selection, pause_start;
+} Map;
+
+typedef struct {
+	Stat stat;
+	int seed, loops, start_time;
+	Map map;
+	unsigned int menu_selection, menu_len, menu_canmove, menu_canmove_world,
+		menu_world, menu_worlds, paused_selection, pause_start;
 	unsigned char world_info[20];
 	int world_info_len;
 } Game;
@@ -48,7 +73,8 @@ typedef struct {
 #include "text.h"
 #include "player.h"
 
-void move(Player *player, Game *game, unsigned char *map, int mincalcs); /* I could put this in player.h but it's between ... */
+/* I could put move in player.h but it's between ... */
+void move(Player *player, Game *game, unsigned char *map, int mincalcs);
 void generate_time_info(Player *player, Game *game);
 void init_game(Player *player, Game *game, int start_x, int start_y, int speed);
 int click_on_zone(int x1, int y1, int x2, int y2);

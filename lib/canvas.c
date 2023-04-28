@@ -58,8 +58,10 @@ EM_JS(void, init_getkey, (void), {
 		e = e || event;
 		window.map[e.keyCode] = e.type == "keydown";
 	}; */
-	document.onkeyup = function(e) { kmap[e.keyCode] = false; /* console.log(kmap[e.keyCode]); */ };
-	document.onkeydown = function(e) { kmap[e.keyCode] = true; /* console.log(kmap[e.keyCode]); */ };
+	document.onkeyup = function(e) { kmap[e.keyCode] = false;
+		/* console.log(kmap[e.keyCode]); */ };
+	document.onkeydown = function(e) { kmap[e.keyCode] = true;
+		/* console.log(kmap[e.keyCode]); */ };
 })
 
 EM_JS(bool, getkey, (int key), {
@@ -117,8 +119,10 @@ EM_JS(void, init_touch, (void), {
 	window.click = 0;
 	window.canvas.addEventListener("touchstart", function(event) {
 		canvas_rect = window.canvas.getBoundingClientRect();
-		window.mx = Number((event.changedTouches.item(0).pageX - canvas_rect.left)/(window.canvas.offsetWidth/window.w));
-	    window.my = Number((event.changedTouches.item(0).pageY - canvas_rect.top)/(window.canvas.offsetHeight/window.h));
+		window.mx = Number((event.changedTouches.item(0).pageX -
+			canvas_rect.left)/(window.canvas.offsetWidth/window.w));
+	    window.my = Number((event.changedTouches.item(0).pageY -
+			canvas_rect.top)/(window.canvas.offsetHeight/window.h));
 		window.click = 1;
 	});
 	window.canvas.addEventListener("touchend", function(event) {
