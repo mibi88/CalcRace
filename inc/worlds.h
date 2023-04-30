@@ -32,75 +32,75 @@
 #include <world3.h>
 
 const Map worlds[3][4] = {
-	{
-		{
-			(unsigned char*)map1_1,
-			(unsigned char*)world1_data,
-			(unsigned int*)&map1_1_speed,
-			(unsigned int*)&map1_1_start_x,
-			(unsigned int*)&map1_1_start_y,
-			(unsigned int*)&map1_1_calcs,
-			(unsigned int*)&map1_1_type
-		},
-		{
-			(unsigned char*)map1_2,
-			(unsigned char*)world1_data,
-			(unsigned int*)&map1_2_speed,
-			(unsigned int*)&map1_2_start_x,
-			(unsigned int*)&map1_2_start_y,
-			(unsigned int*)&map1_2_calcs,
-			(unsigned int*)&map1_2_type
-		},
-		{
-			(unsigned char*)map1_3,
-			(unsigned char*)world1_data,
-			(unsigned int*)&map1_3_speed,
-			(unsigned int*)&map1_3_start_x,
-			(unsigned int*)&map1_3_start_y,
-			(unsigned int*)&map1_3_calcs,
-			(unsigned int*)&map1_3_type
-		},
-		{
-			(unsigned char*)map1_4,
-			(unsigned char*)world1_data,
-			(unsigned int*)&map1_4_speed,
-			(unsigned int*)&map1_4_start_x,
-			(unsigned int*)&map1_4_start_y,
-			(unsigned int*)&map1_4_calcs,
-			(unsigned int*)&map1_4_type
-		},
-	},
-	{
-		{
-			(unsigned char*)map2_1,
-			(unsigned char*)world2_data,
-			(unsigned int*)&map2_1_speed,
-			(unsigned int*)&map2_1_start_x,
-			(unsigned int*)&map2_1_start_y,
-			(unsigned int*)&map2_1_calcs,
-			(unsigned int*)&map2_1_type
-		},
-		{
-			(unsigned char*)map2_2,
-			(unsigned char*)world2_data,
-			(unsigned int*)&map2_2_speed,
-			(unsigned int*)&map2_2_start_x,
-			(unsigned int*)&map2_2_start_y,
-			(unsigned int*)&map2_2_calcs,
-			(unsigned int*)&map2_2_type
-		}
-	},
-	{
-		{
-			(unsigned char*)map3_1,
-			(unsigned char*)world3_data,
-			(unsigned int*)&map3_1_speed,
-			(unsigned int*)&map3_1_start_x,
-			(unsigned int*)&map3_1_start_y,
-			(unsigned int*)&map3_1_calcs,
-			(unsigned int*)&map3_1_type
-		}
-	}
+    {
+        {
+            (unsigned char*)map1_1,
+            (unsigned char*)world1_data,
+            (unsigned int*)&map1_1_speed,
+            (unsigned int*)&map1_1_start_x,
+            (unsigned int*)&map1_1_start_y,
+            (unsigned int*)&map1_1_calcs,
+            (unsigned int*)&map1_1_type
+        },
+        {
+            (unsigned char*)map1_2,
+            (unsigned char*)world1_data,
+            (unsigned int*)&map1_2_speed,
+            (unsigned int*)&map1_2_start_x,
+            (unsigned int*)&map1_2_start_y,
+            (unsigned int*)&map1_2_calcs,
+            (unsigned int*)&map1_2_type
+        },
+        {
+            (unsigned char*)map1_3,
+            (unsigned char*)world1_data,
+            (unsigned int*)&map1_3_speed,
+            (unsigned int*)&map1_3_start_x,
+            (unsigned int*)&map1_3_start_y,
+            (unsigned int*)&map1_3_calcs,
+            (unsigned int*)&map1_3_type
+        },
+        {
+            (unsigned char*)map1_4,
+            (unsigned char*)world1_data,
+            (unsigned int*)&map1_4_speed,
+            (unsigned int*)&map1_4_start_x,
+            (unsigned int*)&map1_4_start_y,
+            (unsigned int*)&map1_4_calcs,
+            (unsigned int*)&map1_4_type
+        },
+    },
+    {
+        {
+            (unsigned char*)map2_1,
+            (unsigned char*)world2_data,
+            (unsigned int*)&map2_1_speed,
+            (unsigned int*)&map2_1_start_x,
+            (unsigned int*)&map2_1_start_y,
+            (unsigned int*)&map2_1_calcs,
+            (unsigned int*)&map2_1_type
+        },
+        {
+            (unsigned char*)map2_2,
+            (unsigned char*)world2_data,
+            (unsigned int*)&map2_2_speed,
+            (unsigned int*)&map2_2_start_x,
+            (unsigned int*)&map2_2_start_y,
+            (unsigned int*)&map2_2_calcs,
+            (unsigned int*)&map2_2_type
+        }
+    },
+    {
+        {
+            (unsigned char*)map3_1,
+            (unsigned char*)world3_data,
+            (unsigned int*)&map3_1_speed,
+            (unsigned int*)&map3_1_start_x,
+            (unsigned int*)&map3_1_start_y,
+            (unsigned int*)&map3_1_calcs,
+            (unsigned int*)&map3_1_type
+        }
+    }
 };
 
 #endif

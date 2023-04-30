@@ -3,17 +3,17 @@
 
 /* Define the new keys and the amount of keys. */
 enum {
-	NKEY_UP,
-	NKEY_DOWN,
-	NKEY_LEFT,
-	NKEY_RIGHT,
-	NKEY_SPACE,
-	KEYS_AMOUNT
+    NKEY_UP,
+    NKEY_DOWN,
+    NKEY_LEFT,
+    NKEY_RIGHT,
+    NKEY_SPACE,
+    KEYS_AMOUNT
 };
 
 typedef enum {
-	K_REPEAT,
-	K_NO_REPEAT
+    K_REPEAT,
+    K_NO_REPEAT
 } Keymode;
 
 /* Enable or disable repeat for all the keys. */

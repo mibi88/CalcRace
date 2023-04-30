@@ -18,154 +18,154 @@ along with this program. If not, see https://www.gnu.org/licenses/.
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>MapEdit</title>
-		<style>
-			tr, th, td {
-				padding: 0px;
-				border: 1px solid;
-			}
-			image {
-				padding: 0px;
-				margin: 0px;
-			}
-			table {
-				border-spacing: 0px 0px;
-			}
-			div {
-					image-rendering: moz-crisp-edges;
-					image-rendering: pixelated;
-					padding: 0px;
-					margin: 0px;
-					align: center;
-					width: 100%;
-					height: 100%;
-			}
-		</style>
-	</head>
-	<header>
-		<table id = "choice" style = "top: 0; left: 0; height: 40px;
-				position: fixed; background-color: white;">
-		</table>
-	</header>
-	<body style = "margin-top: 41px;">
-		<script>
-			tilenum = 1;
-			let mapdata = Array();
-			table = document.getElementById("choice");
-			line = document.createElement("tr");
-			table.append(line);
-			for(y=0;y<8;y++){
-					for(x=0;x<8;x++){
-							td = document.createElement("td");
-							div = document.createElement("div");
-							div.setAttribute("onclick", "tilenum = " +
-								String(y*8+x+1));
-							div.style = "background-image: " +
-								"url('../../img/world1.png'); " +
-								"background-position: -" + String(x*32) +
-								"px -" + String(y*32) + "px; width: 32px; " +
-								"height: 32px;";
-							td.append(div);
-							line.append(td);
-					}
-			}
-		</script>
-		<table border id = "table" style = "top: 41px;">
-			<!-- -->
-		</table>
-		<p>Output</p>
-		<code id = "out"></code>
-		<p>Input</p>
-		<button onclick = "load();">Load</button>
-		<textarea id = "input"></textarea>
-		<script>
-			function generatemap() {
-				var mapstr = "const unsigned char[3840] = {";
-				for(i=0;i<3840;i++){
-					cell = String(mapdata[i]);
-					mapstr += cell + ", ";
-				};
-				mapstr = mapstr.slice(0, -2);
-				mapstr += "};"
-				console.log(mapstr);
-				out = document.getElementById("out");
-				out.innerHTML = mapstr;
-			}
-			function load() {
-				code_str = document.getElementById("input").value;
-				strdata = ""
-				var grab = 0
-				for(i=0;i<code_str.length;i++){
-					if(code_str[i] == "}"){
-						break
-					}
-					if(grab){
-						strdata += code_str[i]
-					}
-					if(code_str[i] == "{"){
-						grab = 1
-					}
-				}
-				let data = strdata.split(", ")
-				console.log(data)
-				mapdata = []
-				for(i=0;i<data.length;i++){
-					mapdata.push(Number(data[i]))
-					div = document.getElementById(String(i))
-					div.style = "background-image: " +
-						"url('../../img/world1.png'); background-position: -" +
-						String(((mapdata[i]-1)%8)*32) + "px -" +
-						String(Math.floor((mapdata[i]-1)/8)*32) +
-						"px; width: 32px; height: 32px;";
-				}
-				generatemap()
-			}
-			table = document.getElementById("table");
-			line = document.createElement("tr");
-			table.append(line);
-			for(x=0;x<65;x++){
-				header = document.createElement("th");
-				header.scope = "column";
-				header.style = "position: sticky; top: 41px; " +
-					"background-color: white;";
-				header.innerHTML = String(x);
-				line.append(header);
-			};
-			for(y=0;y<60;y++){
-				line = document.createElement("tr");
-				table.append(line);
-				header = document.createElement("th");
-				header.scope = "row";
-				header.style = "position: sticky; top: 41px; left: 0; " +
-					"background-color: white;";
-				header.innerHTML = String(y+1);
-				line.append(header);
-				for(x=0;x<64;x++){
-					cell = document.createElement("td");
-					line.append(cell);
-					div = document.createElement("div");
-					div.onclick = onclick="tilenum = " + String(y*8+x);
-					div.style = "background-image: " +
-						"url('../../img/world1.png'); background-position: " +
-						"-0px -96px; width: 32px; height: 32px;";
-					div.id = String(y*64+x);
-					mapdata[y*64+x] = 25;
-					cell.append(div);
-					div.onclick = function(div) {
-						this.style = "background-image: " +
-							"url('../../img/world1.png'); " +
-							"background-position: -" +
-							String(((tilenum-1)%8)*32) + "px -" +
-							String(Math.floor((tilenum-1)/8)*32) +
-							"px; width: 32px; height: 32px;";
-						mapdata[Number(this.id)] = tilenum;
-						generatemap();
-					}
-				};
-			};
-			generatemap()
-		</script>
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <title>MapEdit</title>
+        <style>
+            tr, th, td {
+                padding: 0px;
+                border: 1px solid;
+            }
+            image {
+                padding: 0px;
+                margin: 0px;
+            }
+            table {
+                border-spacing: 0px 0px;
+            }
+            div {
+                    image-rendering: moz-crisp-edges;
+                    image-rendering: pixelated;
+                    padding: 0px;
+                    margin: 0px;
+                    align: center;
+                    width: 100%;
+                    height: 100%;
+            }
+        </style>
+    </head>
+    <header>
+        <table id = "choice" style = "top: 0; left: 0; height: 40px;
+                position: fixed; background-color: white;">
+        </table>
+    </header>
+    <body style = "margin-top: 41px;">
+        <script>
+            tilenum = 1;
+            let mapdata = Array();
+            table = document.getElementById("choice");
+            line = document.createElement("tr");
+            table.append(line);
+            for(y=0;y<8;y++){
+                    for(x=0;x<8;x++){
+                            td = document.createElement("td");
+                            div = document.createElement("div");
+                            div.setAttribute("onclick", "tilenum = " +
+                                String(y*8+x+1));
+                            div.style = "background-image: " +
+                                "url('../../img/world1.png'); " +
+                                "background-position: -" + String(x*32) +
+                                "px -" + String(y*32) + "px; width: 32px; " +
+                                "height: 32px;";
+                            td.append(div);
+                            line.append(td);
+                    }
+            }
+        </script>
+        <table border id = "table" style = "top: 41px;">
+            <!-- -->
+        </table>
+        <p>Output</p>
+        <code id = "out"></code>
+        <p>Input</p>
+        <button onclick = "load();">Load</button>
+        <textarea id = "input"></textarea>
+        <script>
+            function generatemap() {
+                var mapstr = "const unsigned char[3840] = {";
+                for(i=0;i<3840;i++){
+                    cell = String(mapdata[i]);
+                    mapstr += cell + ", ";
+                };
+                mapstr = mapstr.slice(0, -2);
+                mapstr += "};"
+                console.log(mapstr);
+                out = document.getElementById("out");
+                out.innerHTML = mapstr;
+            }
+            function load() {
+                code_str = document.getElementById("input").value;
+                strdata = ""
+                var grab = 0
+                for(i=0;i<code_str.length;i++){
+                    if(code_str[i] == "}"){
+                        break
+                    }
+                    if(grab){
+                        strdata += code_str[i]
+                    }
+                    if(code_str[i] == "{"){
+                        grab = 1
+                    }
+                }
+                let data = strdata.split(", ")
+                console.log(data)
+                mapdata = []
+                for(i=0;i<data.length;i++){
+                    mapdata.push(Number(data[i]))
+                    div = document.getElementById(String(i))
+                    div.style = "background-image: " +
+                        "url('../../img/world1.png'); background-position: -" +
+                        String(((mapdata[i]-1)%8)*32) + "px -" +
+                        String(Math.floor((mapdata[i]-1)/8)*32) +
+                        "px; width: 32px; height: 32px;";
+                }
+                generatemap()
+            }
+            table = document.getElementById("table");
+            line = document.createElement("tr");
+            table.append(line);
+            for(x=0;x<65;x++){
+                header = document.createElement("th");
+                header.scope = "column";
+                header.style = "position: sticky; top: 41px; " +
+                    "background-color: white;";
+                header.innerHTML = String(x);
+                line.append(header);
+            };
+            for(y=0;y<60;y++){
+                line = document.createElement("tr");
+                table.append(line);
+                header = document.createElement("th");
+                header.scope = "row";
+                header.style = "position: sticky; top: 41px; left: 0; " +
+                    "background-color: white;";
+                header.innerHTML = String(y+1);
+                line.append(header);
+                for(x=0;x<64;x++){
+                    cell = document.createElement("td");
+                    line.append(cell);
+                    div = document.createElement("div");
+                    div.onclick = onclick="tilenum = " + String(y*8+x);
+                    div.style = "background-image: " +
+                        "url('../../img/world1.png'); background-position: " +
+                        "-0px -96px; width: 32px; height: 32px;";
+                    div.id = String(y*64+x);
+                    mapdata[y*64+x] = 25;
+                    cell.append(div);
+                    div.onclick = function(div) {
+                        this.style = "background-image: " +
+                            "url('../../img/world1.png'); " +
+                            "background-position: -" +
+                            String(((tilenum-1)%8)*32) + "px -" +
+                            String(Math.floor((tilenum-1)/8)*32) +
+                            "px; width: 32px; height: 32px;";
+                        mapdata[Number(this.id)] = tilenum;
+                        generatemap();
+                    }
+                };
+            };
+            generatemap()
+        </script>
+    </body>
 </html>

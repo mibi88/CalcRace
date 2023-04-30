@@ -18,82 +18,82 @@ along with this program. If not, see https://www.gnu.org/licenses/.
 
 <!DOCTYPE html>
 <html style = "height: 100%; width: 100%; overflow: hidden;">
-	<head>
-		<title>CalcRace</title>
-		<link rel="icon" type="image/x-icon" href="favicon.ico">
-		<meta charset="utf-8"></meta>
-		<meta name="viewport" content="width=device-width, user-scalable=no">
-		<div style = "display: none;">
-			<img src = "favicon.ico">
-				[)=(] <!-- Some bad ASCII art ! -->
-			</img>
-			<h1>CalcRace</h1>
-		</div>
-		<style>
-			canvas {
-				position: fixed;
-				top: 0;
-				left: 0;
-				margin: 0;
-				padding: 0;
-				image-rendering: -moz-crisp-edges;
-				image-rendering: pixelated;
-			}
-		</style>
-	</head>
-	<body style = "height: 100%; width: 100%; background-color: #000000;">
-		<!-- <div id = "game" style = "height: 100%; width: 100%;"> -->
-		<canvas id = "canvas" width = "64" height = "48">
-			CalcRace game
-		</canvas>
-		<!-- </div> -->
-		<script>
-			/* Let the canvas fill the page */
-			function fill(){
-				if(window.innerHeight/100*132<window.innerWidth){
-					document.getElementById("canvas").style.width = "132vh";
-					document.getElementById("canvas").style.height = "99vh";
-				}else{
-					document.getElementById("canvas").style.width = "100vw";
-					document.getElementById("canvas").style.height = "75vw";
-				}
-			}
-			fill();
-			window.onresize = fill;
-			/* Configure the WASM module */
-			var Module = {
-				preRun: [],
-				postRun: [],
-				print: (function() {
-					return function(text) {
-						console.log(text);
-					}
-				})(),
-				canvas: (function() {
-					var canvas = document.getElementById("canvas");
-					return canvas;
-				})(),
-				setStatus: function(text) {
-					console.log(text)
-				},
-				totalDependencies: 0,
-				monitorRunDependencies: function(left) {
-				this.totalDependencies = Math.max(this.totalDependencies, left);
-				Module.setStatus(left ? 'Preparing... (' +
-					(this.totalDependencies-left) + '/' + this.totalDependencies
-					+ ')' : 'All downloads complete.');
-				}
-			};
-			Module.setStatus('Downloading...');
-			window.onerror = function(event) {
-				Module.setStatus('Exception thrown, see JavaScript console');
-				Module.setStatus = function(text) {
-					if(text){
-						Module.printErr('[post-exception status] ' + text);
-					}
-				};
-			};
-		</script>
-		<script async type="text/javascript" src="CalcRace.js"></script>
-	</body>
+    <head>
+        <title>CalcRace</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <div style = "display: none;">
+            <img src = "favicon.ico">
+                [)=(] <!-- Some bad ASCII art ! -->
+            </img>
+            <h1>CalcRace</h1>
+        </div>
+        <style>
+            canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                margin: 0;
+                padding: 0;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: pixelated;
+            }
+        </style>
+    </head>
+    <body style = "height: 100%; width: 100%; background-color: #000000;">
+        <!-- <div id = "game" style = "height: 100%; width: 100%;"> -->
+        <canvas id = "canvas" width = "64" height = "48">
+            CalcRace game
+        </canvas>
+        <!-- </div> -->
+        <script>
+            /* Let the canvas fill the page */
+            function fill(){
+                if(window.innerHeight/100*132<window.innerWidth){
+                    document.getElementById("canvas").style.width = "132vh";
+                    document.getElementById("canvas").style.height = "99vh";
+                }else{
+                    document.getElementById("canvas").style.width = "100vw";
+                    document.getElementById("canvas").style.height = "75vw";
+                }
+            }
+            fill();
+            window.onresize = fill;
+            /* Configure the WASM module */
+            var Module = {
+                preRun: [],
+                postRun: [],
+                print: (function() {
+                    return function(text) {
+                        console.log(text);
+                    }
+                })(),
+                canvas: (function() {
+                    var canvas = document.getElementById("canvas");
+                    return canvas;
+                })(),
+                setStatus: function(text) {
+                    console.log(text)
+                },
+                totalDependencies: 0,
+                monitorRunDependencies: function(left) {
+                this.totalDependencies = Math.max(this.totalDependencies, left);
+                Module.setStatus(left ? 'Preparing... (' +
+                    (this.totalDependencies-left) + '/' + this.totalDependencies
+                    + ')' : 'All downloads complete.');
+                }
+            };
+            Module.setStatus('Downloading...');
+            window.onerror = function(event) {
+                Module.setStatus('Exception thrown, see JavaScript console');
+                Module.setStatus = function(text) {
+                    if(text){
+                        Module.printErr('[post-exception status] ' + text);
+                    }
+                };
+            };
+        </script>
+        <script async type="text/javascript" src="CalcRace.js"></script>
+    </body>
 </html>

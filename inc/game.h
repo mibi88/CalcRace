@@ -33,37 +33,37 @@
 #define PAUSED_LEN 1
 
 typedef enum {
-	S_TITLE = 0,
-	S_MAPSELECT,
-	S_GAME1P,
-	S_PAUSE,
-	S_END,
-	S_JUMP
+    S_TITLE = 0,
+    S_MAPSELECT,
+    S_GAME1P,
+    S_PAUSE,
+    S_END,
+    S_JUMP
 } Stat;
 
 typedef enum {
-	T_ADD = 0,
-	T_MUL,
-	T_BIGMUL,
-	T_SUB,
-	T_DIV,
-	T_POW,
-	T_MOD
+    T_ADD = 0,
+    T_MUL,
+    T_BIGMUL,
+    T_SUB,
+    T_DIV,
+    T_POW,
+    T_MOD
 } Type;
 
 typedef struct {
-	unsigned char *map, *tilesheet;
-	unsigned int *speed, *start_x, *start_y, *calcs, *type;
+    unsigned char *map, *tilesheet;
+    unsigned int *speed, *start_x, *start_y, *calcs, *type;
 } Map;
 
 typedef struct {
-	Stat stat;
-	int seed, loops, start_time;
-	Map map;
-	unsigned int menu_selection, menu_len, menu_world, menu_worlds,
-		paused_selection, pause_start;
-	unsigned char world_info[20];
-	int world_info_len;
+    Stat stat;
+    int seed, loops, start_time;
+    Map map;
+    unsigned int menu_selection, menu_len, menu_world, menu_worlds,
+        paused_selection, pause_start;
+    unsigned char world_info[20];
+    int world_info_len;
 } Game;
 
 #include <config.h>
