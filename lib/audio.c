@@ -30,9 +30,17 @@ EM_JS(void, set_frequency, (int hz), {
 })
 
 EM_JS(void, start_beep, (void), {
-	window.oscillator.connect(window.audioCtx.destination);
+	try{
+		window.oscillator.connect(window.audioCtx.destination);
+	}catch(error){
+		console.log("[audio.h] " + error);
+	}
 })
 
 EM_JS(void, stop_beep, (void), {
-	window.oscillator.disconnect(window.audioCtx.destination);
+	try{
+		window.oscillator.disconnect(window.audioCtx.destination);
+	}catch(error){
+		console.log("[audio.h] " + error);
+	}
 })

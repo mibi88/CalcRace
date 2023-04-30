@@ -10,6 +10,8 @@ FILES = src/map.c \
 	src/player.c \
 	src/game.c \
 	src/memory.c \
+	src/keyboard.c \
+	src/touch.c \
 	src/main.c \
 	lib/canvas.c \
 	lib/image.c \

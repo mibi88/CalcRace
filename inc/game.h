@@ -60,8 +60,8 @@ typedef struct {
 	Stat stat;
 	int seed, loops, start_time;
 	Map map;
-	unsigned int menu_selection, menu_len, menu_canmove, menu_canmove_world,
-		menu_world, menu_worlds, paused_selection, pause_start;
+	unsigned int menu_selection, menu_len, menu_world, menu_worlds,
+		paused_selection, pause_start;
 	unsigned char world_info[20];
 	int world_info_len;
 } Game;
@@ -72,16 +72,11 @@ typedef struct {
 #include <map.h>
 #include <text.h>
 #include <player.h>
+#include <keyboard.h>
 
 /* I could put move in player.h but it's between ... */
 void move(Player *player, Game *game, unsigned char *map, int mincalcs);
 void generate_time_info(Player *player, Game *game);
 void init_game(Player *player, Game *game, int start_x, int start_y, int speed);
-int click_on_zone(int x1, int y1, int x2, int y2);
-int input_up(void);
-int input_down(void);
-int input_left(void);
-int input_right(void);
-int input_space(void);
 
 #endif

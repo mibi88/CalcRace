@@ -20,11 +20,13 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#define KEY_UP 38
-#define KEY_DOWN 40
-#define KEY_LEFT 37
-#define KEY_RIGHT 39
-#define KEY_SPACE 32
+enum {
+	KEY_UP    = 38,
+	KEY_DOWN  = 40,
+	KEY_LEFT  = 37,
+	KEY_RIGHT = 39,
+	KEY_SPACE = 32
+};
 
 #include <emscripten.h>
 typedef enum {FALSE, TRUE} bool;

@@ -83,6 +83,7 @@ void generate_loop_info(Player *player, Game *game) {
 }
 
 void player_finished(Player *player, Game *game) {
+	stop_beep();
 	game->stat = S_END;
 }
 
