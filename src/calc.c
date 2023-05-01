@@ -16,27 +16,39 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include <memory.h>
-#include <stdio.h>
+#include <game.h>
+#include <math.h>
 
-int is_in(int *array, int size, int item) {
-    int i;
-    for(i=0;i<size;i++){
-        if(array[i] == item){
-            return 1;
-        }
-    }
-    return 0;
+int _calc_add(int n1, int n2) {
+    return n1+n2;
 }
 
-int is_in_both(int *array1, int size1, unsigned char *array2, int size2) {
-    int i, n;
-    for(i=0;i<size1;i++){
-        for(n=0;n<size2;n++){
-            if(array1[i] == array2[n]){
-                return array1[i];
-            }
-        }
-    }
-    return 0;
+int _calc_mul(int n1, int n2) {
+    return n1*n2;
 }
+
+int _calc_sub(int n1, int n2) {
+    return n1-n2;
+}
+
+int _calc_div(int n1, int n2) {
+    return n1/n2;
+}
+
+int _calc_pow(int n1, int n2) {
+    return pow(n1, n2);
+}
+
+int _calc_mod(int n1, int n2) {
+    return n1%n2;
+}
+
+int (*calcs[T_AMOUNT])(int n1, int n2) = {
+    _calc_add,
+    _calc_mul,
+    _calc_mul,
+    _calc_sub,
+    _calc_div,
+    _calc_pow,
+    _calc_mod
+};

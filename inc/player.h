@@ -21,7 +21,7 @@
 
 typedef struct {
     int x, y, direction, speed;
-    int oldctr, iscalc, calcs, choice, rspeed, intchoices[3], n, collision,
+    int iscalc, calcs, choice, rspeed, intchoices[3], n, collision,
         collisiontest, calc_x, choices_x, choices_x_small, calcsz, choicessz,
         n1, n2;
     int crash, crashlen, crashc, crashd, loopn;
@@ -29,9 +29,10 @@ typedef struct {
     unsigned char choices[60], calc[20], loopinfo[20], timeinfo[20];
 } Player;
 
+extern const int movs[8*2];
+
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 
 #include <config.h>
 #include <map.h>

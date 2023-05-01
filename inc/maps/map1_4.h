@@ -16,7 +16,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-const unsigned int map1_4_speed = 6;
+const unsigned int map1_4_speed = 4;
 const unsigned int map1_4_start_x = 1312;
 const unsigned int map1_4_start_y = 160;
 const unsigned int map1_4_calcs = 2;

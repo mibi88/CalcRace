@@ -33,21 +33,23 @@
 #define PAUSED_LEN 1
 
 typedef enum {
-    S_TITLE = 0,
+    S_TITLE,
     S_MAPSELECT,
     S_GAME1P,
     S_PAUSE,
     S_END,
+    S_AMOUNT
 } Stat;
 
 typedef enum {
-    T_ADD = 0,
+    T_ADD,
     T_MUL,
     T_BIGMUL,
     T_SUB,
     T_DIV,
     T_POW,
-    T_MOD
+    T_MOD,
+    T_AMOUNT
 } Type;
 
 typedef struct {

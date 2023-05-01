@@ -20,5 +20,6 @@
 #define MEMORY_H
 
 int is_in(int *array, int size, int item);
+int is_in_both(int *array1, int size1, unsigned char *array2, int size2);
 
 #endif

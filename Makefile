@@ -7,6 +7,7 @@ RELEASEFLAGS = -std=c89 -Wall -Wextra -Wpedantic -O3 -lm -s WASM=2 -Ilib -Iinc \
 FILES = src/map.c \
 	src/tiles.c \
 	src/text.c \
+	src/calc.c \
 	src/player.c \
 	src/game.c \
 	src/memory.c \

@@ -16,27 +16,18 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#include <memory.h>
-#include <stdio.h>
+#ifndef CALC_H
+#define CALC_H
 
-int is_in(int *array, int size, int item) {
-    int i;
-    for(i=0;i<size;i++){
-        if(array[i] == item){
-            return 1;
-        }
-    }
-    return 0;
-}
+const char calc_fstrings[T_AMOUNT][20] = {
+    "%d+%d",
+    "%d*%d",
+    "%d*%d",
+    "%d-%d",
+    "%d/%d",
+    "%d^%d",
+    "%d mod %d"
+};
+extern int (*calcs[T_AMOUNT])(int n1, int n2);
 
-int is_in_both(int *array1, int size1, unsigned char *array2, int size2) {
-    int i, n;
-    for(i=0;i<size1;i++){
-        for(n=0;n<size2;n++){
-            if(array1[i] == array2[n]){
-                return array1[i];
-            }
-        }
-    }
-    return 0;
-}
+#endif
