@@ -38,7 +38,6 @@ typedef enum {
     S_GAME1P,
     S_PAUSE,
     S_END,
-    S_JUMP
 } Stat;
 
 typedef enum {
