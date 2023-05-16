@@ -59,10 +59,10 @@ typedef struct {
 
 typedef struct {
     Stat stat;
-    int seed, loops, start_time;
+    int seed, loops;
     Map map;
     unsigned int menu_selection, menu_len, menu_world, menu_worlds,
-        paused_selection, pause_start;
+        paused_selection;
     unsigned char world_info[20];
     int world_info_len;
 } Game;
@@ -75,9 +75,11 @@ typedef struct {
 #include <player.h>
 #include <keyboard.h>
 
-/* I could put move in player.h but it's between ... */
-void move(Player *player, Game *game, unsigned char *map, int mincalcs);
+/* Generate the text of the little timer on the bottom of the screen. */
 void generate_time_info(Player *player, Game *game);
+/* This function generates a string to show which loop the player is doing. */
+void generate_loop_info(Player *player, Game *game);
+/* Reset the game. */
 void init_game(Player *player, Game *game, int start_x, int start_y, int speed);
 
 #endif

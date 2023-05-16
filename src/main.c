@@ -157,7 +157,6 @@ void loop() {
                 set_frequency((*game.map.speed/2)*50+(player.direction*5));
                 start_beep();
                 game.stat = S_GAME1P;
-                game.start_time = ms_time();
             }
             break;
         /********** 1 PLAYER GAME **********/
@@ -190,9 +189,6 @@ void loop() {
             /* Go to the pause menu if NKEY_SPACE is pressed. */
             if(kdown(NKEY_SPACE)){
                 game.paused_selection = 0;
-                game.pause_start = ms_time(); /* Set pause start to the current
-                time to be able to substract the time lost in the pause to the
-                current time when going back in game. */
                 stop_beep(); /* Stop the car sound effect made with a triangle
                 wave. */
                 game.stat = S_PAUSE; /* Jump to the pause menu. */
@@ -203,6 +199,12 @@ void loop() {
             /* Show the little timer. */
             dtext(player.timeinfo, 127-player.timelen*9, 87, 20,
                 (unsigned char*)font_data, font_width, 8, 8);
+            /* Update the timer. I add 20 to the timer because the game runs
+            normally at 50 fps, and 1s = 1000 ms so 1000 ms/50 ms = 20 ms.
+            I update the timer like this now because like this you can also
+            get a good time if your computer is slow ... But then you have
+            more time to solve the calculation ... */
+            player.time += 20;
             break;
         /********** PAUSE **********/
         case S_PAUSE:
@@ -238,9 +240,6 @@ void loop() {
             if(kdown(NKEY_SPACE)){
                 /* If the user choose to continue his current game. */
                 if(game.paused_selection == 0){
-                    /* Add the time elapsed during the pause to the total time
-                    lost in pauses. */
-                    player.pausetime += ms_time() - game.pause_start;
                     start_beep(); /* Restast the car audio effect. */
                     /* Jump to the 1 player game screen. */
                     game.stat = S_GAME1P;

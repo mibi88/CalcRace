@@ -19,15 +19,7 @@
 #ifndef CALC_H
 #define CALC_H
 
-const char calc_fstrings[T_AMOUNT][20] = {
-    "%d+%d",
-    "%d*%d",
-    "%d*%d",
-    "%d-%d",
-    "%d/%d",
-    "%d^%d",
-    "%d mod %d"
-};
-extern int (*calcs[T_AMOUNT])(int n1, int n2);
+/* Generate a new calculation. */
+void generate_calc(Player *player, Game *game);
 
 #endif

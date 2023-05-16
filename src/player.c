@@ -48,6 +48,7 @@ const unsigned char slow_tiles[A_SLOW_TILES] = {
     26
 };
 
+/* Blocks to choose your awnser when driving over them. */
 #define A_CHOICE_TILES 3
 const unsigned char choice_tiles[A_CHOICE_TILES] = {
     12,
@@ -55,6 +56,7 @@ const unsigned char choice_tiles[A_CHOICE_TILES] = {
     14
 };
 
+/* How x and y are modified depending on the direction of the car. */
 const int movs[8*2] = {
     0, -1,
     1, -1,
@@ -66,6 +68,8 @@ const int movs[8*2] = {
     -1, -1
 };
 
+/* For each direction the two positions where you get the tiles from to check
+collisions. */
 const int collision_check_pos[8*4] = {
     9, 4, 22, 4,
     19, 4, 26, 11,
@@ -77,76 +81,95 @@ const int collision_check_pos[8*4] = {
     5, 11, 12, 4
 };
 
-void generate_loop_info(Player *player, Game *game) {
-    int i;
-    for(i=0;i<20;i++){
-        player->loopinfo[i]=' ';
-    }
-    sprintf((char*)player->loopinfo, "%d/%d", player->loopn, game->loops);
-}
-
-void player_finished(Player *player, Game *game) {
-    stop_beep();
-    game->stat = S_END;
-}
-
-void player_gen_calc(Player *player, Game *game) {
-    int i, n;
-    player->iscalc = 1;
-    player->choice = rand() % 3;
-    if(*game->map.type == T_POW){
-        player->n1 = (rand() % 4) + 1;
-        player->n2 = (rand() % 3) + 1;
-    }else if(*game->map.type == T_BIGMUL){
-        player->n1 = (rand() % 17);
-        player->n2 = (rand() % 17);
-    }else{
-        player->n1 = (rand() % 10) + 1;
-        player->n2 = (rand() % 10) + 1;
-    }
-    player->intchoices[player->choice] = calcs[*game->map.type](player->n1,
-        player->n2);
-    for(i=0;i<3;i++){
-        if(!(i == player->choice)){
-            n = 0;
-            while(is_in(player->intchoices, 3, n)){
-                if(rand() % 2){
-                    if(player->n2>2){
-                        n = player->intchoices[player->choice] - (rand() %
-                            (player->n2) + 1);
-                    }else{
-                        n = player->intchoices[player->choice] - (rand() %
-                            4);
-                    }
-                }else{
-                    if(player->n2>2){
-                        n = player->intchoices[player->choice] + (rand() %
-                            (player->n2) + 1);
-                    }else{
-                        n = player->intchoices[player->choice] + (rand() %
-                            4);
-                    }
-                }
+/* Move the car */
+void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
+    int i, nx, ny;
+    /* If the car isn't crashed, the player can move him normally. */
+    if(!player->crash){
+        if(kdown(NKEY_LEFT)){ /* Move the car to the left. */
+            player->direction--;
+            if(player->direction < 1){
+                player->direction = 8;
             }
-            player->intchoices[i] = n;
+        }
+        if(kdown(NKEY_RIGHT)){ /* Move the car to the right. */
+            player->direction++;
+            if(player->direction > 8){
+                player->direction = 1;
+            }
+        }
+        player->rspeed = player->speed; /* player.rspeed contains the speed
+        that the car will have now. */
+        for(i=0;i<player->speed;i++){
+            player->collision = 0;
+            player->collisiontest = get_collision(player, game, map, MAP_WIDTH,
+                MAP_HEIGHT, mincalcs);
+            if(player->collisiontest == 3){
+                player->collision = player->collisiontest;
+                break;
+            }
+            if(player->collisiontest > player->collision){
+                player->collision = player->collisiontest;
+            }
+        }
+        switch(player->collision){
+            case 1: /* The car is in the grass. */
+                player->rspeed = player->speed/2;
+                break;
+            case 2: /* The car is in the water. */
+                player->rspeed = player->speed/4;
+                break;
+            case 3: /* The car hit a wall. */
+                player->rspeed = 0;
+                set_frequency(50);
+                break;
+        }
+        set_frequency((player->rspeed/2)*50+(player->direction*5)); /* Update
+        the frequency of the triangle wave oscillator used for the sound
+        effect. */
+        /* Move the car. */
+        for(i=0;i<player->rspeed;i++){
+            nx = player->x + movs[((player->direction-1)<<1)];
+            ny = player->y + movs[((player->direction-1)<<1)+1];
+            if(nx > 0 && nx < (MAP_WIDTH<<5)){
+                player->x += movs[((player->direction-1)<<1)];
+            }
+            if(ny > 0 && ny < (MAP_HEIGHT<<5)){
+                player->y += movs[((player->direction-1)<<1)+1];
+            }
+        }
+    }else{ /* The car is crashed. */
+        set_frequency(600+(player->direction*20)); /* Update the frequency of
+        the oscillator. */
+        /* Let the car turn around some time. The direction is choosen
+        randomly. */
+        if(player->crashd){
+            player->direction++;
+            if(player->direction > 8){
+                player->direction = 1;
+            }
+        }else{
+            player->direction--;
+            if(player->direction < 1){
+                player->direction = 8;
+            }
+        }
+        player->crashc++; /* crashc contains how long the car is already
+        crashed. */
+        if(player->crashc == player->crashlen){ /* If the car is already
+            spinning since some time, the player can continue playing. */
+            player->crash = 0;
         }
     }
-    for(i=0;i<60;i++){
-        player->choices[i]='\0';
-    }
-    for(i=0;i<20;i++){
-        player->calc[i]='\0';
-    }
-    player->choicessz = sprintf((char*)player->choices, "1:%d 2:%d 3:%d",
-        player->intchoices[0], player->intchoices[1],
-        player->intchoices[2]);
-    player->calcsz = sprintf((char*)player->calc,
-        (const char *)&calc_fstrings[*game->map.type], player->n1, player->n2);
-    player->choices_x = WIDTH/2 - (player->choicessz/2*9);
-    player->choices_x_small = WIDTH/2 - (player->choicessz/2*5);
-    player->calc_x = WIDTH/2 - (player->calcsz/2*9);
 }
 
+/* If the player finished his game. */
+void player_finished(Player *player, Game *game) {
+    stop_beep(); /* Stop the car sound effect. */
+    game->stat = S_END; /* Jump to the race end screen. */
+}
+
+/* Check collisions. */
 int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
     int map_h, int mincalcs) {
     int nx = player->x, ny = player->y, tiles[2], cx, cy, dx, dy, player_choice;
@@ -183,7 +206,7 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
     tiles[1] = get_tile_at_point(nx+dx, ny+dy, map, map_w, map_h);
     /* Generate a new calculation */
     if(is_in(tiles, 2, 1) && !player->iscalc){
-        player_gen_calc(player, game);
+        generate_calc(player, game);
     }
     /* Choices */
     player_choice = is_in_both(tiles, 2, (unsigned char *)choice_tiles,

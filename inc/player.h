@@ -21,11 +21,11 @@
 
 typedef struct {
     int x, y, direction, speed;
-    int iscalc, calcs, choice, rspeed, intchoices[3], n, collision,
-        collisiontest, calc_x, choices_x, choices_x_small, calcsz, choicessz,
-        n1, n2;
+    int iscalc, calcs, choice, intchoices[3], intcalc[2], calc_x, choices_x,
+        choices_x_small, calcsz, choicessz;
+    int collision, collisiontest, rspeed;
     int crash, crashlen, crashc, crashd, loopn;
-    int min, sec, ms, timelen, time, difftime, pausetime;
+    int timelen, time;
     unsigned char choices[60], calc[20], loopinfo[20], timeinfo[20];
 } Player;
 
@@ -39,13 +39,11 @@ extern const int movs[8*2];
 #include <memory.h>
 #include <game.h>
 
-/* Move the player */
-void move_xp(Player *player);
-void move_yp(Player *player);
-void move_xm(Player *player);
-void move_ym(Player *player);
-void generate_loop_info(Player *player, Game *game);
+/* Move the car */
+void move(Player *player, Game *game, unsigned char *map, int mincalcs);
+/* If the player finished his game. */
 void player_finished(Player *player, Game *game);
+/* Check collisions. */
 int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
     int map_h, int mincalcs);
 
