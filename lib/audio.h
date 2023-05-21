@@ -19,7 +19,11 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
+#ifdef __EMSCRIPTEN__
+
 #include <emscripten.h>
+
+#endif
 
 void init_audio(char* type);
 void set_frequency(int hz);
@@ -27,3 +31,4 @@ void start_beep(void);
 void stop_beep(void);
 
 #endif
+

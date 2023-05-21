@@ -20,6 +20,8 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+#ifdef __EMSCRIPTEN__
+
 enum {
     KEY_UP    = 38,
     KEY_DOWN  = 40,
@@ -29,6 +31,9 @@ enum {
 };
 
 #include <emscripten.h>
+
+#endif
+
 typedef enum {FALSE, TRUE} bool;
 
 void init_canvas(int width, int height, char *canvasname);

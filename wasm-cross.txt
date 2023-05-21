@@ -1,0 +1,10 @@
+[binaries]
+c = 'emcc'
+cpp = 'em++'
+ar = 'emar'
+
+[host_machine]
+system = 'wasm'
+cpu_family = 'wasm'
+cpu = 'wasm'
+endian = 'little'

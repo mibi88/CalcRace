@@ -18,6 +18,8 @@
 
 #include <audio.h>
 
+#ifdef __EMSCRIPTEN__
+
 EM_JS(void, init_audio, (char* ctype), {
     window.audioCtx = new AudioContext();
     window.oscillator = window.audioCtx.createOscillator();
@@ -44,3 +46,24 @@ EM_JS(void, stop_beep, (void), {
         console.log("[audio.h] " + error);
     }
 })
+
+#else
+/* SDL2 version */
+
+void init_audio(char *ctype) {
+    return; /* TODO : Code this */
+}
+
+void set_frequency(int hz) {
+    return; /* TODO : Code this */
+}
+
+void start_beep(void) {
+    return; /* TODO : Code this */
+}
+
+void stop_beep(void) {
+    return; /* TODO : Code this */
+}
+
+#endif

@@ -12,6 +12,6 @@
 * ~~Mobile controls~~
 * CRT effect and arcade cabinet background
 * ~~Fix the map editor~~
-* Better makefile
+* ~~Better makefile~~
 * Put images and fonts in structures
 * **In progress !** Add comments and optimize the code

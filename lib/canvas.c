@@ -19,6 +19,8 @@
 
 #include <canvas.h>
 
+#ifdef __EMSCRIPTEN__
+
 EM_JS(void, init_canvas, (int width, int height, char *canvasname), {
     window.canvas = document.getElementById(UTF8ToString(canvasname));
     window.canvas.width = width;
@@ -145,3 +147,5 @@ EM_JS(bool, is_clicked, (void), {
 void main_loop(void (*loop_function)(void), int fps) {
     emscripten_set_main_loop(loop_function, fps, 1);
 }
+
+#endif
