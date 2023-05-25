@@ -6,7 +6,7 @@ canvaslib_sources = [
 
 if target_machine.system() != 'wasm'
   canvaslib_deps = [
-    dependency('sdl2', native: true),
+    dependency('sdl', native: true),
   ]
 else
   canvaslib_deps = []

@@ -48,7 +48,7 @@ EM_JS(void, stop_beep, (void), {
 })
 
 #else
-/* SDL2 version */
+/* SDL version */
 
 void init_audio(char *ctype) {
     return; /* TODO : Code this */

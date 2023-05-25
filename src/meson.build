@@ -25,19 +25,29 @@ else
   extra_args = []
 endif
 
+if target_machine.system() != 'wasm'
+  calcrace_deps = [
+    meson.get_compiler('c').find_library('m', required: true),
+  ]
+else
+  calcrace_deps = []
+endif
+
 executable('CalcRace', calcrace_sources,
   include_directories: calcrace_incdirs,
   link_whole : canvaslib,
   override_options: ['b_lundef=false'],
   link_args: extra_args,
+  dependencies: calcrace_deps,
 )
 
-configure_file(input: 'run.sh',
-  output: 'run.sh',
-  configuration: configuration_data(),
-)
-
-configure_file(input: 'CalcRace.html',
-  output: 'index.html',
-  configuration: configuration_data(),
-)
+if target_machine.system() == 'wasm'
+  configure_file(input: 'run.sh',
+    output: 'run.sh',
+    configuration: configuration_data(),
+  )
+  configure_file(input: 'CalcRace.html',
+    output: 'index.html',
+    configuration: configuration_data(),
+  )
+endif

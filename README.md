@@ -8,11 +8,14 @@ Required tools and libraries to build this game
     * meson
     * ninja
     * python3
+        * sys
+        * os
+        * Pillow
     * bash/zsh/dash
 * For the web version
     * emscripten
-* For the SDL2 version (**coming soon**)
-    * SDL2
+* For the SDL version (**Currently there is no upscale, so it's a bit unusable**)
+    * SDL 1.2
 
 Then just run :
 * `$ meson bin --cross-file wasm-cross.txt && cd bin && ninja` : to compile the web version of the game.

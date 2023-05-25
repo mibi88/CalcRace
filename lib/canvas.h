@@ -32,6 +32,18 @@ enum {
 
 #include <emscripten.h>
 
+#else
+
+#include <SDL/SDL.h>
+
+enum {
+    KEY_UP    = SDLK_UP,
+    KEY_DOWN  = SDLK_DOWN,
+    KEY_LEFT  = SDLK_LEFT,
+    KEY_RIGHT = SDLK_RIGHT,
+    KEY_SPACE = SDLK_SPACE
+};
+
 #endif
 
 typedef enum {FALSE, TRUE} bool;

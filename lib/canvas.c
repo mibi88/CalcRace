@@ -148,4 +148,128 @@ void main_loop(void (*loop_function)(void), int fps) {
     emscripten_set_main_loop(loop_function, fps, 1);
 }
 
+#else
+/* SDL version */
+
+int _w = 0, _h = 0;
+Uint8 *_kbuffer;
+SDL_Surface *_surface;
+
+void init_canvas(int width, int height, char *canvasname) {
+    if(SDL_Init(SDL_INIT_VIDEO) < 0){
+        puts("[canvaslib] Failed to initialize the SDL !");
+        exit(-1);
+    }
+    SDL_WM_SetCaption(canvasname, canvasname);
+    _surface = SDL_SetVideoMode(width, height, 32, 0);
+    if(!_surface){
+        puts("[canvaslib] Failed to get the surface from the SDL window !");
+        exit(-1);
+    }
+    if(SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,
+        SDL_DEFAULT_REPEAT_INTERVAL) < 0){
+        puts("[canvaslib] Can't enable key repeat !");
+        exit(-1);
+    }
+    _w = width;
+    _h = height;
+    SDL_EnableUNICODE(1);
+    SDL_LockSurface(_surface);
+    clear();
+}
+
+void put_pixel(int x, int y, int r, int g, int b, int a) {
+    Uint32 *target_pixel;
+    if(x>=0 && x<_w && y>=0 && y<_h){
+        target_pixel = (Uint32 *)((Uint8 *)_surface->pixels+y*_surface->pitch+x*
+            _surface->format->BytesPerPixel);
+        *target_pixel = SDL_MapRGB(_surface->format, r, g, b);
+    }
+}
+
+void update(void) {
+    SDL_UnlockSurface(_surface);
+    SDL_Flip(_surface);
+    SDL_LockSurface(_surface);
+}
+
+void clear(void) {
+    SDL_FillRect(_surface, NULL, 0xFFFFFF);
+}
+
+void init_getkey(void) {
+    return; /* Not needed with SDL */
+}
+
+bool getkey(int key) {
+    SDL_PumpEvents();
+    _kbuffer = SDL_GetKeyState(NULL);
+    return _kbuffer[key];
+}
+
+int getwidth(void) {
+    return _w;
+}
+
+int getheight(void) {
+    return _h;
+}
+
+int ms_time(void) {
+    return SDL_GetTicks();
+}
+
+void init_mouse(void) {
+    return; /* TODO : Code this */
+}
+
+void init_click(void) {
+    return; /* TODO : Code this */
+}
+
+void init_touch_move(void) {
+    return; /* TODO : Code this */
+}
+
+void init_touch(void) {
+    return; /* TODO : Code this */
+}
+
+int get_mouse_x(void) {
+    return 0; /* TODO : Code this */
+}
+
+int get_mouse_y(void) {
+    return 0; /* TODO : Code this */
+}
+
+bool is_clicked(void) {
+    return 0; /* TODO : Code this */
+}
+
+bool _exit(void) {
+    SDL_Event event;
+    while(SDL_PollEvent(&event)){
+        if(event.type == SDL_QUIT){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void main_loop(void (*loop_function)(void), int fps) {
+    Uint32 _last_t;
+    Uint32 ticks;
+    while(!_exit()){
+        _last_t = SDL_GetTicks();
+        loop_function();
+        if(SDL_GetTicks() < _last_t){
+            _last_t = SDL_GetTicks();
+        }else{
+            ticks = 1000/(Uint32)fps;
+            while(SDL_GetTicks() - _last_t < ticks);
+        }
+    }
+}
+
 #endif
