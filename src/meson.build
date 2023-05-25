@@ -11,7 +11,9 @@ calcrace_sources = [
   'main.c',
 ]
 
-calcrace_incdirs = include_directories('../inc', '../lib', '../img_conv')
+calcrace_incdirs = include_directories('../inc',
+  '../lib',
+)
 
 if meson.get_compiler('c').get_id() == 'emcc'
   extra_args = [

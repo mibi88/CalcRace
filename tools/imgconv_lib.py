@@ -20,10 +20,10 @@ from PIL import Image
 
 import os
 
-def conv(image, path, outpath, prefix = ""):
-    name, ext = os.path.splitext(image)
+def conv(infile, outfile, prefix = ""):
+    name, ext = os.path.splitext(os.path.basename(infile))
     if ext == ".png":
-        img = Image.open(path + image).convert("RGBA")
+        img = Image.open(infile).convert("RGBA")
         w, h = img.size
 
         pixels = []
@@ -40,7 +40,7 @@ def conv(image, path, outpath, prefix = ""):
 
         out = ("#ifndef " + image_name.upper() + "_H\n#define " +
             image_name.upper() +
-            "_H\n#include \"../lib/image.h\"\n\n/* Image " + image +
+            "_H\n#include <image.h>\n\n/* Image " + name +
             " converted with tools/imgconv_dir.py */\n\nconst unsigned char " +
             image_name + "_data[" + str(w*h*4) + "] = {")
 
@@ -51,6 +51,8 @@ def conv(image, path, outpath, prefix = ""):
         ";\nconst int " + image_name + "_height = " + str(h) + ";\n#endif\n")
         # print(out)
 
-        with open(outpath + prefix + name + ".h", "w") as file:
+        with open(outfile, "w") as file:
             file.write(out)
             file.close()
+    else:
+        print("bad ext")

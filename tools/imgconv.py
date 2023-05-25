@@ -16,15 +16,22 @@
     along with this program. If not, see https://www.gnu.org/licenses/.
 """
 
+"""
+import sys
+from imgconv_lib import *
+
+if len(sys.argv) > 1:
+    for i in sys.argv[1:]:
+        file = os.path.splitext(i)[0] + ".png"
+        conv(file, i)
+else:
+    print("Need more args.")
+"""
+
 import sys
 from imgconv_lib import *
 
 if len(sys.argv) > 2:
-    if len(sys.argv) > 3:
-        prefix = sys.argv[3]
-    else:
-        prefix = ""
-    path = sys.argv[1]
-    outpath = sys.argv[2]
-    for image in os.listdir(path):
-        conv(image, path, outpath, prefix)
+    conv(sys.argv[1], sys.argv[2])
+else:
+    print("Need more args.")

@@ -19,13 +19,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include <car1.h>
-#include <car2.h>
-#include <car3.h>
-#include <car4.h>
-#include <car5.h>
-#include <car6.h>
-#include <car7.h>
-#include <car8.h>
+#include <cars_skin1.h>
 
 #endif

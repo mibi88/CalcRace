@@ -32,30 +32,6 @@ void drawtile(int x, int y, int type, unsigned char *tilesheet){
 void drawcar(int x, int y, int direction) {
     x -= 16;
     y -= 16;
-    switch(direction){
-        case 1:
-            draw_image_del_color(x, y, car1_data, 32, 32, 0, 0, 0, 0);
-            break;
-        case 2:
-            draw_image_del_color(x, y, car7_data, 32, 32, 0, 0, 0, 0);
-            break;
-        case 3:
-            draw_image_del_color(x, y, car2_data, 32, 32, 0, 0, 0, 0);
-            break;
-        case 4:
-            draw_image_del_color(x, y, car8_data, 32, 32, 0, 0, 0, 0);
-            break;
-        case 5:
-            draw_image_del_color(x, y, car3_data, 32, 32, 0, 0, 0, 0);
-            break;
-        case 6:
-            draw_image_del_color(x, y, car5_data, 32, 32, 0, 0, 0, 0);
-            break;
-        case 7:
-            draw_image_del_color(x, y, car4_data, 32, 32, 0, 0, 0, 0);
-            break;
-        default:
-            draw_image_del_color(x, y, car6_data, 32, 32, 0, 0, 0, 0);
-            break;
-    }
+    draw_image_del_color_part(x, y, (direction-1)<<5, 0, cars_skin1_data, 32,
+        32, 0, 0, 0, 0, 256);
 }
