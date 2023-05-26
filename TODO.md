@@ -51,10 +51,13 @@
 
 ### lib
 
+Headers
+
 * [ ] lib/audio.h
 * [ ] lib/canvas.h
 * [ ] lib/image.h
 
+C source
 
 * [ ] lib/audio.c
 * [ ] lib/canvas.c
