@@ -19,6 +19,8 @@
 #include <game.h>
 #include <math.h>
 
+/* All format strings used to display the calculation */
+
 const char calc_fstrings[T_AMOUNT][20] = {
     "%d+%d",
     "%d*%d",
@@ -28,6 +30,8 @@ const char calc_fstrings[T_AMOUNT][20] = {
     "%d^%d",
     "%d mod %d"
 };
+
+/* Functions to calculate the calculation */
 
 int _calc_add(int n1, int n2) {
     return n1+n2;
@@ -53,7 +57,8 @@ int _calc_mod(int n1, int n2) {
     return n1%n2;
 }
 
-/* Functions to generate calculations. */
+/* Functions to calculate the calculations. The function is at the index of the
+calculation type (Type enum, see game.h) */
 int (*calcs[T_AMOUNT])(int n1, int n2) = {
     _calc_add,
     _calc_mul,

@@ -7,7 +7,7 @@ project('CalcRace', 'c',
 )
 
 config_h = configuration_data()
-config_h.set_quoted('PACKAGE_VERSION', meson.project_version())
+config_h.set_quoted('GAME_VERSION', meson.project_version())
 configure_file(
   output: 'config.h',
   configuration: config_h,

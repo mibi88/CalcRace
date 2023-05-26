@@ -211,34 +211,40 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
     /* Choices */
     player_choice = is_in_both(tiles, 2, (unsigned char *)choice_tiles,
         A_CHOICE_TILES);
-    if(player_choice && player->iscalc){
-        if(player->choice != player_choice - 12){
-            player->crash = 1;
-            player->crashc = 0;
-            player->crashd = rand() % 2;
+    if(player_choice && player->iscalc){ /* If the player goes over a coin */
+        if(player->choice != player_choice - 12){ /* If he didn't go over the
+            right coin */
+            player->crash = 1; /* Let the car spin. */
+            player->crashc = 0; /* Set the time where the car was spinning to
+                zero. */
+            player->crashd = rand() % 2; /* Set the direction that the car is
+                spinning to. */
         }
-        player->iscalc = 0;
-        player->calcs++;
+        player->iscalc = 0; /* The player solved the calculation. */
+        player->calcs++; /* He solved one more calculation. */
     }
     /* Finishing line */
     if(is_in(tiles, 2, 24) && player->calcs>=mincalcs){
-        player->loopn++;
-        player->calcs = 0;
-        if(player->loopn>game->loops){
-            player_finished(player, game);
+        /* The car is crossing the finishing line, and solved all the
+        calculations. */
+        player->loopn++; /* The player did one more loop. */
+        player->calcs = 0; /* Reset the solved calculation counter. */
+        if(player->loopn>game->loops){ /* if the player did enough loops. */
+            player_finished(player, game); /* Finish this game. */
         }
-        generate_loop_info(player, game);
+        generate_loop_info(player, game); /* Generate the timer string. */
     }
     /* Check collision type */
     if(is_in_both(tiles, 2, (unsigned char *)hard_tiles, A_HARD_TILES)){
-        /* Block */
+        /* The player can't go forward. */
         return 3;
     }else if(is_in_both(tiles, 2, (unsigned char *)veryslow_tiles,
-        A_VERYSLOW_TILES)){ /* Hard */
+        A_VERYSLOW_TILES)){ /* The player can only go slowly over this tile. */
         return 2;
     }else if(is_in_both(tiles, 2, (unsigned char *)slow_tiles, A_SLOW_TILES)){
-        /* Mid */
+        /* The player can go pretty fast over this tile, but not at full
+        speed. */
         return 1;
     }
-    return 0;
+    return 0; /* The player can go at full speed over this tile. */
 }

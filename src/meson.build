@@ -39,15 +39,21 @@ executable('CalcRace', calcrace_sources,
   override_options: ['b_lundef=false'],
   link_args: extra_args,
   dependencies: calcrace_deps,
+  install_dir: meson.project_build_root(),
+  install: true,
 )
 
 if target_machine.system() == 'wasm'
   configure_file(input: 'run.sh',
     output: 'run.sh',
-    configuration: configuration_data(),
+    copy: true,
+    install_dir: meson.project_build_root(),
+    install: true,
   )
   configure_file(input: 'CalcRace.html',
     output: 'index.html',
-    configuration: configuration_data(),
+    copy: true,
+    install_dir: meson.project_build_root(),
+    install: true,
   )
 endif

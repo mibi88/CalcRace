@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <game.h>
 #include <worlds.h>
@@ -34,6 +35,8 @@ int _jump;
 #include <arrow.h>
 
 #include <fonts.h>
+
+#include <config.h>
 
 /* In this game there are multiple worlds, with their own tileset. menu_choices
 contains the text of the menu for each world. */
@@ -72,6 +75,9 @@ void loop() {
             /* Draw the title screen background */
             draw_image(0, 0, (unsigned char*)title_data, title_width,
                 title_height);
+            /* Draw the version number on the bottom of the screen */
+            dtext((unsigned char*)GAME_VERSION, 8, 30, strlen(GAME_VERSION),
+                (unsigned char*)font_small_data, font_small_width, 4, 5);
             /* Wait that the user presses SPACE to jump to the map selection
             screen. Now we can initialize the oscillator for the sound effects,
             because the browser wants that the user did something on this page

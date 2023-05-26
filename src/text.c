@@ -20,7 +20,6 @@
 
 void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
     int font_width, int width, int height) {
-    /* Todo : don't use an image for each character. */
     int i, osx = sx, px, py, tmp_t;
     unsigned char c;
     for(i=0;i<len;i++){

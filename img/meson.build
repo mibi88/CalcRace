@@ -32,11 +32,11 @@ foreach image : assets_sources
   )
 endforeach
 
-'''
-gen = generator(prog_python,
-  output: '@BASENAME@.h',
-  arguments: ['../tools/imgconv.py', '@INPUT@', '@OUTPUT@']
-)
-
-gen_src = gen.process(assets_sources)
-'''
+if target_machine.system() == 'wasm'
+  configure_file(input: 'favicon.png',
+    output: 'favicon.png',
+    copy: true,
+    install_dir: meson.project_build_root(),
+    install: true,
+  )
+endif

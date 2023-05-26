@@ -2,6 +2,21 @@
 c = 'emcc'
 cpp = 'em++'
 ar = 'emar'
+strip = 'emstrip'
+
+[properties]
+sizeof_void = 1
+sizeof_char = 1
+sizeof_short = 2
+sizeof_int = 4
+sizeof_long = 4
+
+sizeof_void* = 4
+sizeof_char* = 4
+sizeof_short* = 4
+sizeof_int* = 4
+sizeof_long* = 4
+
 
 [host_machine]
 system = 'wasm'
