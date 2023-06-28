@@ -19,7 +19,11 @@
 #ifndef TILES_H
 #define TILES_H
 
+/* Draws the tile of number type of the tile sheet tilesheet at x, y on
+screen. */
 void drawtile(int x, int y, int type, unsigned char *tilesheet);
+
+/* Draws the car in direction direction at x, y on screen. */
 void drawcar(int x, int y, int direction);
 
 #endif

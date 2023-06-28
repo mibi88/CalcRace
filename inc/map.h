@@ -22,8 +22,16 @@
 #include <stdio.h>
 #include <tiles.h>
 
+/* Draws the part of the map at x, y on screen at sx, sy on a width of w and a
+height of h. The map has a width of map_width and a height of map_height.
+the array of tiles is stored in map. car is the direction of the car, and
+tilesheet contains the image of the tile sheet used to draw the map. */
 void drawmap(int sx, int sy, int x, int y, int w, int h, int map_width,
     int map_height, unsigned char *map, int car, unsigned char *tilesheet);
+
+/* Returns the tile located on map map at x, y. The map has a width of map_w and
+the height of the map is map_h. */
 int get_tile_at_point(int x, int y, unsigned char *map, int map_w, int map_h);
 
 #endif
+

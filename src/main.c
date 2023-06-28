@@ -96,57 +96,58 @@ void loop() {
                 map_choosing_screen_width, map_choosing_screen_height);
             /* update the currently selected world text and get his lenght. */
             game.world_info_len = sprintf((char *)&game.world_info, "World %d",
-                game.menu_world+1);
+                game.menu_world.selection+1);
             /* If NKEY_UP is pressed, move the cursor to the previous item in
             the menu, or to the laast one if the first item was selected. */
             if(kdown(NKEY_UP)){
-                if(game.menu_selection){
-                    game.menu_selection--;
+                if(game.menu_map.selection > 0){
+                    game.menu_map.selection--;
                 }else{
-                    game.menu_selection = game.menu_len;
+                    game.menu_map.selection = game.menu_map.len;
                 }
             }
             /* If NKEY_DOWN is pressed, move the cursor to the next item in the
             menu, or to the first one if the last item was selected. */
             if(kdown(NKEY_DOWN)){
-                game.menu_selection++;
-                if(game.menu_selection > game.menu_len){
-                    game.menu_selection = 0;
+                game.menu_map.selection++;
+                if(game.menu_map.selection > game.menu_map.len){
+                    game.menu_map.selection = 0;
                 }
             }
             /* If NKEY_LEFT is pressed, switch to the previous world menu. */
             if(kdown(NKEY_LEFT)){
-                if(game.menu_world){
-                    game.menu_world--;
+                if(game.menu_world.selection > 0){
+                    game.menu_world.selection--;
                 }else{
-                    game.menu_world = game.menu_worlds;
+                    game.menu_world.selection = game.menu_world.len;
                 }
-                game.menu_len = menu_lengths[game.menu_world];
+                game.menu_map.len = menu_lengths[game.menu_world.selection];
                 /* If there is no item on the newly selected world with this
                 index. */
-                if(game.menu_selection >= game.menu_len){
-                    game.menu_selection = game.menu_len;
+                if(game.menu_map.selection >= game.menu_map.len){
+                    game.menu_map.selection = game.menu_map.len;
                 }
             }
             /* If NKEY_LEFT is pressed, switch to the next world menu. */
             if(kdown(NKEY_RIGHT)){
-                game.menu_world++;
-                if(game.menu_world > game.menu_worlds){
-                    game.menu_world = 0;
+                game.menu_world.selection++;
+                if(game.menu_world.selection > game.menu_world.len){
+                    game.menu_world.selection = 0;
                 }
-                game.menu_len = menu_lengths[game.menu_world];
+                game.menu_map.len = menu_lengths[game.menu_world.selection];
                 /* If there is no item on the newly selected world with this
                 index. */
-                if(game.menu_selection >= game.menu_len){
-                    game.menu_selection = game.menu_len;
+                if(game.menu_map.selection >= game.menu_map.len){
+                    game.menu_map.selection = game.menu_map.len;
                 }
             }
             /* Draw the cursor. */
-            draw_image_del_color(MENU_X, MENU_Y+game.menu_selection*9,
+            draw_image_del_color(MENU_X, MENU_Y+game.menu_map.selection*9,
                 arrow_data, 8, 8, 0, 0, 0, 0);
             /* Show the maps of the selected world. */
-            dtext((unsigned char*)menu_choices[game.menu_world], MENU_X+9,
-                MENU_Y, 40, (unsigned char*)font_data, font_width, 8, 8);
+            dtext((unsigned char*)menu_choices[game.menu_world.selection],
+                MENU_X+9, MENU_Y, 40, (unsigned char*)font_data, font_width, 8,
+                8);
             /* Show which world is selected. */
             dtext((unsigned char*)&game.world_info,
                 WIDTH/2-game.world_info_len*8/2, 4, 20,
@@ -154,7 +155,8 @@ void loop() {
             /* If NKEY_SPACE is pressed, start a new one player game on the
             selected map. */
             if(kdown(NKEY_SPACE)){
-                game.map = worlds[game.menu_world][game.menu_selection];
+                game.map = worlds[game.menu_world.selection]
+                    [game.menu_map.selection];
                 init_game(&player, &game, *game.map.start_x, *game.map.start_y,
                     *game.map.speed);
                 game.seed = ms_time();
@@ -168,7 +170,7 @@ void loop() {
         /********** 1 PLAYER GAME **********/
         case S_GAME1P:
             /* Move the car. */
-            move(&player, &game, game.map.map, *game.map.calcs);
+            move(&player, &game);
             /* Draw the map and the car. */
             drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH,
                 MAP_HEIGHT, game.map.map, player.direction, game.map.tilesheet);
@@ -194,7 +196,7 @@ void loop() {
             }
             /* Go to the pause menu if NKEY_SPACE is pressed. */
             if(kdown(NKEY_SPACE)){
-                game.paused_selection = 0;
+                game.menu_pause.selection = 0;
                 stop_beep(); /* Stop the car sound effect made with a triangle
                 wave. */
                 game.stat = S_PAUSE; /* Jump to the pause menu. */
@@ -210,33 +212,37 @@ void loop() {
             I update the timer like this now because like this you can also
             get a good time if your computer is slow ... But then you have
             more time to solve the calculation ... */
-            player.time += 20;
+            if((player.time)/1000/60 < 100){ /* Do not increase the timer
+                to 100 min, if we should. */
+                player.time += 20;
+            }
             break;
         /********** PAUSE **********/
         case S_PAUSE:
             /* Move to the previous entry of the pause menu, or wrap to the
             last one. */
             if(kdown(NKEY_UP)){
-                if(game.paused_selection){
-                    game.paused_selection--;
+                if(game.menu_pause.selection){
+                    game.menu_pause.selection--;
                 }else{
-                    game.paused_selection = PAUSED_LEN;
+                    game.menu_pause.selection = game.menu_pause.len;
                 }
             }
             /* Move to the next entry of the pause menu, or wrap to the first
             one. */
             if(kdown(NKEY_DOWN)){
-                game.paused_selection++;
-                if(game.paused_selection > PAUSED_LEN){
-                    game.paused_selection = 0;
+                game.menu_pause.selection++;
+                if(game.menu_pause.selection > game.menu_pause.len){
+                    game.menu_pause.selection = 0;
                 }
             }
             /* Draw the map and the car. They are used as a background. */
             drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH,
                 MAP_HEIGHT, game.map.map, player.direction, game.map.tilesheet);
             /* Draw the cursor. */
-            draw_image_del_color(PAUSED_X, PAUSED_Y+game.paused_selection*9+9,
-                arrow_data, 8, 8, 0, 0, 0, 0);
+            draw_image_del_color(PAUSED_X,
+                PAUSED_Y+game.menu_pause.selection*9+9, arrow_data, 8, 8, 0, 0,
+                0, 0);
             /* Draw the title of the menu. */
             dtext((unsigned char*)"Paused", PAUSED_X+9, PAUSED_Y, 6,
                 (unsigned char*)font_data, font_width, 8, 8);
@@ -245,14 +251,14 @@ void loop() {
                 18, (unsigned char*)font_data, font_width, 8, 8);
             if(kdown(NKEY_SPACE)){
                 /* If the user choose to continue his current game. */
-                if(game.paused_selection == 0){
+                if(game.menu_pause.selection == 0){
                     start_beep(); /* Restast the car audio effect. */
                     /* Jump to the 1 player game screen. */
                     game.stat = S_GAME1P;
                 }else{ /* If the user decided to go back to the main menu. */
                     /* Reset the game. */
-                    init_game(&player, &game, (int)game.map.start_x,
-                        (int)game.map.start_y, (int)game.map.speed);
+                    init_game(&player, &game, *game.map.start_x,
+                        *game.map.start_y, *game.map.speed);
                 }
             }
             break;
@@ -265,8 +271,8 @@ void loop() {
                 (unsigned char*)font_data, font_width, 8, 8);
             /* If NKEY_SPACE is pressed, reset the game */
             if(kdown(NKEY_SPACE)){
-                init_game(&player, &game, (int)game.map.start_x,
-                    (int)game.map.start_y, (int)game.map.speed);
+                init_game(&player, &game, *game.map.start_x,
+                    *game.map.start_y, *game.map.speed);
             }
             break;
         /********** DEFAULT: JUMP TO TITLE **********/
@@ -286,13 +292,14 @@ void loop() {
 int main(void) {
     /* Inititalise everything. */
     game.map = worlds[0][0]; /* Set map to the first map. */
-    game.menu_world = 0; /* Set the world selected by default. */
-    game.menu_selection = 0; /* Set the map selected by default. */
-    game.menu_len = menu_lengths[game.menu_world]; /* Get the amount of maps of
-    the selected world */
-    game.menu_worlds = 2; /* Set how many worlds are available. */
-    init_game(&player, &game, (int)game.map.start_x, (int)game.map.start_y,
-        (int)game.map.speed); /* Init the game, but this functions does not init
+    game.menu_world.selection = 0; /* Set the world selected by default. */
+    game.menu_map.selection = 0; /* Set the map selected by default. */
+    game.menu_map.len = menu_lengths[game.menu_world.selection]; /* Get the
+    amount of maps in the selected world */
+    game.menu_world.len = 2; /* Set how many worlds are available. */
+    game.menu_pause.len = PAUSED_LEN; /* How many items are in the pause menu */
+    init_game(&player, &game, *game.map.start_x, *game.map.start_y,
+        *game.map.speed); /* Init the game, but this functions does not init
     everything as you can see it here. */
     init_canvas(WIDTH, HEIGHT, "canvas"); /* Init functions for drawing. */
     init_getkey(); /* Init the funtions that grab the keyboard input. */

@@ -19,7 +19,13 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+/* Check if the array of int array contains item. size is the length of the
+array. */
 int is_in(int *array, int size, int item);
+
+/* Check if an item is in array1 and array2. size1 is the length of array1 and
+size2 the length of array2. */
 int is_in_both(int *array1, int size1, unsigned char *array2, int size2);
 
 #endif
+

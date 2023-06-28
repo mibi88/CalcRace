@@ -82,7 +82,7 @@ const int collision_check_pos[8*4] = {
 };
 
 /* Move the car */
-void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
+void move(Player *player, Game *game) {
     int i, nx, ny;
     /* If the car isn't crashed, the player can move him normally. */
     if(!player->crash){
@@ -102,8 +102,7 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
         that the car will have now. */
         for(i=0;i<player->speed;i++){
             player->collision = 0;
-            player->collisiontest = get_collision(player, game, map, MAP_WIDTH,
-                MAP_HEIGHT, mincalcs);
+            player->collisiontest = get_collision(player, game);
             if(player->collisiontest == 3){
                 player->collision = player->collisiontest;
                 break;
@@ -113,15 +112,17 @@ void move(Player *player, Game *game, unsigned char *map, int mincalcs) {
             }
         }
         switch(player->collision){
-            case 1: /* The car is in the grass. */
+            case C_GRASS: /* The car is in the grass. */
                 player->rspeed = player->speed/2;
                 break;
-            case 2: /* The car is in the water. */
+            case C_WATER: /* The car is in the water. */
                 player->rspeed = player->speed/4;
                 break;
-            case 3: /* The car hit a wall. */
+            case C_BLOCK: /* The car hit a wall. */
                 player->rspeed = 0;
                 set_frequency(50);
+                break;
+            default:
                 break;
         }
         set_frequency((player->rspeed/2)*50+(player->direction*5)); /* Update
@@ -170,8 +171,7 @@ void player_finished(Player *player, Game *game) {
 }
 
 /* Check collisions. */
-int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
-    int map_h, int mincalcs) {
+Collisiontype get_collision(Player *player, Game *game) {
     int nx = player->x, ny = player->y, tiles[2], cx, cy, dx, dy, player_choice;
     /* nx and ny are test x and y positions */
     nx += movs[((player->direction-1)<<1)];
@@ -179,17 +179,17 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
     /* Fixing nx and ny values to simulate the "real" car */
     if(nx < WIDTH>>1){
         cx = nx;
-    }else if(nx < (map_w<<5) - (WIDTH>>1)){
+    }else if(nx < (MAP_WIDTH<<5) - (WIDTH>>1)){
         cx = WIDTH>>1;
     }else{
-        cx = nx - ((map_w<<5) - WIDTH);
+        cx = nx - ((MAP_WIDTH<<5) - WIDTH);
     }
     if(ny < HEIGHT>>1){
         cy = ny;
-    }else if(ny < (map_h<<5) - (HEIGHT>>1)){
+    }else if(ny < (MAP_HEIGHT<<5) - (HEIGHT>>1)){
         cy = HEIGHT>>1;
     }else{
-        cy = ny - ((map_h<<5) - HEIGHT);
+        cy = ny - ((MAP_HEIGHT<<5) - HEIGHT);
     }
     nx += (cx-(WIDTH>>1))+48;
     ny += (cy-(HEIGHT>>1))+32;
@@ -198,12 +198,12 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
     dx = collision_check_pos[((player->direction-1)<<2)];
     dy = collision_check_pos[((player->direction-1)<<2)+1];
     /* Getting the block at this position */
-    tiles[0] = get_tile_at_point(nx+dx, ny+dy, map, map_w, map_h);
+    tiles[0] = get_tile_at_point(nx+dx, ny+dy, game->map.map, MAP_WIDTH, MAP_HEIGHT);
     /* Grabbing the right positions to check */
     dx = collision_check_pos[((player->direction-1)<<2)+2];
     dy = collision_check_pos[((player->direction-1)<<2)+3];
     /* Getting the block at this position */
-    tiles[1] = get_tile_at_point(nx+dx, ny+dy, map, map_w, map_h);
+    tiles[1] = get_tile_at_point(nx+dx, ny+dy, game->map.map, MAP_WIDTH, MAP_HEIGHT);
     /* Generate a new calculation */
     if(is_in(tiles, 2, 1) && !player->iscalc){
         generate_calc(player, game);
@@ -224,7 +224,7 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
         player->calcs++; /* He solved one more calculation. */
     }
     /* Finishing line */
-    if(is_in(tiles, 2, 24) && player->calcs>=mincalcs){
+    if(is_in(tiles, 2, 24) && player->calcs>=(int)*game->map.calcs){
         /* The car is crossing the finishing line, and solved all the
         calculations. */
         player->loopn++; /* The player did one more loop. */
@@ -237,14 +237,15 @@ int get_collision(Player *player, Game *game, unsigned char *map, int map_w,
     /* Check collision type */
     if(is_in_both(tiles, 2, (unsigned char *)hard_tiles, A_HARD_TILES)){
         /* The player can't go forward. */
-        return 3;
+        return C_BLOCK;
     }else if(is_in_both(tiles, 2, (unsigned char *)veryslow_tiles,
         A_VERYSLOW_TILES)){ /* The player can only go slowly over this tile. */
-        return 2;
+        return C_WATER;
     }else if(is_in_both(tiles, 2, (unsigned char *)slow_tiles, A_SLOW_TILES)){
         /* The player can go pretty fast over this tile, but not at full
         speed. */
-        return 1;
+        return C_GRASS;
     }
-    return 0; /* The player can go at full speed over this tile. */
+    return C_ROAD; /* The player can go at full speed over this tile. */
 }
+

@@ -19,52 +19,80 @@
 #ifndef GAME_H
 #define GAME_H
 
+/* Screen width and height. */
 #define WIDTH 128
 #define HEIGHT 96
+/* Map width and height. */
 #define MAP_WIDTH 64
 #define MAP_HEIGHT 60
 
+/* Map choosing screen menu position. */
 #define MENU_X 48
 #define MENU_Y 16
 
+/* Pause menu position. */
 #define PAUSED_X 16
 #define PAUSED_Y 16
 
+/* Amount of items in the pause menu. */
 #define PAUSED_LEN 1
 
+/* On which screen of the game we are. */
 typedef enum {
-    S_TITLE,
-    S_MAPSELECT,
-    S_GAME1P,
-    S_PAUSE,
-    S_END,
-    S_AMOUNT
+    S_TITLE, /* Title screen. */
+    S_MAPSELECT, /* Map selection screen. */
+    S_GAME1P, /* 1 player game screen. */
+    S_PAUSE, /* Pause screen. */
+    S_END, /* Game end screen. */
+    S_AMOUNT /* Amount of screens. */
 } Stat;
 
+/* Which type of calculation should be generated when the car goes over a
+question mark. */
 typedef enum {
-    T_ADD,
-    T_MUL,
-    T_BIGMUL,
-    T_SUB,
-    T_DIV,
-    T_POW,
-    T_MOD,
-    T_AMOUNT
+    T_ADD, /* Sums. */
+    T_MUL, /* Multiplications. */
+    T_BIGMUL, /* More difficult multiplications. */
+    T_SUB, /* Substractions. */
+    T_DIV, /* Divisions. */
+    T_POW, /* Powers. */
+    T_MOD, /* Modulo. */
+    T_AMOUNT /* Amount of calculation types. */
 } Type;
 
+/* Struct to store informations about a menu : his length and the selected
+item */
 typedef struct {
-    unsigned char *map, *tilesheet;
-    unsigned int *speed, *start_x, *start_y, *calcs, *type;
+    int selection; /* The selected item. */
+    int len; /* The length of the menu */
+} Menu;
+
+typedef struct {
+    unsigned char *map; /* A pointer to the map array. */
+    unsigned char *tilesheet; /* A pointer to the tile sheet array that will be
+    used when drawing the map. */
+    unsigned int *speed; /* A pointer to the int that sets the car speed in
+    pixels per frame for this map. */
+    unsigned int *start_x; /* A pointer to the int that defines the car x
+    position on the map when starting the game */
+    unsigned int *start_y; /* A pointer to the int that defines the car y
+    position on the map when starting the game */
+    unsigned int *calcs; /* A pointer to the int that sets how many calculations
+    the player need to solve in one loop. */
+    unsigned int *type; /* A pointer to the int that sets the calculation type.
+    The calculation types are listed in the enum named "Type". */
 } Map;
 
 typedef struct {
-    Stat stat;
-    int seed, loops;
-    Map map;
-    unsigned int menu_selection, menu_len, menu_world, menu_worlds,
-        paused_selection;
-    unsigned char world_info[20];
-    int world_info_len;
+    Stat stat; /* The screen we're on. */
+    int seed; /* Seed for srand to get random numbers. */
+    int loops; /* Amount of loops for this track. */
+    Map map; /* Currently played map. */
+    Menu menu_world; /* Menu to select the world where the map is. */
+    Menu menu_map; /* Menu to select the map inside of the world. */
+    Menu menu_pause; /* Select what you want to do when the game is paused. */
+    unsigned char world_info[20]; /* Text to show which world is selected. */
+    int world_info_len; /* Length of the text inside of world_info. */
 } Game;
 
 #include <config.h>
@@ -77,9 +105,12 @@ typedef struct {
 
 /* Generate the text of the little timer on the bottom of the screen. */
 void generate_time_info(Player *player, Game *game);
+
 /* This function generates a string to show which loop the player is doing. */
 void generate_loop_info(Player *player, Game *game);
+
 /* Reset the game. */
 void init_game(Player *player, Game *game, int start_x, int start_y, int speed);
 
 #endif
+

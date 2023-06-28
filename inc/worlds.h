@@ -31,6 +31,7 @@
 #include <world2.h>
 #include <world3.h>
 
+/* Worlds contains all the maps grouped per world. */
 const Map worlds[3][4] = {
     {
         {
@@ -104,3 +105,4 @@ const Map worlds[3][4] = {
 };
 
 #endif
+

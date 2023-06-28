@@ -19,7 +19,7 @@
 #ifndef FONT2_H
 #define FONT2_H
 
-#include <font.h>
-#include <font_small.h>
+#include <font.h> /* The mostly used font (8x8). */
+#include <font_small.h> /* Font used for long strings (4x5). */
 
 #endif

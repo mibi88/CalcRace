@@ -21,8 +21,16 @@
 
 #include <image.h>
 
+/* Draws the text contained in text at sx, sy. He has a length of len. Font is
+the image of a sheet of the ASCII glyphs of this font. font_width is the width
+of a glyph and font_height the height of a glyph. width and height are the size
+of the sheet. */
 void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
     int font_width, int width, int height);
+
+/* Get how many lines diplaying the text text will take. The string has a length
+of len chars. */
 int text_size_y(unsigned char* text, int len);
 
 #endif
+

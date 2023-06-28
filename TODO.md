@@ -21,18 +21,17 @@
 ### inc
 
 * [x] inc/calc.h
-* [ ] inc/fonts.h
-* [ ] inc/game.h
-* [ ] inc/fonts.h
+* [x] inc/fonts.h
+* [x] inc/game.h
 * [x] inc/graphics.h
 * [x] inc/keyboard.h
-* [ ] inc/map.h
-* [ ] inc/memory.h
-* [ ] inc/player.h
-* [ ] inc/text.h
-* [ ] inc/tiles.h
-* [ ] inc/touch.h
-* [ ] inc/worlds.h
+* [x] inc/map.h
+* [x] inc/memory.h
+* [x] inc/player.h
+* [x] inc/text.h
+* [x] inc/tiles.h
+* [x] inc/touch.h
+* [x] inc/worlds.h
 
 ### src
 
