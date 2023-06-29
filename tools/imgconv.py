@@ -16,22 +16,14 @@
     along with this program. If not, see https://www.gnu.org/licenses/.
 """
 
-"""
-import sys
-from imgconv_lib import *
-
-if len(sys.argv) > 1:
-    for i in sys.argv[1:]:
-        file = os.path.splitext(i)[0] + ".png"
-        conv(file, i)
-else:
-    print("Need more args.")
-"""
-
 import sys
 from imgconv_lib import *
 
 if len(sys.argv) > 2:
+    # Convert the image in sys.argv[1] to a header file with a filename of
+    # sys.argv[2].
     conv(sys.argv[1], sys.argv[2])
 else:
+    # Print an error message if we need more command line arguments to be able
+    # to convert the image.
     print("Need more args.")

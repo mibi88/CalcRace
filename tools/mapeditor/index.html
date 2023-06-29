@@ -128,15 +128,25 @@ along with this program. If not, see https://www.gnu.org/licenses/.
             </table>
         </div>
         <script>
+            // The selected tile number is in tilenum and is 1 by default.
             tilenum = 1;
+            // mapdata is an array of all tiles the map is made of.
             let mapdata = Array();
+            // Table contains the table that contains all the tiles the user can
+            // place on the map.
             table = document.getElementById("choice");
+            // line is the line that contains all the images of the tiles.
             line = document.createElement("tr");
             table.append(line);
             for(y=0;y<8;y++){
                     for(x=0;x<8;x++){
+                            // For each tile of the tilesheet I create a cell
+                            // and with css I only show the part of the tile to
+                            // the user.
                             td = document.createElement("td");
                             div = document.createElement("div");
+                            // When clicking on it I update tilenum so that the
+                            // user can place this tile.
                             div.setAttribute("onclick", "tilenum = " +
                                 String(y*8+x+1));
                             div.style = "background-image: " +
@@ -157,37 +167,64 @@ along with this program. If not, see https://www.gnu.org/licenses/.
             <button onclick = "load();">Load</button>
         </div>
         <script>
+            // This function generates the const unsigned char that will contain
+            // the map and that can be copy-pasted into a header file.
             function generatemap() {
+                // mapstr will contain the C code.
                 var mapstr = "const unsigned char[3840] = {";
                 for(i=0;i<3840;i++){
+                    // For each cell I put the tile number into the C code
                     cell = String(mapdata[i]);
                     mapstr += cell + ", ";
                 };
+                // I remove the last comma because he's followed by the closing
+                // curly brace.
                 mapstr = mapstr.slice(0, -2);
+                // I add the closing curly brace and the semicolon.
                 mapstr += "};";
+                // Get the element where this code will be shown.
                 out = document.getElementById("out");
+                // Threw it into it.
                 out.innerHTML = mapstr;
             }
+            // Function to load the C code of a map from a textarea.
             function load() {
+                // Put the code into code_str
                 code_str = document.getElementById("input").value;
+                // strdata will only contain the tile numbers separated by ", "
                 strdata = "";
+                // grab is a boolean that is true if I should start grabbing the
+                // content of code_str and put it into strdata.
                 var grab = 0;
                 for(i=0;i<code_str.length;i++){
                     if(code_str[i] == "}"){
+                        // If there is a closing curly brace there are no more
+                        // numbers to get.
                         break;
                     }
                     if(grab){
+                        // If I should get the content of code_str, I put it
+                        // into strdata.
                         strdata += code_str[i];
                     }
                     if(code_str[i] == "{"){
+                        // If there is an opening curly brace I should start
+                        // grabbing the numbers
                         grab = 1;
                     }
                 }
+                // data is an array that contains all numbers as strings of the
+                // map.
                 let data = strdata.split(", ");
+                // I reset mapdata.
                 mapdata = [];
+                // For each number.
                 for(i=0;i<data.length;i++){
+                    // I add the number to mapdata.
                     mapdata.push(Number(data[i]));
+                    // I get the cell that will contain the tile.
                     div = document.getElementById(String(i));
+                    // I update the CSS to show the right tile to the user.
                     div.style = "background-image: " +
                         "url('../../img/world1.png'); background-position: -" +
                         String(((mapdata[i]-1)%8)*32) + "px -" +
@@ -195,14 +232,20 @@ along with this program. If not, see https://www.gnu.org/licenses/.
                         "px; width: 32px; height: 32px;";
                 }
                 for(i=0;i<60*64;i++){
+                    // For each cell of mapdata that is undefined I set it to
+                    // 25, the normal grass tile.
                     if(mapdata[i] == undefined) mapdata[i] = 25;
-                    console.log("loop");
                 }
+                // I update the displayed map.
                 generatemap();
             }
+            // I initialize the map editor to have the big table that contains
+            // the map.
             table = document.getElementById("table");
             line = document.createElement("tr");
             table.append(line);
+            // I create the first line of the table that contains the number
+            // of the rows.
             for(x=0;x<65;x++){
                 header = document.createElement("th");
                 header.scope = "column";
@@ -210,38 +253,52 @@ along with this program. If not, see https://www.gnu.org/licenses/.
                 header.innerHTML = String(x);
                 line.append(header);
             };
+            // I create the other lines of the table.
             for(y=0;y<60;y++){
+                // Create a new line and add it to the table.
                 line = document.createElement("tr");
                 table.append(line);
+                // Create a th to show the y position of the tile in the map.
                 header = document.createElement("th");
                 header.scope = "row";
                 header.id = "sticky";
                 header.innerHTML = String(y+1);
                 line.append(header);
                 for(x=0;x<64;x++){
+                    // Add other cells for all tiles of the map.
                     cell = document.createElement("td");
                     line.append(cell);
                     div = document.createElement("div");
-                    div.onclick = onclick="tilenum = " + String(y*8+x);
+                    // Add some CSS to display only the tile in the div.
                     div.style = "background-image: " +
                         "url('../../img/world1.png'); background-position: " +
                         "-0px -96px; width: 32px; height: 32px;";
+                    // Set the id of the div to be able to get it later on.
                     div.id = String(y*64+x);
-                    mapdata[y*64+x] = 25;
+                    mapdata[y*64+x] = 25; // It's a normal grass tile, to put it
+                    // into mapdata.
+                    // Put the div that contains the image of the tile into the
+                    // cell.
                     cell.append(div);
+                    // Handle click on it.
                     div.onclick = function(div) {
+                        // Update the CSS according to the tile number.
                         this.style = "background-image: " +
                             "url('../../img/world1.png'); " +
                             "background-position: -" +
                             String(((tilenum-1)%8)*32) + "px -" +
                             String(Math.floor((tilenum-1)/8)*32) +
                             "px; width: 32px; height: 32px;";
+                        // Update the mapdata.
                         mapdata[Number(this.id)] = tilenum;
+                        // Update the displayed map.
                         generatemap();
                     }
                 };
             };
+            // I update the content of the map.
             generatemap();
         </script>
     </body>
 </html>
+

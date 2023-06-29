@@ -14,7 +14,7 @@
 * ~~Fix the map editor~~
 * ~~Better makefile~~
 * Put images and fonts in structures
-* **In progress !** Add comments and optimize the code
+* ~~Add comments and optimize the code (June 29, 2023)~~
 
 ## Cleanup progress
 
@@ -64,7 +64,7 @@ C source
 
 ### tools
 
-* [ ] tools/imgconv_lib.py
-* [ ] tools/imgconv.py
-* [ ] tools/mapeditor/index.html
+* [x] tools/imgconv_lib.py
+* [x] tools/imgconv.py
+* [x] tools/mapeditor/index.html
 
