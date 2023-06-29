@@ -22,6 +22,7 @@
 
 #ifdef __EMSCRIPTEN__
 
+/* Some key numbers for the HTML5 canvas. */
 enum {
     KEY_UP    = 38,
     KEY_DOWN  = 40,
@@ -36,6 +37,7 @@ enum {
 
 #include <SDL/SDL.h>
 
+/* Some key numbers for the SDL 1.2 window. */
 enum {
     KEY_UP    = SDLK_UP,
     KEY_DOWN  = SDLK_DOWN,
@@ -46,24 +48,59 @@ enum {
 
 #endif
 
+/* Define the bool type. */
 typedef enum {FALSE, TRUE} bool;
 
+/* Initialize the drawing management. char is the name of the canvas to use,
+width the width of the canvas and height for his height */
 void init_canvas(int width, int height, char *canvasname);
+
+/* Draw a pixel at x, y with colors (r, g, b, a). a should always be 255. */
 void put_pixel(int x, int y, int r, int g, int b, int a);
+
+/* Update the canvas/window. */
 void update(void);
+
+/* Clear the canvas/window. */
 void clear(void);
+
+/* Initialize the keyboard management. */
 void init_getkey(void);
+
+/* Check if the key key is pressed. */
 bool getkey(int key);
+
+/* Get the width of the canvas/window. */
 int getwidth(void);
+
+/* Get the height of the canvas/window. */
 int getheight(void);
+
+/* Get the ms elapsed since midnight or the 1st January 1970. */
 int ms_time(void);
+
+/* Initialize the mouse management. */
 void init_mouse(void);
+
+/* Initialize the click management. */
 void init_click(void);
+
+/* Initialize the touch move management. */
 void init_touch_move(void);
+
+/* Initialize the touch management. */
 void init_touch(void);
+
+/* Get the x coordinate of the mouse/press on the screen. */
 int get_mouse_x(void);
+
+/* Get the y coordinate of the mouse/press on the screen. */
 int get_mouse_y(void);
+
+/* If the user is clicking. */
 bool is_clicked(void);
+
+/* Call loop_function at fps frames per second. */
 void main_loop(void (*loop_function)(void), int fps);
 
 #endif

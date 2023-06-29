@@ -52,18 +52,19 @@
 
 Headers
 
-* [ ] lib/audio.h
-* [ ] lib/canvas.h
-* [ ] lib/image.h
+* [x] lib/audio.h
+* [x] lib/canvas.h
+* [x] lib/image.h
 
 C source
 
-* [ ] lib/audio.c
-* [ ] lib/canvas.c
-* [ ] lib/image.c
+* [x] lib/audio.c
+* [x] lib/canvas.c
+* [x] lib/image.c
 
 ### tools
 
 * [ ] tools/imgconv_lib.py
 * [ ] tools/imgconv.py
 * [ ] tools/mapeditor/index.html
+

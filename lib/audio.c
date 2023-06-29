@@ -21,28 +21,37 @@
 #ifdef __EMSCRIPTEN__
 
 EM_JS(void, init_audio, (char* ctype), {
-    window.audioCtx = new AudioContext();
-    window.oscillator = window.audioCtx.createOscillator();
+    /* Create a new audio context and oscillator. */
+    window.audioctx = new AudioContext();
+    window.oscillator = window.audioctx.createOscillator();
     window.oscillator.type = UTF8ToString(ctype);
+    /* Start the oscillator. */
     window.oscillator.start();
 })
 
 EM_JS(void, set_frequency, (int hz), {
-    window.oscillator.frequency.setValueAtTime(hz, window.audioCtx.currentTime);
+    /* Update the frequency of the oscillator. */
+    window.oscillator.frequency.setValueAtTime(hz, window.audioctx.currentTime);
 })
 
 EM_JS(void, start_beep, (void), {
     try{
-        window.oscillator.connect(window.audioCtx.destination);
+        /* Connect the oscillator to the audioctx, to let the user hear the
+        sound. */
+        window.oscillator.connect(window.audioctx.destination);
     }catch(error){
+        /* If there was an error throw it in the console. */
         console.log("[audio.h] " + error);
     }
 })
 
 EM_JS(void, stop_beep, (void), {
     try{
-        window.oscillator.disconnect(window.audioCtx.destination);
+        /* Disconnect the oscillator from the audioctx, so the user wont hear
+        the sound anymore. */
+        window.oscillator.disconnect(window.audioctx.destination);
     }catch(error){
+        /* If there was an error throw it in the console. */
         console.log("[audio.h] " + error);
     }
 })

@@ -52,17 +52,3 @@ void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
     }
 }
 
-int text_size_y(unsigned char* text, int len) {
-    int i;
-    int n = 0; /* n is the amount of line jumps in the text. */
-    /* Loop through text. */
-    for(i=0;i<len;i++){
-        if(text[i] == '\n'){
-            /* If text contains a line jump at i. */
-            n++; /* Increment n */
-        }
-    }
-    return n*9+9; /* Multiply n by 9 plus 9 to get the amount of pixels it will
-    take to display text with the 8x8 font. */
-}
-

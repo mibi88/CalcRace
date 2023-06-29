@@ -23,15 +23,27 @@
 #include <canvas.h>
 #include <stdio.h>
 
+/* Draws the image in image_data of width w and height h at sx, sy on screen. */
 void draw_image(int sx, int sy, const unsigned char *image_data, const int w,
     const int h);
+
+/* Draws a part at px, py with a width of w and a height of h of the image in
+image_data of width w at sx, sy on screen. */
 void draw_image_part(int sx, int sy, int px, int py,
     const unsigned char *image_data, const int w, const int h, const int rw);
+
+/* Draws the image in image_data of width w and height h at sx, sy on screen.
+Pixels with the color (r, g, b, a) are not drawn. */
 void draw_image_del_color(int sx, int sy, const unsigned char *image_data,
     const int w, const int h, const int r, const int g, const int b,
     const int a);
+
+/* Draws a part at px, py with a width of w and a height of h of the image in
+image_data of width w at sx, sy on screen. Pixels with the color (r, g, b, a)
+are not drawn. */
 void draw_image_del_color_part(int sx, int sy, int px, int py,
     const unsigned char *image_data, const int w, const int h, const int r,
     const int g, const int b, const int a, const int rw);
 
 #endif
+

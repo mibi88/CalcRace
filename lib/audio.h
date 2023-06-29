@@ -25,9 +25,16 @@
 
 #endif
 
+/* Initialize the oscillator with the waveform type. */
 void init_audio(char* type);
+
+/* Set the frequency of the oscillator to hz Hz. */
 void set_frequency(int hz);
+
+/* Start beeping. */
 void start_beep(void);
+
+/* Stop the beep. */
 void stop_beep(void);
 
 #endif
