@@ -1,5 +1,5 @@
 project('CalcRace', 'c',
-          version: 'v.0.5',
+          version: 'v.0.6-git',
     meson_version: '>= 0.60.0',
   default_options: [ 'warning_level=2',
                      'c_std=c89',
