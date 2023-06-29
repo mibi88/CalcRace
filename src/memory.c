@@ -21,22 +21,30 @@
 
 int is_in(int *array, int size, int item) {
     int i;
+    /* Loop through array. */
     for(i=0;i<size;i++){
         if(array[i] == item){
-            return 1;
+            /* If array contains the item at i. */
+            return 1; /* Return 1 because the item was found. */
         }
     }
-    return 0;
+    return 0; /* The item was not found, so return 0. */
 }
 
 int is_in_both(int *array1, int size1, unsigned char *array2, int size2) {
     int i, n;
+    /* Loop through array1. */
     for(i=0;i<size1;i++){
+        /* Each time we loop through array1, loop through array2 to check if
+        array2 contains the item contained at i in array1. */
         for(n=0;n<size2;n++){
             if(array1[i] == array2[n]){
-                return array1[i];
+                /* If array2 contains this item. */
+                return array1[i]; /* Return the item that was at i in array1,
+                because it may be useful, for example, to get over which coin
+                the car went. */
             }
         }
     }
-    return 0;
+    return 0; /* Else return 0 because the two arrays share no item. */
 }

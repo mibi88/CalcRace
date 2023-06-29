@@ -20,32 +20,49 @@
 
 void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
     int font_width, int width, int height) {
-    int i, osx = sx, px, py, tmp_t;
-    unsigned char c;
+    int i; /* The position in the loop in the text. */
+    int osx = sx; /* The x position where I start drawing text. */
+    int px, py; /* The position of the glyph in the glyph sheet. */
+    int c_num; /* The number of the caracter in the image. */
+    unsigned char c; /* The char at i in the text. */
+    /* Loop through text. */
     for(i=0;i<len;i++){
-        c = text[i];
-        if(c<0x80 && c>0x1F){
-            tmp_t = (int)c - 0x20;
-            py = tmp_t>>4;
-            px = tmp_t%16;
+        c = text[i]; /* Get the char at the current position. */
+        if(c>=0x20 && c<=0x7F){
+            /* If the caracter is in the glyph sheet. */
+            c_num = (int)c - 0x20; /* The glyph 0 in the sheet is the char 0x20,
+            so I substract 0x20 to the char to get the number of the glyph in
+            the glyph sheet */
+            /* The glyphs are on 6 lines of 16 rows in the font image. */
+            py = c_num>>4;
+            px = c_num%16;
+            /* I draw the glyph. */
             draw_image_del_color_part(sx, sy, px*width, py*height, font, width,
                 height, 0, 0, 0, 0, font_width);
         }
         if(c == '\n'){
-            sy += height+1;
-            sx = osx;
+            /* If c is a line jump. */
+            sy += height+1; /* We add the glyph width+1 to sy because the space
+            between the lines is 1 pixel. */
+            sx = osx; /* We reset sx. */
         }else{
-            sx += width+1;
+            sx += width+1; /* Else we add the width of a glyph+1 to sx because
+            the space between the glyphs is 1 pixel. */
         }
     }
 }
 
 int text_size_y(unsigned char* text, int len) {
-    int i, n = 0;
+    int i;
+    int n = 0; /* n is the amount of line jumps in the text. */
+    /* Loop through text. */
     for(i=0;i<len;i++){
         if(text[i] == '\n'){
-            n++;
+            /* If text contains a line jump at i. */
+            n++; /* Increment n */
         }
     }
-    return n*9;
+    return n*9+9; /* Multiply n by 9 plus 9 to get the amount of pixels it will
+    take to display text with the 8x8 font. */
 }
+

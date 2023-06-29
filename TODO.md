@@ -36,17 +36,17 @@
 ### src
 
 * [x] src/calc.c
-* [ ] src/CalcRace.html
+* [x] src/CalcRace.html (There is not a lot there so ... I'll mark that as done)
 * [x] src/game.c
 * [x] src/keyboard.c (I think I could improve it)
 * [x] src/main.c
-* [ ] src/map.c
-* [ ] src/memory.c
+* [x] src/map.c
+* [x] src/memory.c
 * [x] src/player.c
 * [x] src/run.sh (Will be removed soon)
-* [ ] src/text.c
-* [ ] src/tiles.c
-* [ ] src/touch.c
+* [x] src/text.c
+* [x] src/tiles.c
+* [x] src/touch.c
 
 ### lib
 

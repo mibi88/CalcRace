@@ -28,8 +28,8 @@ of the sheet. */
 void dtext(unsigned char *text, int sx, int sy, int len, unsigned char* font,
     int font_width, int width, int height);
 
-/* Get how many lines diplaying the text text will take. The string has a length
-of len chars. */
+/* Get how many pixels diplaying the text text will take with the 8x8 font. The
+string has a length of len chars. */
 int text_size_y(unsigned char* text, int len);
 
 #endif
