@@ -14,8 +14,8 @@ Required tools and libraries to build this game
     * bash/zsh/dash
 * For the web version
     * emscripten
-* For the SDL version (**Currently there is no upscale, so it's a bit unusable**)
-    * SDL 1.2
+* For the SDL2 version (currently there is no mouse support and no sound)
+    * SDL2
 
 Then just run :
 ```
@@ -32,3 +32,4 @@ $ ninja install
 to compile the SDL2 version of the game. Then you can find CalcRace binary in the build directory.
 
 I hope that you'll have a lot of fun playing it !
+

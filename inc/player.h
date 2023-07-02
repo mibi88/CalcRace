@@ -83,12 +83,11 @@ extern const int movs[8*2];
 #include <game.h>
 
 /* Move the car. */
-void move(Player *player, Game *game);
-
-/* If the player finished his game. */
-void player_finished(Player *player, Game *game);
+void move(Player *player, Game *game,
+    void extra_collisions_handler(Game *game, Player *player, int tiles[2]));
 
 /* Check collisions. */
-Collisiontype get_collision(Player *player, Game *game);
+Collisiontype get_collision(Player *player, Game *game,
+    void extra_collisions_handler(Game *game, Player *player, int tiles[2]));
 
 #endif

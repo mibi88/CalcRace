@@ -19,10 +19,10 @@
 import sys
 from imgconv_lib import *
 
-if len(sys.argv) > 2:
+if len(sys.argv) > 3:
     # Convert the image in sys.argv[1] to a header file with a filename of
     # sys.argv[2].
-    conv(sys.argv[1], sys.argv[2])
+    conv(sys.argv[1], sys.argv[2], sys.argv[3])
 else:
     # Print an error message if we need more command line arguments to be able
     # to convert the image.

@@ -22,6 +22,22 @@
 #include <stdio.h>
 #include <tiles.h>
 
+typedef struct {
+    unsigned char *map; /* A pointer to the map array. */
+    unsigned char *tilesheet; /* A pointer to the tile sheet array that will be
+    used when drawing the map. */
+    unsigned int *speed; /* A pointer to the int that sets the car speed in
+    pixels per frame for this map. */
+    unsigned int *start_x; /* A pointer to the int that defines the car x
+    position on the map when starting the game */
+    unsigned int *start_y; /* A pointer to the int that defines the car y
+    position on the map when starting the game */
+    unsigned int *calcs; /* A pointer to the int that sets how many calculations
+    the player need to solve in one loop. */
+    unsigned int *type; /* A pointer to the int that sets the calculation type.
+    The calculation types are listed in the enum named "Type". */
+} Map;
+
 /* Draws the part of the map at x, y on screen at sx, sy on a width of w and a
 height of h. The map has a width of map_width and a height of map_height.
 the array of tiles is stored in map. car is the direction of the car, and

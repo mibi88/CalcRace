@@ -20,7 +20,7 @@ from PIL import Image
 
 import os
 
-def conv(infile, outfile, prefix = ""):
+def conv(infile, outheader, outsource, prefix = ""):
     # Get the name and the extension of the input file.
     name, ext = os.path.splitext(os.path.basename(infile))
     # If the input file is a png, we convert it.
@@ -44,21 +44,39 @@ def conv(infile, outfile, prefix = ""):
         image_name = name
 
         # We generate the part of the header that is before the array of colors.
-        out = ("#ifndef " + image_name.upper() + "_H\n#define " +
-            image_name.upper() +
-            "_H\n#include <image.h>\n\n/* Image " + name +
-            " converted with tools/imgconv_dir.py */\n\nconst unsigned char " +
-            image_name + "_data[" + str(w*h*4) + "] = {")
+        out = f"""#include <{outheader}>
+#include <image.h>
+
+/* Image {name} converted with tools/imgconv_dir.py */
+
+const unsigned char {image_name}_data[{w*h*4}] = {{
+    """
         # We put the array of colors in out.
         for i in pixels:
             out += hex(i) + ", "
         out = out[:-2] # We remove the last ", " because nothing follows it.
         # We generate the end of the header.
-        out += ("};\n\nconst int " + image_name + "_width = " + str(w) +
-        ";\nconst int " + image_name + "_height = " + str(h) + ";\n#endif\n")
+        out += f"""
+}};
+
+const int {image_name}_width = {w};
+const int {image_name}_height = {h};
+"""
         # We write the header to the output file.
-        with open(outfile, "w") as file:
+        with open(outsource, "w") as file:
             file.write(out)
+            file.close()
+        with open(outheader, "w") as file:
+            file.write(f"""#ifndef {image_name.upper()}_H
+#define {image_name.upper()}_H
+
+extern const unsigned char {image_name}_data[{w*h*4}];
+
+extern const int {image_name}_width;
+extern const int {image_name}_height;
+
+#endif
+""")
             file.close()
     else:
         # We print an error message if the image is not a png because we are not

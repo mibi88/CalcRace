@@ -1,13 +1,15 @@
-calcrace_sources = [
+calcrace_sources += [
   'map.c',
   'tiles.c',
   'text.c',
   'calc.c',
+  'extra_collisions.c',
   'player.c',
   'game.c',
   'memory.c',
   'keyboard.c',
   'touch.c',
+  'worlds.c',
   'main.c',
 ]
 

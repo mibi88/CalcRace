@@ -24,6 +24,7 @@
 
 #include <game.h>
 #include <worlds.h>
+#include <extra_collisions.h>
 
 Player player;
 Game game;
@@ -155,67 +156,29 @@ void loop() {
             /* If NKEY_SPACE is pressed, start a new one player game on the
             selected map. */
             if(kdown(NKEY_SPACE)){
+                /* Get the map the player will play on. */
                 game.map = worlds[game.menu_world.selection]
                     [game.menu_map.selection];
+                /* Get the configuration for the collisions for this world. */
+                game.tileconfig = tileconfigs[game.menu_world.selection];
+                /* Reset the game. */
                 init_game(&player, &game, *game.map.start_x, *game.map.start_y,
                     *game.map.speed);
+                /* Generate a new seed for srand. */
                 game.seed = ms_time();
                 printf("Seed : %d\n", game.seed);
                 srand(game.seed);
+                /* Start beeping (sound effect of the car). */
                 set_frequency((*game.map.speed/2)*50+(player.direction*5));
                 start_beep();
+                /* Go to the 1 player game screen. */
                 game.stat = S_GAME1P;
             }
             break;
         /********** 1 PLAYER GAME **********/
         case S_GAME1P:
-            /* Move the car. */
-            move(&player, &game);
-            /* Draw the map and the car. */
-            drawmap(0, 0, player.x, player.y, WIDTH, HEIGHT, MAP_WIDTH,
-                MAP_HEIGHT, game.map.map, player.direction, game.map.tilesheet);
-            /* Generate the text of the little timer on the bottom of the
-            screen. */
-            generate_time_info(&player, &game);
-            /* If the player needs to solve a little calculation after he was on
-            a question mark tile. */
-            if(player.iscalc){
-                /* Show the calculation centered on the top of the screen. */
-                dtext(player.calc, player.calc_x, 1, 20,
-                    (unsigned char*)font_data, font_width, 8, 8);
-                /* If the possible awnsers is too big to be shown with the 8*8
-                font, we show her with the smaller font.*/
-                if(player.choices_x<0 || player.choicessz*9>WIDTH){
-                    dtext(player.choices, player.choices_x_small, 10, 60,
-                        (unsigned char*)font_small_data, font_small_width, 4,
-                        5);
-                }else{ /* We can show the possible awnsers with the 8*8 font. */
-                    dtext(player.choices, player.choices_x, 10, 60,
-                        (unsigned char*)font_data, font_width, 8, 8);
-                }
-            }
-            /* Go to the pause menu if NKEY_SPACE is pressed. */
-            if(kdown(NKEY_SPACE)){
-                game.menu_pause.selection = 0;
-                stop_beep(); /* Stop the car sound effect made with a triangle
-                wave. */
-                game.stat = S_PAUSE; /* Jump to the pause menu. */
-            }
-            /* Show how many loops the player has already made. */
-            dtext(player.loopinfo, 1, 87, 20, (unsigned char*)font_data,
-                font_width, 8, 8);
-            /* Show the little timer. */
-            dtext(player.timeinfo, 127-player.timelen*9, 87, 20,
-                (unsigned char*)font_data, font_width, 8, 8);
-            /* Update the timer. I add 20 to the timer because the game runs
-            normally at 50 fps, and 1s = 1000 ms so 1000 ms/50 ms = 20 ms.
-            I update the timer like this now because like this you can also
-            get a good time if your computer is slow ... But then you have
-            more time to solve the calculation ... */
-            if((player.time)/1000/60 < 100){ /* Do not increase the timer
-                to 100 min, if we should. */
-                player.time += 20;
-            }
+            /* gameframe handles one frame of the game. */
+            gameframe(&player, &game, normal_game_extra_collisions);
             break;
         /********** PAUSE **********/
         case S_PAUSE:

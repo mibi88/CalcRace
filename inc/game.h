@@ -37,6 +37,9 @@
 /* Amount of items in the pause menu. */
 #define PAUSED_LEN 1
 
+#include <map.h>
+#include <tileconfig.h>
+
 /* On which screen of the game we are. */
 typedef enum {
     S_TITLE, /* Title screen. */
@@ -68,26 +71,11 @@ typedef struct {
 } Menu;
 
 typedef struct {
-    unsigned char *map; /* A pointer to the map array. */
-    unsigned char *tilesheet; /* A pointer to the tile sheet array that will be
-    used when drawing the map. */
-    unsigned int *speed; /* A pointer to the int that sets the car speed in
-    pixels per frame for this map. */
-    unsigned int *start_x; /* A pointer to the int that defines the car x
-    position on the map when starting the game */
-    unsigned int *start_y; /* A pointer to the int that defines the car y
-    position on the map when starting the game */
-    unsigned int *calcs; /* A pointer to the int that sets how many calculations
-    the player need to solve in one loop. */
-    unsigned int *type; /* A pointer to the int that sets the calculation type.
-    The calculation types are listed in the enum named "Type". */
-} Map;
-
-typedef struct {
     Stat stat; /* The screen we're on. */
     int seed; /* Seed for srand to get random numbers. */
     int loops; /* Amount of loops for this track. */
     Map map; /* Currently played map. */
+    Tileconfig tileconfig; /* The configuration of the current world. */
     Menu menu_world; /* Menu to select the world where the map is. */
     Menu menu_map; /* Menu to select the map inside of the world. */
     Menu menu_pause; /* Select what you want to do when the game is paused. */
@@ -111,6 +99,10 @@ void generate_loop_info(Player *player, Game *game);
 
 /* Reset the game. */
 void init_game(Player *player, Game *game, int start_x, int start_y, int speed);
+
+/* One game frame. */
+void gameframe(Player *player, Game *game,
+    void extra_collisions_handler(Game *game, Player *player, int tiles[2]));
 
 #endif
 

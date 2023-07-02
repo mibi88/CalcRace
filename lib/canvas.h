@@ -35,15 +35,15 @@ enum {
 
 #else
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 /* Some key numbers for the SDL 1.2 window. */
 enum {
-    KEY_UP    = SDLK_UP,
-    KEY_DOWN  = SDLK_DOWN,
-    KEY_LEFT  = SDLK_LEFT,
-    KEY_RIGHT = SDLK_RIGHT,
-    KEY_SPACE = SDLK_SPACE
+    KEY_UP    = SDL_SCANCODE_UP,
+    KEY_DOWN  = SDL_SCANCODE_DOWN,
+    KEY_LEFT  = SDL_SCANCODE_LEFT,
+    KEY_RIGHT = SDL_SCANCODE_RIGHT,
+    KEY_SPACE = SDL_SCANCODE_SPACE
 };
 
 #endif
@@ -104,3 +104,4 @@ bool is_clicked(void);
 void main_loop(void (*loop_function)(void), int fps);
 
 #endif
+

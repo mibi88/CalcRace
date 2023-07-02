@@ -17,6 +17,7 @@ add_project_arguments([
   '-I' + meson.project_build_root() + '/img',
 ], language: 'c')
 
+subdir('tools')
 subdir('img')
 subdir('lib')
 subdir('src')

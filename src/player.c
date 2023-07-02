@@ -19,43 +19,6 @@
 #include <player.h>
 #include <calc.h>
 
-/* Hard blocks, the car can't go through. */
-#define A_HARD_TILES 3
-const unsigned char hard_tiles[A_HARD_TILES] = {
-    10,
-    19,
-    31
-};
-
-/* On these tiles, the car is very slow. */
-#define A_VERYSLOW_TILES 4
-const unsigned char veryslow_tiles[A_VERYSLOW_TILES] = {
-    27,
-    28,
-    29,
-    30
-};
-
-/* And on these blocks, the car is also slow, but not as much as on the
-veryslow_blocks tiles. */
-#define A_SLOW_TILES 6
-const unsigned char slow_tiles[A_SLOW_TILES] = {
-    15,
-    16,
-    17,
-    18,
-    25,
-    26
-};
-
-/* Blocks to choose your awnser when driving over them. */
-#define A_CHOICE_TILES 3
-const unsigned char choice_tiles[A_CHOICE_TILES] = {
-    12,
-    13,
-    14
-};
-
 /* How x and y are modified depending on the direction of the car. */
 const int movs[8*2] = {
     0, -1,
@@ -82,7 +45,8 @@ const int collision_check_pos[8*4] = {
 };
 
 /* Move the car */
-void move(Player *player, Game *game) {
+void move(Player *player, Game *game,
+    void extra_collisions_handler(Game *game, Player *player, int tiles[2])) {
     int i, nx, ny;
     /* If the car isn't crashed, the player can move him normally. */
     if(!player->crash){
@@ -102,7 +66,8 @@ void move(Player *player, Game *game) {
         that the car will have now. */
         for(i=0;i<player->speed;i++){
             player->collision = 0;
-            player->collisiontest = get_collision(player, game);
+            player->collisiontest = get_collision(player, game,
+                extra_collisions_handler);
             if(player->collisiontest == 3){
                 player->collision = player->collisiontest;
                 break;
@@ -164,15 +129,10 @@ void move(Player *player, Game *game) {
     }
 }
 
-/* If the player finished his game. */
-void player_finished(Player *player, Game *game) {
-    stop_beep(); /* Stop the car sound effect. */
-    game->stat = S_END; /* Jump to the race end screen. */
-}
-
 /* Check collisions. */
-Collisiontype get_collision(Player *player, Game *game) {
-    int nx = player->x, ny = player->y, tiles[2], cx, cy, dx, dy, player_choice;
+Collisiontype get_collision(Player *player, Game *game,
+    void extra_collisions_handler(Game *game, Player *player, int tiles[2])) {
+    int nx = player->x, ny = player->y, tiles[2], cx, cy, dx, dy;
     /* nx and ny are test x and y positions */
     nx += movs[((player->direction-1)<<1)];
     ny += movs[((player->direction-1)<<1)+1];
@@ -198,50 +158,28 @@ Collisiontype get_collision(Player *player, Game *game) {
     dx = collision_check_pos[((player->direction-1)<<2)];
     dy = collision_check_pos[((player->direction-1)<<2)+1];
     /* Getting the block at this position */
-    tiles[0] = get_tile_at_point(nx+dx, ny+dy, game->map.map, MAP_WIDTH, MAP_HEIGHT);
+    tiles[0] = get_tile_at_point(nx+dx, ny+dy, game->map.map, MAP_WIDTH,
+        MAP_HEIGHT);
     /* Grabbing the right positions to check */
     dx = collision_check_pos[((player->direction-1)<<2)+2];
     dy = collision_check_pos[((player->direction-1)<<2)+3];
     /* Getting the block at this position */
-    tiles[1] = get_tile_at_point(nx+dx, ny+dy, game->map.map, MAP_WIDTH, MAP_HEIGHT);
-    /* Generate a new calculation */
-    if(is_in(tiles, 2, 1) && !player->iscalc){
-        generate_calc(player, game);
-    }
-    /* Choices */
-    player_choice = is_in_both(tiles, 2, (unsigned char *)choice_tiles,
-        A_CHOICE_TILES);
-    if(player_choice && player->iscalc){ /* If the player goes over a coin */
-        if(player->choice != player_choice - 12){ /* If he didn't go over the
-            right coin */
-            player->crash = 1; /* Let the car spin. */
-            player->crashc = 0; /* Set the time where the car was spinning to
-                zero. */
-            player->crashd = rand() % 2; /* Set the direction that the car is
-                spinning to. */
-        }
-        player->iscalc = 0; /* The player solved the calculation. */
-        player->calcs++; /* He solved one more calculation. */
-    }
-    /* Finishing line */
-    if(is_in(tiles, 2, 24) && player->calcs>=(int)*game->map.calcs){
-        /* The car is crossing the finishing line, and solved all the
-        calculations. */
-        player->loopn++; /* The player did one more loop. */
-        player->calcs = 0; /* Reset the solved calculation counter. */
-        if(player->loopn>game->loops){ /* if the player did enough loops. */
-            player_finished(player, game); /* Finish this game. */
-        }
-        generate_loop_info(player, game); /* Generate the timer string. */
-    }
+    tiles[1] = get_tile_at_point(nx+dx, ny+dy, game->map.map, MAP_WIDTH,
+        MAP_HEIGHT);
+    /* Call the handler for the special collisions */
+    extra_collisions_handler(game, player, tiles);
     /* Check collision type */
-    if(is_in_both(tiles, 2, (unsigned char *)hard_tiles, A_HARD_TILES)){
+    if(is_in_both(tiles, 2, (unsigned char *)game->tileconfig.hard_tiles,
+        game->tileconfig.hardtiles_amount)){
         /* The player can't go forward. */
         return C_BLOCK;
-    }else if(is_in_both(tiles, 2, (unsigned char *)veryslow_tiles,
-        A_VERYSLOW_TILES)){ /* The player can only go slowly over this tile. */
+    }else if(is_in_both(tiles, 2,
+        (unsigned char *)game->tileconfig.veryslow_tiles,
+        game->tileconfig.veryslowtiles_amount)){
+        /* The player can only go slowly over this tile. */
         return C_WATER;
-    }else if(is_in_both(tiles, 2, (unsigned char *)slow_tiles, A_SLOW_TILES)){
+    }else if(is_in_both(tiles, 2, (unsigned char *)game->tileconfig.slow_tiles,
+        game->tileconfig.slowtiles_amount)){
         /* The player can go pretty fast over this tile, but not at full
         speed. */
         return C_GRASS;

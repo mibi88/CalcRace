@@ -1,6 +1,6 @@
 /*
  * Draw easly on an HTML5 canvas.
- * This is a part of MathRace
+ * This is a part of CalcRace
  * Copyright (C) 2022  Mibi88
  *
  * This program is free software; you can redistribute it and/or modify
@@ -196,62 +196,60 @@ void main_loop(void (*loop_function)(void), int fps) {
 
 int _w = 0, _h = 0;
 Uint8 *_kbuffer;
-SDL_Surface *_surface;
+SDL_Window *_window;
+SDL_Renderer *_renderer;
 
 void init_canvas(int width, int height, char *canvasname) {
-    /* Initialize the SDL etc. */
+    /* Initialize the SDL */
     if(SDL_Init(SDL_INIT_VIDEO) < 0){
-        puts("[canvaslib] Failed to initialize the SDL !");
+        puts("[canvaslib] Failed to initialize the SDL2!");
         exit(-1);
     }
-    SDL_WM_SetCaption(canvasname, canvasname);
-    _surface = SDL_SetVideoMode(width, height, 32, 0);
-    if(!_surface){
-        puts("[canvaslib] Failed to get the surface from the SDL window !");
+    /* Create the window. */
+    _window = SDL_CreateWindow(canvasname, SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN |
+        SDL_WINDOW_RESIZABLE);
+    if(!_window){
+        puts("[canvaslib] Failed to create the SDL2 window!");
         exit(-1);
     }
-    if(SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,
-        SDL_DEFAULT_REPEAT_INTERVAL) < 0){
-        puts("[canvaslib] Can't enable key repeat !");
+    /* Create the renderer to be able to draw stuff on screen. */
+    _renderer = SDL_CreateRenderer(_window, -1, 0);
+    if(!_renderer){
+        puts("[canvaslib] Failed to create a renderer for the SDL2 window!");
         exit(-1);
     }
+    /* Use nearest neighbour for scaling to have a pixelated look. */
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     /* Store the width and the height in _w and _h to be able to get them
     later. */
     _w = width;
     _h = height;
-    /* Enable unicode to be able to get the pressed keys. */
-    SDL_EnableUNICODE(1);
-    /* Lock the SDL surface to be able to modify it. */
-    SDL_LockSurface(_surface);
+    /* Maximize the window. */
+    SDL_MaximizeWindow(_window);
     /* Clear the window. */
     clear();
 }
 
 void put_pixel(int x, int y, int r, int g, int b, int a) {
-    Uint32 *target_pixel; /* Target pixel contains the position of the pixel in
-    the SDL surface. */
-    if(x>=0 && x<_w && y>=0 && y<_h){
-        /* If the pixel is in the surface. */
-        /* Calculate the position of the pixel in the surface. */
-        target_pixel = (Uint32 *)((Uint8 *)_surface->pixels+y*_surface->pitch+x*
-            _surface->format->BytesPerPixel);
-        /* Convert r, g, b to an Uint32 and store it at target_pixel. */
-        *target_pixel = SDL_MapRGB(_surface->format, r, g, b);
+    if(x >= 0 && x < _w && y >= 0 && y < _h){
+        /* Set the drawing color and color the pixel in the renderer. */
+        SDL_SetRenderDrawColor(_renderer, r, g, b, a);
+        SDL_RenderDrawPoint(_renderer, x, y);
     }
 }
 
 void update(void) {
-    /* Unlock the surface to be able to display the surface in the window. */
-    SDL_UnlockSurface(_surface);
-    /* Display the surface in the window. */
-    SDL_Flip(_surface);
-    /* Lock the SDL surface to be able to modify it. */
-    SDL_LockSurface(_surface);
+    /* Display the renderer in the window. */
+    SDL_RenderPresent(_renderer);
 }
 
 void clear(void) {
-    /* Fill the surface with white. */
-    SDL_FillRect(_surface, NULL, 0xFFFFFF);
+    /* Fill the renderer with white. */
+    /* Set the drawing color to white. */
+    SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE);
+    /* Clear the renderer with this color. */
+    SDL_RenderClear(_renderer);
 }
 
 void init_getkey(void) {
@@ -262,17 +260,17 @@ bool getkey(int key) {
     /* Get all events. */
     SDL_PumpEvents();
     /* Get the status of all keys in _kbuffer */
-    _kbuffer = SDL_GetKeyState(NULL);
+    _kbuffer = (Uint8*)SDL_GetKeyboardState(NULL);
     /* Return the value of _kbuffer at key. */
     return _kbuffer[key];
 }
 
 int getwidth(void) {
-    return _w; /* Return the width of the surface previously stored. */
+    return _w; /* Return the width of the renderer previously stored. */
 }
 
 int getheight(void) {
-    return _h; /* Return the height of the surface previously stored. */
+    return _h; /* Return the height of the renderer previously stored. */
 }
 
 int ms_time(void) {
@@ -309,13 +307,41 @@ bool is_clicked(void) {
 
 bool _exit(void) {
     SDL_Event event;
-    /* Check if there is a quit event. */
+    /* The size of the drawing area. */
+    int w, h;
+    /* The scale of the renderer to fill the window. I don't like floats but
+    I've found no better way of doing it easly, because the SDL takes
+    floats ... */
+    float xscale, yscale;
+    /* Check if there is a quit event or if the size of the window changed. */
     while(SDL_PollEvent(&event)){
+        /* If the size of the window changed. */
+        if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+            puts("[canvaslib] The window size changed !");
+            /* Get the size of the drawing area. */
+            SDL_GetRendererOutputSize(_renderer ,&w, &h);
+            /* Print this size in the terminal, it can be useful for
+            debugging. */
+            printf("New size: %d, %d\n", w ,h);
+            /* Calculate the size of one pixel on screen. */
+            xscale = (float)w/(float)_w;
+            yscale = (float)h/(float)_h;
+            /* A pixel is a square so xscale and yscale need to be the same. I
+            use the smallest value, because I don't want to have pixels that are
+            not shown in the window. */
+            if(xscale < yscale) yscale = xscale;
+            else xscale = yscale;
+            /* I set the scale of the renderer and print an error message if it
+            fails. */
+            if(SDL_RenderSetScale(_renderer, xscale, yscale)){
+                puts("[canvaslib] Failed to scale renderer!");
+            }
+        }
         if(event.type == SDL_QUIT){
-            return 1; /* If there is one. */
+            return 1; /* The user wants to quit. */
         }
     }
-    return 0; /* Else */
+    return 0; /* Else the user don't want to quit. */
 }
 
 void main_loop(void (*loop_function)(void), int fps) {
@@ -334,6 +360,11 @@ void main_loop(void (*loop_function)(void), int fps) {
             while(SDL_GetTicks() - _last_t < ticks);
         }
     }
+    /* I destroy everything. */
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
+    SDL_Quit();
 }
 
 #endif
+

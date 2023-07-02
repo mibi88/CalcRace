@@ -23,11 +23,16 @@ prog_python = pymod.find_installation('python3',
   ],
 )
 
+calcrace_sources = []
+
 foreach image : assets_sources
-  custom_target(
-    output: '@BASENAME@.h',
+  calcrace_sources += custom_target(
+    output: '@BASENAME@.c',
     input: image,
-    command: [prog_python, '../tools/imgconv.py', '@INPUT@', '@OUTPUT@'],
+    command: [prog_python, img_converter,
+      '@INPUT@',
+      meson.current_build_dir()+'/@BASENAME@.h',
+      '@OUTPUT@'],
     build_by_default: true
   )
 endforeach

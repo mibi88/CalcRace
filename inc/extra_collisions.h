@@ -16,15 +16,11 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#ifndef WORLDS_H
-#define WORLDS_H
+#ifndef EXTRA_COLLISIONS_H
+#define EXTRA_COLLISIONS_H
 
-#include <map.h>
-#include <game.h>
-#include <tileconfig.h>
-
-extern const Map worlds[4][4];
-extern const Tileconfig tileconfigs[4];
+/* Handler for the special collisions in the normal 1 player game. */
+void normal_game_extra_collisions(Game *game, Player *player, int tiles[2]);
 
 #endif
 

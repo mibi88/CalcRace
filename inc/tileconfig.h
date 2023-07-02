@@ -16,15 +16,20 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-#ifndef WORLDS_H
-#define WORLDS_H
+#ifndef TILECONFIG_H
+#define TILECONFIG_H
 
-#include <map.h>
-#include <game.h>
-#include <tileconfig.h>
-
-extern const Map worlds[4][4];
-extern const Tileconfig tileconfigs[4];
+typedef struct {
+    /* Tiles where the user can't go trough them. */
+    unsigned char *hard_tiles;
+    int hardtiles_amount; /* The amount of tile numbers in hard_tiles. */
+    /* Tiles where the user is very slow on them. */
+    unsigned char *veryslow_tiles;
+    int veryslowtiles_amount; /* The amount of tile numbers in veryslow_tiles. */
+    /* Tiles where the user is slow on them. */
+    unsigned char *slow_tiles;
+    int slowtiles_amount; /* The amount of tile numbers in slow_tiles. */
+} Tileconfig;
 
 #endif
 
